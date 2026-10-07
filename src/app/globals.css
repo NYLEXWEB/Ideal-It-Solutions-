@@ -1,0 +1,336 @@
+@import "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   Apple SF Pro Typography Definitions (SF Pro Display & SF Pro Text)
+   -------------------------------------------------------------------------- */
+
+/* SF Pro Display & SF Pro Text - 300 Light */
+@font-face {
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src:
+    local("SF Pro Display Light"),
+    local("SFProDisplay-Light"),
+    local("-apple-system"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Light.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Light.woff") format("woff");
+}
+
+/* SF Pro Display & SF Pro Text - 400 Regular */
+@font-face {
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local("SF Pro Display Regular"),
+    local("SF Pro Display"),
+    local("SFProDisplay-Regular"),
+    local("-apple-system"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Regular.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Regular.woff") format("woff");
+}
+
+/* SF Pro Display & SF Pro Text - 500 Medium */
+@font-face {
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local("SF Pro Display Medium"),
+    local("SFProDisplay-Medium"),
+    local("-apple-system"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Medium.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Medium.woff") format("woff");
+}
+
+/* SF Pro Display & SF Pro Text - 600 Semibold */
+@font-face {
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local("SF Pro Display Semibold"),
+    local("SFProDisplay-Semibold"),
+    local("-apple-system"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Semibold.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Semibold.woff") format("woff");
+}
+
+/* SF Pro Display & SF Pro Text - 700 Bold */
+@font-face {
+  font-family: "SF Pro Display";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local("SF Pro Display Bold"),
+    local("SFProDisplay-Bold"),
+    local("-apple-system"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Bold.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Bold.woff") format("woff");
+}
+
+/* SF Pro Text Mappings (using high-fidelity SF font files & native system fallbacks) */
+@font-face {
+  font-family: "SF Pro Text";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src:
+    local("SF Pro Text Light"),
+    local("SFProText-Light"),
+    local("SF Pro Display Light"),
+    local("-apple-system"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Light.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Light.woff") format("woff");
+}
+
+@font-face {
+  font-family: "SF Pro Text";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:
+    local("SF Pro Text Regular"),
+    local("SF Pro Text"),
+    local("SFProText-Regular"),
+    local("SF Pro Display Regular"),
+    local("SF Pro Display"),
+    local("-apple-system"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Regular.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "SF Pro Text";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src:
+    local("SF Pro Text Medium"),
+    local("SFProText-Medium"),
+    local("SF Pro Display Medium"),
+    local("-apple-system"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Medium.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Medium.woff") format("woff");
+}
+
+@font-face {
+  font-family: "SF Pro Text";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local("SF Pro Text Semibold"),
+    local("SFProText-Semibold"),
+    local("SF Pro Display Semibold"),
+    local("-apple-system"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Semibold.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Semibold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "SF Pro Text";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local("SF Pro Text Bold"),
+    local("SFProText-Bold"),
+    local("SF Pro Display Bold"),
+    local("-apple-system"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Bold.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/sf-font@1.0.0/SFProDisplay-Bold.woff") format("woff");
+}
+
+/* --------------------------------------------------------------------------
+   Tailwind CSS Theme Token Extensions
+   -------------------------------------------------------------------------- */
+@theme {
+  --font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-text: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #1d2939;
+  --apple-blue: #0066ff;
+  --apple-blue-hover: #0052cc;
+  --apple-blue-light: #f0f6ff;
+  --apple-gray-subtle: #f5f8fc;
+  --apple-border: rgba(0, 102, 255, 0.08);
+
+  --font-sf-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sf-text: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sf-text);
+  font-weight: 400; /* Body: SF Pro Text - Regular */
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Typography Hierarchy Rules
+   - H1: SF Pro Display — Light / Regular
+   - H2: SF Pro Display — Regular
+   - Body: SF Pro Text — Regular
+   - Small text: SF Pro Text — Regular / Medium
+   - Buttons: SF Pro Text — Medium
+   -------------------------------------------------------------------------- */
+
+h1, .font-h1 {
+  font-family: var(--font-sf-display);
+  font-weight: 300; /* Light / Regular */
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+}
+
+h2, .font-h2 {
+  font-family: var(--font-sf-display);
+  font-weight: 400; /* Regular */
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+h3, .font-h3 {
+  font-family: var(--font-sf-display);
+  font-weight: 500;
+  letter-spacing: -0.018em;
+  line-height: 1.25;
+}
+
+p, .font-body {
+  font-family: var(--font-sf-text);
+  font-weight: 400; /* Regular */
+  letter-spacing: -0.01em;
+  line-height: 1.6;
+}
+
+small, .font-small, .text-small {
+  font-family: var(--font-sf-text);
+  font-weight: 400; /* Regular / Medium */
+  letter-spacing: -0.005em;
+}
+
+button, input[type="submit"], input[type="button"], .btn, .font-button, [role="button"] {
+  font-family: var(--font-sf-text);
+  font-weight: 500; /* Medium */
+  letter-spacing: -0.01em;
+}
+
+/* Glassmorphism helpers */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* --------------------------------------------------------------------------
+   Infinite Marquee Animations (Bidirectional & Continuous)
+   -------------------------------------------------------------------------- */
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover,
+.animate-marquee-left:hover,
+.animate-marquee-right:hover {
+  animation-play-state: paused;
+}
+
+/* Subtle Apple-style glow & shadows */
+.apple-shadow {
+  box-shadow: 0 4px 20px -2px rgba(0, 50, 150, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.apple-shadow-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apple-shadow-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -4px rgba(0, 75, 200, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
