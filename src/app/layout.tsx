@@ -31,6 +31,16 @@ export const metadata: Metadata = {
     "Home Automation Wayanad",
   ],
   authors: [{ name: "IDEAL IT" }],
+  icons: {
+    icon: [
+      { url: "/images/ideal_it_logo.png", type: "image/png" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    shortcut: ["/images/ideal_it_logo.png"],
+    apple: [
+      { url: "/images/ideal_it_logo.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   openGraph: {
     title: "IDEAL IT - Computer & Security Solutions",
     description:
@@ -61,8 +71,8 @@ const jsonLd = {
   image: "https://idealitwayanad.com/images/hero_cctv.jpg",
   "@id": "https://idealitwayanad.com",
   url: "https://idealitwayanad.com",
-  telephone: "+919805932907",
-  email: "idealitwayanad@gmail.com",
+  telephone: "+919605932907",
+  email: "idealcomputersmntdy@gmail.com",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Susheelam Building, Mysore Road",
@@ -99,6 +109,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} scroll-smooth antialiased`}>
       <head>
+        <link rel="icon" type="image/png" href="/images/ideal_it_logo.png" />
+        <link rel="shortcut icon" href="/images/ideal_it_logo.png" />
+        <link rel="apple-touch-icon" href="/images/ideal_it_logo.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

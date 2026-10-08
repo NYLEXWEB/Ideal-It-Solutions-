@@ -17,30 +17,71 @@ export default function WarrantySection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
 
+  const TARGET_EMAIL = "idealcomputersmntdy@gmail.com";
+
+  const buildWarrantyEmailUrls = () => {
+    const subject = `Warranty Claim: ${formData.productBrand || "Hardware"} ${formData.productModel || ""} - ${formData.fullName}`;
+    const body = `Hello IDEAL IT Team,
+
+I would like to submit an official warranty claim with the following details:
+
+CUSTOMER INFORMATION:
+- Full Name: ${formData.fullName}
+- Phone Number: ${formData.phoneNumber}
+- Email Address: ${formData.emailAddress || "Not provided"}
+
+PRODUCT INFORMATION:
+- Product Brand: ${formData.productBrand || "N/A"}
+- Product Model / Serial No: ${formData.productModel || "N/A"}
+- Approx. Purchase Date: ${formData.purchaseDate || "N/A"}
+
+ISSUE / DEFECT DETAILS:
+${formData.issueDescription}
+
+ATTACHED INVOICE / PHOTO:
+- Selected File: ${fileName ? fileName : "No file selected"}
+${fileName ? `(Note: Please attach the file "${fileName}" to this email before sending.)` : ""}
+
+Thank you,
+${formData.fullName}`;
+
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+      TARGET_EMAIL
+    )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    const mailtoUrl = `mailto:${TARGET_EMAIL}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    return { subject, body, gmailUrl, mailtoUrl };
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    const { gmailUrl, mailtoUrl } = buildWarrantyEmailUrls();
+
     try {
       // Send to internal API endpoint
-      const res = await fetch("/api/warranty", {
+      await fetch("/api/warranty", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formData, invoiceFile: fileName }),
       });
-
-      if (res.ok) {
-        setSubmittedSuccess(true);
-      } else {
-        // Fallback simulate success
-        setSubmittedSuccess(true);
-      }
     } catch {
-      setSubmittedSuccess(true);
+      // Fallback
     } finally {
       setIsSubmitting(false);
+      setSubmittedSuccess(true);
+      const opened = window.open(gmailUrl, "_blank");
+      if (!opened) {
+        window.location.href = mailtoUrl;
+      }
     }
   };
+
+  const { gmailUrl, mailtoUrl } = buildWarrantyEmailUrls();
 
   return (
     <section id="warranty" className="py-16 md:py-24 bg-white">
@@ -102,34 +143,67 @@ export default function WarrantySection() {
             {/* Right Column: Warranty Claim Form */}
             <div className="lg:col-span-8">
               {submittedSuccess ? (
-                <div className="bg-white rounded-2xl p-8 text-center shadow-sm border border-emerald-100 animate-in fade-in zoom-in-95 duration-300">
-                  <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="bg-white rounded-2xl p-6 sm:p-8 text-center shadow-sm border border-emerald-100 animate-in fade-in zoom-in-95 duration-300 space-y-3.5">
+                  <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2">
                     <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-medium text-slate-800 mb-2">Warranty Claim Submitted!</h3>
-                  <p className="text-sm text-slate-600 max-w-md mx-auto mb-6">
-                    Thank you, {formData.fullName || "valued customer"}. Our support team at IDEAL IT has received your claim request and will contact you via phone ({formData.phoneNumber || "provided number"}) within 24 hours.
+                  <h3 className="text-xl font-medium text-slate-800">Warranty Claim Prepared!</h3>
+                  <p className="text-sm text-slate-600 max-w-md mx-auto">
+                    Thank you, <strong className="text-slate-800">{formData.fullName || "valued customer"}</strong>. We have opened Gmail addressed to:
                   </p>
-                  <button
-                    onClick={() => {
-                      setSubmittedSuccess(false);
-                      setFormData({
-                        fullName: "",
-                        phoneNumber: "",
-                        emailAddress: "",
-                        productBrand: "",
-                        productModel: "",
-                        purchaseDate: "",
-                        issueDescription: "",
-                      });
-                      setFileName(null);
-                    }}
-                    className="px-6 py-2.5 rounded-full bg-[#0066FF] text-white text-sm font-medium hover:bg-[#0052cc]"
-                  >
-                    Submit Another Request
-                  </button>
+                  <div className="inline-block px-3.5 py-1.5 rounded-xl bg-blue-50 text-[#0066FF] font-medium text-xs border border-blue-100">
+                    {TARGET_EMAIL}
+                  </div>
+
+                  {fileName && (
+                    <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 max-w-md mx-auto text-left">
+                      📎 <strong>Selected Attachment:</strong> {fileName}
+                      <p className="text-[11px] text-amber-700 mt-1">
+                        Please remember to attach your photo or bill in the opened Gmail draft before hitting Send!
+                      </p>
+                    </div>
+                  )}
+
+                  <p className="text-xs text-slate-500 max-w-md mx-auto">
+                    Please click <strong>Send</strong> in Gmail so our service desk receives your claim ticket.
+                  </p>
+
+                  <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                    <a
+                      href={gmailUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm"
+                    >
+                      Open Gmail Compose
+                    </a>
+                    <a
+                      href={mailtoUrl}
+                      className="px-5 py-2.5 rounded-full bg-slate-100 text-slate-700 text-xs font-medium hover:bg-slate-200 transition"
+                    >
+                      Default Mail App
+                    </a>
+                    <button
+                      onClick={() => {
+                        setSubmittedSuccess(false);
+                        setFormData({
+                          fullName: "",
+                          phoneNumber: "",
+                          emailAddress: "",
+                          productBrand: "",
+                          productModel: "",
+                          purchaseDate: "",
+                          issueDescription: "",
+                        });
+                        setFileName(null);
+                      }}
+                      className="px-5 py-2.5 rounded-full border border-slate-200 text-slate-600 text-xs font-medium hover:bg-slate-50 transition"
+                    >
+                      Submit Another Request
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">

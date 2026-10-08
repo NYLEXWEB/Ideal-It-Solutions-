@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 
 export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
   return (
@@ -9,29 +8,58 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
       id="home"
       className="relative min-h-[100dvh] md:min-h-[640px] pt-24 pb-10 sm:pt-28 sm:pb-16 md:pt-36 md:pb-24 overflow-hidden flex items-center bg-[#f4f8fd]"
     >
-      {/* 1. Full Background CCTV Image spanning mobile and desktop */}
-      <div className="absolute inset-0 z-0 select-none pointer-events-none">
-        <Image
-          src="/images/hero_cctv_bg.jpg"
-          alt="IDEAL IT Smart Solutions for a Safer Tomorrow"
-          fill
-          priority
-          className="object-cover object-[85%_20%] sm:object-[80%_center] md:object-[80%_center] lg:object-[85%_center]"
-          sizes="100vw"
-        />
+      {/* 1. Full Dynamic Background Video System: Dedicated Mobile Portrait & Desktop Landscape */}
+      <div className="absolute inset-0 z-0 select-none overflow-hidden bg-[#f4f8fd]">
+        {/* Mobile Portrait Video (< 768px screens) */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/images/herosection_bg_video/herosection_mobile_poster.jpg"
+          className="block md:hidden absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+        >
+          <source
+            src="/images/herosection_bg_video/herosection_mobile_portrait.mp4"
+            type="video/mp4"
+          />
+          <source
+            src="/images/herosection_bg_video/herosection_mobile_portrait.webm"
+            type="video/webm"
+          />
+        </video>
 
-        {/* 2. Seamless Apple-style Soft White / Sky Blue Gradient Overlays */}
-        {/* Left-to-Right linear fade for clean text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 via-65% sm:from-[#f4f8fd] sm:via-[#f4f8fd]/92 sm:via-55% lg:via-55% to-transparent" />
+        {/* Desktop & Tablet Landscape Video (>= 768px screens) */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/images/herosection_bg_video/herosection_poster.jpg"
+          className="hidden md:block absolute inset-0 w-full h-full object-cover object-[75%_center] lg:object-center pointer-events-none"
+        >
+          <source
+            src="/images/herosection_bg_video/herosection_clean.mp4"
+            type="video/mp4"
+          />
+          <source
+            src="/images/herosection_bg_video/herosection_clean.webm"
+            type="video/webm"
+          />
+        </video>
 
-        {/* Mobile top & bottom subtle vertical overlays for full screen elegance */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-transparent to-white/85 md:hidden" />
+        {/* 2. Apple-style Soft Gradient Overlays for High-Contrast Readability */}
+        {/* Desktop Left-to-Right linear fade */}
+        <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 via-50% sm:from-white/95 sm:via-white/75 sm:via-55% lg:from-white/95 lg:via-white/70 lg:via-50% to-transparent pointer-events-none" />
+
+        {/* Mobile vertical gradient for seamless text contrast and top/bottom blending */}
+        <div className="block md:hidden absolute inset-0 bg-gradient-to-b from-white/90 via-white/35 via-35% to-white/95 pointer-events-none" />
 
         {/* Bottom subtle fade into the next section */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 md:h-24 bg-gradient-to-t from-white via-white/40 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 md:h-24 bg-gradient-to-t from-white via-white/50 to-transparent pointer-events-none" />
 
         {/* Top subtle fade under the navbar */}
-        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white/80 sm:from-[#f4f8fd]/90 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-white/80 to-transparent pointer-events-none" />
       </div>
 
       {/* Hero Foreground Content */}
@@ -92,7 +120,7 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
 
             {/* WhatsApp Button */}
             <a
-              href="https://wa.me/919805932907?text=Hi%20IDEAL%20IT,%20I%20would%20like%20to%20know%20more%20about%20your%20services."
+              href="https://wa.me/919605932907?text=Hi%20IDEAL%20IT,%20I%20would%20like%20to%20know%20more%20about%20your%20services."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-white/95 hover:bg-white text-[#1E293B] text-[14px] sm:text-[14.5px] font-medium border border-slate-200/90 shadow-sm hover:shadow transition-all duration-200 active:scale-[0.98] backdrop-blur-sm"

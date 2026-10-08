@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import BrandLogos from "@/components/BrandLogos";
 import AboutSection from "@/components/AboutSection";
+import BranchesSection from "@/components/BranchesSection";
 import ServicesSection from "@/components/ServicesSection";
 import TrustSection from "@/components/TrustSection";
 import GallerySection from "@/components/GallerySection";
@@ -43,6 +44,9 @@ export default function HomePage() {
 
         {/* 3. About Section */}
         <AboutSection />
+
+        {/* 3.1 Our Branches Section */}
+        <BranchesSection />
 
         {/* 4. Services Section */}
         <ServicesSection onSelectService={(service) => handleOpenQuote(service)} />

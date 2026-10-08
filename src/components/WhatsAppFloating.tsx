@@ -52,7 +52,7 @@ export default function WhatsAppFloating() {
           <span>Chat on WhatsApp</span>
         </div>
         <a
-          href="https://wa.me/919805932907?text=Hi%20IDEAL%20IT,%20I%20would%20like%20to%20inquire%20about%20your%20services."
+          href="https://wa.me/919605932907?text=Hi%20IDEAL%20IT,%20I%20would%20like%20to%20inquire%20about%20your%20services."
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Chat on WhatsApp with IDEAL IT support team"

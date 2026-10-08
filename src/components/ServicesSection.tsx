@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface ServiceCardData {
   id: string;
@@ -95,8 +96,8 @@ export default function ServicesSection({
           </div>
 
           {/* View All Services Outline Button */}
-          <button
-            onClick={() => onSelectService?.()}
+          <Link
+            href="/services"
             className="self-start sm:self-end inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#0066FF]/35 hover:border-[#0066FF] bg-transparent hover:bg-[#0066FF]/5 text-[#0066FF] text-[13.5px] font-medium transition-all duration-200 shadow-sm active:scale-95"
           >
             <span>View All Services</span>
@@ -113,7 +114,7 @@ export default function ServicesSection({
                 d="M14 5l7 7m0 0l-7 7m7-7H3"
               />
             </svg>
-          </button>
+          </Link>
         </div>
 
         {/* 6 Service Cards with seamless right-side product images & direct text overlay */}
@@ -148,7 +149,7 @@ export default function ServicesSection({
               {/* WhatsApp Enquiry Action Button */}
               <div className="relative z-10 pt-5">
                 <a
-                  href={`https://wa.me/919805932907?text=${encodeURIComponent(
+                  href={`https://wa.me/919605932907?text=${encodeURIComponent(
                     service.whatsappMessage
                   )}`}
                   target="_blank"

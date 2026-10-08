@@ -79,13 +79,13 @@ export default function ReviewsSection() {
           <div className="flex items-center gap-3 flex-wrap">
             {/* Direct Google Review Button */}
             <a
-              href="https://maps.app.goo.gl/nat3JAFL8QiTfyrF9"
+              href="https://search.google.com/local/writereview?placeid=ChIJb2vV_KTepTsRUT2fCCgoSXo"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 text-[#1E293B] hover:text-[#0066FF] text-[13.5px] font-medium border border-slate-200 shadow-sm hover:shadow transition-all duration-200 active:scale-95"
             >
               <GoogleGLogo className="w-4 h-4 flex-shrink-0" />
-              <span>Review Us on Google</span>
+              <span>Write a Review</span>
               <svg className="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>

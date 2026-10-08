@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { IdealItLogo } from "./Logos";
 
 export default function Header({ onOpenQuote }: { onOpenQuote?: () => void }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,12 +20,12 @@ export default function Header({ onOpenQuote }: { onOpenQuote?: () => void }) {
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Gallery", href: "#gallery" },
-    { name: "Warranty", href: "#warranty" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Services", href: "/services" },
+    { name: "Gallery", href: "/gallery" },
+    { name: "Warranty", href: "/warranty" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (
@@ -35,28 +38,35 @@ export default function Header({ onOpenQuote }: { onOpenQuote?: () => void }) {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand Logo */}
-        <a href="#home" className="flex items-center group">
+        <Link href="/" className="flex items-center group">
           <IdealItLogo />
-        </a>
+        </Link>
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-8 text-[14.5px] font-normal text-slate-700">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-[#334155] hover:text-[#0066FF] transition-colors duration-150 tracking-normal"
-            >
-              {link.name}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={`transition-colors duration-150 tracking-normal ${
+                  isActive
+                    ? "text-[#0066FF] font-medium"
+                    : "text-[#334155] hover:text-[#0066FF]"
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Right CTA Actions */}
         <div className="hidden lg:flex items-center gap-5">
           {/* Phone Link */}
           <a
-            href="tel:9805932907"
+            href="tel:9605932907"
             className="flex items-center gap-2 text-[14px] font-medium text-[#1E293B] hover:text-[#0066FF] transition-colors duration-150"
           >
             <svg
@@ -66,13 +76,13 @@ export default function Header({ onOpenQuote }: { onOpenQuote?: () => void }) {
             >
               <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.41 11.41 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.41 11.41 0 00.57 3.58 1 1 0 01-.24 1.02l-2.21 2.19z" />
             </svg>
-            <span>98059 32907</span>
+            <span>96059 32907</span>
           </a>
 
           {/* Get a Quote Button */}
           <button
             onClick={onOpenQuote}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0066FF] hover:bg-[#0052cc] text-white text-[13.5px] font-medium transition-all duration-200 shadow-sm hover:shadow active:scale-[0.98]"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0066FF] hover:bg-[#0052cc] text-white text-[13.5px] font-medium transition-all duration-200 shadow-sm hover:shadow active:scale-[0.98] cursor-pointer"
           >
             <span>Get a Quote</span>
             <svg
@@ -95,13 +105,13 @@ export default function Header({ onOpenQuote }: { onOpenQuote?: () => void }) {
         <div className="flex items-center gap-3 md:hidden">
           <button
             onClick={onOpenQuote}
-            className="px-3.5 py-1.5 rounded-full bg-[#0066FF] text-white text-xs font-medium"
+            className="px-3.5 py-1.5 rounded-full bg-[#0066FF] text-white text-xs font-medium cursor-pointer"
           >
             Quote
           </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg text-slate-700 hover:bg-slate-100"
+            className="p-2 rounded-lg text-slate-700 hover:bg-slate-100 cursor-pointer"
             aria-label="Toggle navigation menu"
           >
             {mobileMenuOpen ? (
@@ -122,32 +132,36 @@ export default function Header({ onOpenQuote }: { onOpenQuote?: () => void }) {
         <div className="md:hidden bg-white border-b border-slate-200 px-6 py-5 shadow-lg space-y-4 animate-in fade-in slide-in-from-top-3 duration-200">
           <nav className="flex flex-col space-y-3">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-base font-normal text-slate-800 hover:text-[#0066FF] py-1 border-b border-slate-50"
+                className={`text-base font-normal py-1 border-b border-slate-50 ${
+                  pathname === link.href
+                    ? "text-[#0066FF] font-medium"
+                    : "text-slate-800 hover:text-[#0066FF]"
+                }`}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
           </nav>
           <div className="pt-2 flex flex-col gap-3">
             <a
-              href="tel:9805932907"
+              href="tel:9605932907"
               className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-slate-50 text-slate-800 text-sm font-medium border border-slate-200"
             >
               <svg className="w-4 h-4 text-[#0066FF]" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.41 11.41 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.41 11.41 0 00.57 3.58 1 1 0 01-.24 1.02l-2.21 2.19z" />
               </svg>
-              <span>Call: 98059 32907</span>
+              <span>Call: 96059 32907</span>
             </a>
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenQuote?.();
               }}
-              className="w-full py-3 rounded-xl bg-[#0066FF] text-white text-sm font-medium flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl bg-[#0066FF] text-white text-sm font-medium flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Get a Quote</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

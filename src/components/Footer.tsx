@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { IdealItLogo } from "./Logos";
 
 export default function Footer({
@@ -35,13 +36,13 @@ export default function Footer({
 
           <div className="flex flex-wrap items-center justify-center gap-3.5 flex-shrink-0">
             <a
-              href="tel:9805932907"
+              href="tel:9605932907"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-medium border border-white/20 transition-all duration-200 active:scale-95 shadow-sm"
             >
               <svg className="w-4 h-4 text-[#38BDF8]" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.41 11.41 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.41 11.41 0 00.57 3.58 1 1 0 01-.24 1.02l-2.21 2.19z" />
               </svg>
-              <span>Call: 98059 32907</span>
+              <span>Call: 96059 32907</span>
             </a>
 
             <button
@@ -60,9 +61,9 @@ export default function Footer({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12">
           {/* Col 1: Brand & About (3.5 cols) */}
           <div className="lg:col-span-3 space-y-4">
-            <div className="inline-block">
+            <Link href="/" className="inline-block group">
               <IdealItLogo />
-            </div>
+            </Link>
 
             <p className="text-slate-600 text-[13.5px] leading-relaxed font-normal">
               Your trusted technology and security systems partner in Mananthavady, Wayanad. We provide enterprise-grade CCTV surveillance, computer hardware sales &amp; service, optical fiber networking, and smart home automation.
@@ -71,7 +72,7 @@ export default function Footer({
             <div className="flex items-center gap-2.5 pt-2">
               {/* WhatsApp */}
               <a
-                href="https://wa.me/919805932907"
+                href="https://wa.me/919605932907"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
@@ -130,34 +131,34 @@ export default function Footer({
             </h4>
             <ul className="space-y-2.5 text-[13.5px] font-normal text-slate-600">
               <li>
-                <a href="#home" className="hover:text-[#0066FF] transition-colors">
+                <Link href="/" className="hover:text-[#0066FF] transition-colors">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#about" className="hover:text-[#0066FF] transition-colors">
-                  About Us
-                </a>
+                <Link href="/about" className="hover:text-[#0066FF] transition-colors font-medium text-slate-700">
+                  About Us (Company Story)
+                </Link>
               </li>
               <li>
-                <a href="#services" className="hover:text-[#0066FF] transition-colors">
+                <Link href="/services" className="hover:text-[#0066FF] transition-colors">
                   Services
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#gallery" className="hover:text-[#0066FF] transition-colors">
+                <Link href="/gallery" className="hover:text-[#0066FF] transition-colors">
                   Project Gallery
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#warranty" className="hover:text-[#0066FF] transition-colors">
+                <Link href="/warranty" className="hover:text-[#0066FF] transition-colors">
                   Warranty Support
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#contact" className="hover:text-[#0066FF] transition-colors">
+                <Link href="/contact" className="hover:text-[#0066FF] transition-colors">
                   Contact Us
-                </a>
+                </Link>
               </li>
               <li>
                 <button
@@ -177,147 +178,127 @@ export default function Footer({
             </h4>
             <ul className="space-y-2.5 text-[13.5px] font-normal text-slate-600">
               <li>
-                <a
-                  href="#services"
+                <Link
+                  href="/services#computer-sales-service"
                   className="hover:text-[#0066FF] transition-colors flex items-center gap-2"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
                   Computer Sales &amp; Repair
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#services"
+                <Link
+                  href="/services#cctv-security-systems"
                   className="hover:text-[#0066FF] transition-colors flex items-center gap-2"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
                   CCTV Surveillance Systems
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#services"
+                <Link
+                  href="/services#networking-solutions"
                   className="hover:text-[#0066FF] transition-colors flex items-center gap-2"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
                   Networking &amp; Wi-Fi Setup
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#services"
+                <Link
+                  href="/services#ups-inverter-power"
                   className="hover:text-[#0066FF] transition-colors flex items-center gap-2"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
                   UPS &amp; Inverter Power Backup
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#services"
+                <Link
+                  href="/services#smart-home-automation"
                   className="hover:text-[#0066FF] transition-colors flex items-center gap-2"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
                   Smart Home Automation
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#services"
+                <Link
+                  href="/services#video-door-phones"
                   className="hover:text-[#0066FF] transition-colors flex items-center gap-2"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
                   Video Door Phones &amp; Intercoms
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#warranty"
+                <Link
+                  href="/services"
                   className="hover:text-[#0066FF] transition-colors flex items-center gap-2"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
                   Annual Maintenance (AMC)
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: Store Contact & Compact Map on Right Side (4 cols) */}
+          {/* Col 4: Store Contact & Branches (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <h4 className="text-slate-900 text-[14.5px] font-semibold tracking-wide uppercase">
-              Store &amp; Location
+              Our Branches &bull; Wayanad
             </h4>
             
-            <div className="space-y-3 text-[13px] text-slate-600">
-              {/* Address Link */}
-              <a
-                href="https://maps.app.goo.gl/nat3JAFL8QiTfyrF9"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-start gap-2.5 hover:text-[#0066FF] group transition"
-              >
-                <div className="w-7 h-7 rounded-lg bg-blue-50 text-[#0066FF] flex items-center justify-center flex-shrink-0 mt-0.5 border border-blue-100 group-hover:bg-[#0066FF] group-hover:text-white transition">
-                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                  </svg>
-                </div>
-                <span className="leading-snug text-slate-600 group-hover:text-slate-900">
-                  Susheelam Building, Near Kerala Bank, Mysore Road, Mananthavady, Wayanad – 670645
-                </span>
-              </a>
-
-              {/* Phone & Hours */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-0.5">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-md bg-blue-50 text-[#0066FF] flex items-center justify-center flex-shrink-0 border border-blue-100">
-                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.41 11.41 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.41 11.41 0 00.57 3.58 1 1 0 01-.24 1.02l-2.21 2.19z" />
-                    </svg>
-                  </div>
-                  <a href="tel:9805932907" className="text-slate-800 hover:text-[#0066FF] font-medium text-xs transition">
-                    +91 98059 32907
+            <div className="space-y-4 text-[13px] text-slate-600">
+              {/* Branch 1: Mananthavady */}
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-semibold text-[#0066FF] uppercase tracking-wider">
+                    Mananthavady Branch
+                  </span>
+                  <a href="tel:04935294907" className="text-xs font-semibold text-slate-800 hover:text-[#0066FF] transition">
+                    📞 04935 294907
                   </a>
                 </div>
-
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-md bg-blue-50 text-[#0066FF] flex items-center justify-center flex-shrink-0 border border-blue-100">
-                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
-                    </svg>
-                  </div>
-                  <span className="text-slate-600 text-xs">
-                    Mon–Sat: 9AM–7PM
-                  </span>
-                </div>
+                <p className="text-xs text-slate-600 leading-snug">
+                  Suseelam Building, Mysore Road, Mananthavady, Wayanad – 670645
+                </p>
               </div>
 
-              {/* Compact Map Preview on the Right */}
-              <div className="pt-2">
-                <div className="relative w-full h-[145px] rounded-xl overflow-hidden border border-slate-200 shadow-sm group bg-slate-100">
-                  <iframe
-                    title="IDEAL IT SOLUTIONS Location Map"
-                    src="https://maps.google.com/maps?q=11.8036631,76.0048841&hl=en&z=17&output=embed"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen={false}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="w-full h-full"
-                  />
-                  {/* Floating Direction Link */}
-                  <a
-                    href="https://maps.app.goo.gl/nat3JAFL8QiTfyrF9"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/95 backdrop-blur-md text-slate-800 text-[11px] font-medium border border-slate-200/80 shadow-md hover:bg-[#0066FF] hover:text-white hover:border-[#0066FF] transition active:scale-95"
-                  >
-                    <span>Get Directions</span>
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
+              {/* Branch 2: Padinjarathara */}
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-semibold text-[#0066FF] uppercase tracking-wider">
+                    Padinjarathara Branch
+                  </span>
+                  <a href="tel:04936202907" className="text-xs font-semibold text-slate-800 hover:text-[#0066FF] transition">
+                    📞 04936 202907
                   </a>
                 </div>
+                <p className="text-xs text-slate-600 leading-snug">
+                  Mundunadakkal Building, Opp. Panchayath Office, Padinjarathara, Wayanad – 673575
+                </p>
+              </div>
+
+              {/* Mobile Helpline & Working Hours */}
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs text-slate-400">Mobile:</span>
+                  <a href="tel:9605932907" className="text-slate-900 font-semibold text-xs hover:text-[#0066FF] transition">
+                    96059 32907
+                  </a>
+                </div>
+                <span className="text-[11.5px] text-slate-500">
+                  Mon–Sat: 9AM–7:30PM
+                </span>
+              </div>
+
+              {/* Official Email */}
+              <div className="flex items-center gap-1.5 pt-0.5">
+                <span className="text-xs text-slate-400">Email:</span>
+                <a href="mailto:idealcomputersmntdy@gmail.com" className="text-[#0066FF] font-medium text-xs hover:underline truncate">
+                  idealcomputersmntdy@gmail.com
+                </a>
               </div>
             </div>
           </div>

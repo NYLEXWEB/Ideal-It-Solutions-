@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface GalleryItem {
   id: number;
@@ -118,7 +119,17 @@ export default function GallerySection({ onOpenQuote }: { onOpenQuote?: () => vo
           </div>
 
           {/* Action CTA Button */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/gallery"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#0066FF]/35 hover:border-[#0066FF] bg-transparent hover:bg-[#0066FF]/5 text-[#0066FF] text-[13.5px] font-medium transition-all duration-200 shadow-sm active:scale-95"
+            >
+              <span>Explore Full Gallery</span>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </Link>
+
             <button
               onClick={onOpenQuote}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0066FF] hover:bg-[#0052cc] text-white text-[13.5px] font-medium shadow-sm hover:shadow transition-all duration-200 active:scale-95 cursor-pointer"
@@ -332,7 +343,7 @@ export default function GallerySection({ onOpenQuote }: { onOpenQuote?: () => vo
 
               <div className="flex items-center gap-3">
                 <a
-                  href={`https://wa.me/919805932907?text=${encodeURIComponent(
+                  href={`https://wa.me/919605932907?text=${encodeURIComponent(
                     `Hi IDEAL IT, I am interested in discussing your installation services for ${activeItem.title}.`
                   )}`}
                   target="_blank"
