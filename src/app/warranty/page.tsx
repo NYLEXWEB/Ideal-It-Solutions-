@@ -20,14 +20,15 @@ export default function WarrantyPage() {
     issueDescription: "",
   });
 
-  const [fileName, setFileName] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const TARGET_EMAIL = "idealcomputersmntdy@gmail.com";
 
   const buildWarrantyEmailUrls = () => {
     const subject = `Warranty Claim: ${formData.productBrand || "Hardware"} ${formData.productModel || ""} - ${formData.fullName}`;
+
     const body = `Hello IDEAL IT Team,
 
 I would like to submit an official warranty service claim with the following details:
@@ -45,10 +46,6 @@ PRODUCT DETAILS:
 ISSUE / DEFECT DESCRIPTION:
 ${formData.issueDescription}
 
-ATTACHMENT:
-- Selected File: ${fileName ? fileName : "No file attached"}
-${fileName ? `(Note: Please attach "${fileName}" to this email draft before hitting Send.)` : ""}
-
 Thank you,
 ${formData.fullName}`;
 
@@ -56,44 +53,57 @@ ${formData.fullName}`;
       TARGET_EMAIL
     )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-    const mailtoUrl = `mailto:${TARGET_EMAIL}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+    const whatsappMessage = `*WARRANTY CLAIM - IDEAL IT SOLUTIONS*
+━━━━━━━━━━━━━━━━━━━━
+👤 *Customer:* ${formData.fullName}
+📱 *Phone:* ${formData.phoneNumber}
+✉️ *Email:* ${formData.emailAddress || "N/A"}
+🏷️ *Brand & Model:* ${formData.productBrand} ${formData.productModel || ""} (Serial: ${formData.serialNumber || "N/A"})
+📅 *Purchase Date:* ${formData.purchaseDate || "N/A"}
+⚠️ *Issue:* ${formData.issueDescription}
 
-    return { subject, body, gmailUrl, mailtoUrl };
+_Please verify and generate the RMA warranty service ticket._`;
+
+    const whatsappUrl = `https://wa.me/919605932907?text=${encodeURIComponent(
+      whatsappMessage
+    )}`;
+
+    return { subject, body, gmailUrl, whatsappUrl };
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.fullName.trim() || !formData.phoneNumber.trim()) {
+      setFormError("Please enter your name and phone number to continue.");
+      return;
+    }
+    setFormError(null);
     setIsSubmitting(true);
 
-    const { gmailUrl, mailtoUrl } = buildWarrantyEmailUrls();
+    const { gmailUrl } = buildWarrantyEmailUrls();
 
+    // 1. Send warranty claim details to backend
     try {
-      await fetch("/api/warranty", {
+      fetch("/api/warranty", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, invoiceFile: fileName }),
-      });
-    } catch {
-      // background fallback
-    } finally {
-      setIsSubmitting(false);
-      setSubmittedSuccess(true);
-      const opened = window.open(gmailUrl, "_blank");
-      if (!opened) {
-        window.location.href = mailtoUrl;
-      }
+        body: JSON.stringify(formData),
+      }).catch((err) => console.error("Warranty submission error:", err));
+    } catch (err) {
+      console.error("Warranty submission error:", err);
     }
+
+    // 2. Directly redirect / open Google Gmail web compose
+    const opened = window.open(gmailUrl, "_blank");
+    if (!opened || opened.closed || typeof opened.closed === "undefined") {
+      window.location.href = gmailUrl;
+    }
+
+    setIsSubmitting(false);
+    setSubmittedSuccess(true);
   };
 
-  const { gmailUrl, mailtoUrl } = buildWarrantyEmailUrls();
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFileName(e.target.files[0].name);
-    }
-  };
+  const { gmailUrl, whatsappUrl } = buildWarrantyEmailUrls();
 
   return (
     <div className="min-h-screen flex flex-col bg-white selection:bg-[#0066FF] selection:text-white font-sans antialiased text-[#1E293B]">
@@ -112,69 +122,63 @@ ${formData.fullName}`;
                 Home
               </Link>
               <span>/</span>
-              <span className="text-slate-900 font-medium">Warranty Support</span>
+              <span className="text-slate-900 font-medium">Warranty Claims</span>
             </nav>
 
             <div className="max-w-3xl">
               <span className="text-[11.5px] font-medium tracking-[0.2em] text-[#0066FF] uppercase bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-200/60 inline-block mb-4">
-                AUTHENTIC HARDWARE PROTECTION
+                OFFICIAL RMA &amp; PRODUCT SUPPORT
               </span>
               <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-[54px] font-light text-[#1E293B] leading-[1.15] tracking-[-0.03em] mb-6">
-                Fast, Hassle-Free <br />
+                Fast, Official Warranty <br />
                 <span className="font-normal text-[#0066FF]">
-                  Warranty Claims &amp; Verification.
+                  Claims &amp; Replacement.
                 </span>
               </h1>
               <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
-                Every computer, CCTV camera, networking switch, and inverter battery purchased from IDEAL IT comes backed with 100% genuine manufacturer warranties and direct localized repair support in Wayanad.
+                Purchased hardware from IDEAL IT or any authorized brand? Register your warranty claim below for priority manufacturer RMA replacement and chip-level servicing in Wayanad.
               </p>
             </div>
           </div>
         </section>
 
-        {/* 2. Interactive Claim Registration Form & Info */}
-        <section className="py-12 md:py-20 bg-white">
+        {/* 2. Warranty Form & Claim Workflow */}
+        <section className="py-12 sm:py-16 bg-[#f8fbfe]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-              {/* Left Column: Warranty Portal Form */}
-              <div className="lg:col-span-7 bg-[#f8fbfe] p-6 sm:p-10 rounded-3xl border border-slate-200/80 shadow-sm">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+              {/* Left Column: Form Card */}
+              <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100">
                 <div className="mb-6">
-                  <h2 className="text-2xl font-medium text-slate-900 mb-2">
-                    Submit a Warranty Claim or Service Request
-                  </h2>
-                  <p className="text-sm text-slate-600">
-                    Fill out the product information below. Our technical desk will inspect your warranty status and contact you within 24 business hours.
+                  <span className="text-xs font-semibold text-[#0066FF] tracking-wider uppercase block mb-1">
+                    SUBMIT RMA TICKET
+                  </span>
+                  <h3 className="text-2xl font-medium text-slate-900">
+                    Product Warranty Request Form
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                    Fill out the hardware details and issue below.
                   </p>
                 </div>
 
                 {submittedSuccess ? (
-                  <div className="p-8 text-center bg-white rounded-2xl border border-green-200 shadow-sm space-y-4">
-                    <div className="w-14 h-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto">
-                      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="text-center py-8 space-y-4 animate-in fade-in duration-200">
+                    <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto shadow-sm">
+                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <h3 className="text-xl font-medium text-slate-900">
-                      Warranty Claim Prepared!
+                    <h3 className="text-xl sm:text-2xl font-medium text-slate-900">
+                      Warranty Ticket Prepared!
                     </h3>
-                    <p className="text-sm text-slate-600 max-w-md mx-auto">
-                      Thank you, <strong className="text-slate-800">{formData.fullName}</strong>. We have opened a Gmail draft with your claim ticket addressed to:
+                    <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto">
+                      Thank you, <strong className="text-slate-800">{formData.fullName}</strong>. Google Gmail has been opened addressed to:
                     </p>
                     <div className="inline-block px-3.5 py-1.5 rounded-xl bg-blue-50 text-[#0066FF] font-medium text-xs border border-blue-100">
                       {TARGET_EMAIL}
                     </div>
 
-                    {fileName && (
-                      <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 max-w-md mx-auto text-left">
-                        📎 <strong>Selected Attachment:</strong> {fileName}
-                        <p className="text-[11px] text-amber-700 mt-1">
-                          Please remember to attach your invoice photo or bill in the opened Gmail draft before hitting Send!
-                        </p>
-                      </div>
-                    )}
-
                     <p className="text-xs text-slate-500 max-w-md mx-auto">
-                      Please click <strong>Send</strong> in Gmail so our technical desk can process your warranty verification.
+                      Please click <strong>Send</strong> in Google Gmail so our technical desk can process your warranty verification.
                     </p>
 
                     <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
@@ -182,15 +186,20 @@ ${formData.fullName}`;
                         href={gmailUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-5 py-2 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm"
+                        className="px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"
                       >
-                        Open Gmail Compose
+                        <span>Open Google Gmail</span>
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
                       </a>
                       <a
-                        href={mailtoUrl}
-                        className="px-5 py-2 rounded-full bg-slate-100 text-slate-700 text-xs font-medium hover:bg-slate-200 transition"
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-5 py-2.5 rounded-full bg-[#25D366] text-white text-xs font-medium hover:bg-[#20ba59] transition shadow-sm flex items-center justify-center gap-2"
                       >
-                        Default Mail App
+                        <span>Chat on WhatsApp</span>
                       </a>
                       <button
                         onClick={() => {
@@ -205,7 +214,6 @@ ${formData.fullName}`;
                             purchaseDate: "",
                             issueDescription: "",
                           });
-                          setFileName(null);
                         }}
                         className="px-5 py-2 rounded-full border border-slate-200 text-slate-600 text-xs font-medium hover:bg-slate-50 transition"
                       >
@@ -288,6 +296,19 @@ ${formData.fullName}`;
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-medium text-slate-700 mb-1.5">
+                          Email Address
+                        </label>
+                        <input
+                          type="email"
+                          value={formData.emailAddress}
+                          onChange={(e) => setFormData({ ...formData, emailAddress: e.target.value })}
+                          placeholder="name@example.com"
+                          className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-[#0066FF] transition"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-medium text-slate-700 mb-1.5">
                           Approx. Purchase Date
                         </label>
                         <input
@@ -296,28 +317,6 @@ ${formData.fullName}`;
                           onChange={(e) => setFormData({ ...formData, purchaseDate: e.target.value })}
                           className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-[#0066FF] transition"
                         />
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-medium text-slate-700 mb-1.5">
-                          Attach Invoice / Photo (Optional)
-                        </label>
-                        <div className="relative">
-                          <input
-                            type="file"
-                            onChange={handleFileChange}
-                            className="hidden"
-                            id="invoice-upload-page"
-                            accept="image/*,.pdf"
-                          />
-                          <label
-                            htmlFor="invoice-upload-page"
-                            className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-white border border-dashed border-slate-300 text-xs text-slate-600 hover:border-[#0066FF] transition cursor-pointer truncate"
-                          >
-                            <span className="truncate">{fileName || "Click to upload bill/photo"}</span>
-                            <span className="text-[#0066FF] font-medium ml-2 flex-shrink-0">Browse</span>
-                          </label>
-                        </div>
                       </div>
                     </div>
 
@@ -334,6 +333,16 @@ ${formData.fullName}`;
                         className="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:border-[#0066FF] transition resize-none"
                       />
                     </div>
+
+                    {/* Inline Error Message */}
+                    {formError && (
+                      <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2.5 animate-in fade-in">
+                        <svg className="w-4 h-4 flex-shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <span>{formError}</span>
+                      </div>
+                    )}
 
                     <button
                       type="submit"
@@ -423,7 +432,9 @@ ${formData.fullName}`;
                       <span>Call: 96059 32907</span>
                     </a>
                     <a
-                      href="mailto:idealcomputersmntdy@gmail.com"
+                      href="https://mail.google.com/mail/?view=cm&fs=1&to=idealcomputersmntdy@gmail.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:bg-slate-100"
                     >
                       <span>idealcomputersmntdy@gmail.com</span>

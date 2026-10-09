@@ -156,6 +156,12 @@ export default function Footer({
                 </Link>
               </li>
               <li>
+                <Link href="/careers" className="hover:text-[#0066FF] transition-colors flex items-center gap-1.5 font-medium text-slate-700">
+                  <span>Careers</span>
+                  <span className="text-[10px] bg-blue-100 text-[#0066FF] px-1.5 py-0.2 rounded-full font-semibold">Hiring</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="hover:text-[#0066FF] transition-colors">
                   Contact Us
                 </Link>
@@ -296,7 +302,12 @@ export default function Footer({
               {/* Official Email */}
               <div className="flex items-center gap-1.5 pt-0.5">
                 <span className="text-xs text-slate-400">Email:</span>
-                <a href="mailto:idealcomputersmntdy@gmail.com" className="text-[#0066FF] font-medium text-xs hover:underline truncate">
+                <a
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=idealcomputersmntdy@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#0066FF] font-medium text-xs hover:underline truncate"
+                >
                   idealcomputersmntdy@gmail.com
                 </a>
               </div>

@@ -25,6 +25,7 @@ export default function Header({ onOpenQuote }: { onOpenQuote?: () => void }) {
     { name: "Services", href: "/services" },
     { name: "Gallery", href: "/gallery" },
     { name: "Warranty", href: "/warranty" },
+    { name: "Careers", href: "/careers" },
     { name: "Contact", href: "/contact" },
   ];
 

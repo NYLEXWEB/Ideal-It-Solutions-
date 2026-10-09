@@ -20,6 +20,7 @@ export default function ContactPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const TARGET_EMAIL = "idealcomputersmntdy@gmail.com";
 
@@ -47,44 +48,52 @@ ${formData.name}`;
       TARGET_EMAIL
     )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-    const mailtoUrl = `mailto:${TARGET_EMAIL}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
-
-    return { subject, body, gmailUrl, mailtoUrl };
+    return { subject, body, gmailUrl };
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.name.trim() || !formData.phone.trim()) {
+      setFormError("Please enter your name and phone number to continue.");
+      return;
+    }
+    setFormError(null);
+
     setIsSubmitting(true);
 
-    const { gmailUrl, mailtoUrl } = buildEmailUrls();
+    const { gmailUrl } = buildEmailUrls();
 
-    try {
-      await fetch("/api/quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          phone: formData.phone,
-          email: formData.email,
-          service: formData.subject,
-          requirements: formData.message,
-        }),
-      });
-    } catch {
+    // Open Google Gmail directly in a new tab immediately within user gesture
+    const opened = window.open(gmailUrl, "_blank");
+
+    // Asynchronously log the contact message to backend
+    fetch("/api/quote", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        service: formData.subject,
+        requirements: formData.message,
+      }),
+    }).catch(() => {
       // background fallback
-    } finally {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      const opened = window.open(gmailUrl, "_blank");
-      if (!opened) {
-        window.location.href = mailtoUrl;
-      }
+    });
+
+    setIsSubmitting(false);
+    setSubmitted(true);
+
+    // If popup blocker intercepted the new tab, redirect directly to Google Gmail
+    if (!opened || opened.closed || typeof opened.closed === "undefined") {
+      window.location.href = gmailUrl;
     }
   };
 
-  const { gmailUrl, mailtoUrl } = buildEmailUrls();
+  const { gmailUrl } = buildEmailUrls();
+  const whatsappUrl = `https://wa.me/919605932907?text=${encodeURIComponent(
+    `Hi IDEAL IT, I am ${formData.name}. Regarding: ${formData.subject}. Message: ${formData.message}`
+  )}`;
 
   return (
     <div className="min-h-screen flex flex-col bg-white selection:bg-[#0066FF] selection:text-white font-sans antialiased text-[#1E293B]">
@@ -152,28 +161,33 @@ ${formData.name}`;
                       Message Prepared for Delivery!
                     </h3>
                     <p className="text-sm text-slate-600">
-                      Thank you, <strong className="text-slate-800">{formData.name}</strong>. We have opened a Gmail draft addressed to:
+                      Thank you, <strong className="text-slate-800">{formData.name}</strong>. Google Gmail has been opened with your inquiry addressed to:
                     </p>
                     <div className="inline-block px-3.5 py-1.5 rounded-xl bg-blue-50 text-[#0066FF] font-medium text-xs border border-blue-100">
                       {TARGET_EMAIL}
                     </div>
                     <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                      Please tap <strong>Send</strong> in your Gmail window to deliver your inquiry.
+                      Please click <strong>Send</strong> in your Google Gmail window to deliver your inquiry.
                     </p>
                     <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                       <a
                         href={gmailUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-5 py-2 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm"
+                        className="px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"
                       >
-                        Open Gmail Compose
+                        <span>Open Google Gmail</span>
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
                       </a>
                       <a
-                        href={mailtoUrl}
-                        className="px-5 py-2 rounded-full bg-slate-100 text-slate-700 text-xs font-medium hover:bg-slate-200 transition"
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-5 py-2.5 rounded-full bg-[#25D366] text-white text-xs font-medium hover:bg-[#20ba59] transition shadow-sm flex items-center justify-center gap-2"
                       >
-                        Default Mail App
+                        <span>Chat on WhatsApp</span>
                       </a>
                       <button
                         onClick={() => {
@@ -271,6 +285,16 @@ ${formData.name}`;
                       />
                     </div>
 
+                    {/* Inline Error Message */}
+                    {formError && (
+                      <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2.5 animate-in fade-in">
+                        <svg className="w-4 h-4 flex-shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <span>{formError}</span>
+                      </div>
+                    )}
+
                     <button
                       type="submit"
                       disabled={isSubmitting}
@@ -322,7 +346,7 @@ ${formData.name}`;
                       Need Further Clarifications?
                     </h4>
                     <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed mt-0.5">
-                      Please feel free to call us at <strong className="text-slate-800">96059 32907</strong>, email us at <a href="mailto:idealcomputersmntdy@gmail.com" className="text-[#0066FF] font-medium hover:underline">idealcomputersmntdy@gmail.com</a>, or request an on-site engineer visit to your home or office anywhere in Wayanad.
+                      Please feel free to call us at <strong className="text-slate-800">96059 32907</strong>, email us at <a href="https://mail.google.com/mail/?view=cm&fs=1&to=idealcomputersmntdy@gmail.com" target="_blank" rel="noopener noreferrer" className="text-[#0066FF] font-medium hover:underline">idealcomputersmntdy@gmail.com</a>, or request an on-site engineer visit to your home or office anywhere in Wayanad.
                     </p>
                   </div>
                 </div>

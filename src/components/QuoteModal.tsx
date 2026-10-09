@@ -19,6 +19,7 @@ export default function QuoteModal({ isOpen, onClose, preselectedService }: Quot
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
@@ -48,40 +49,46 @@ ${formData.name}`;
       TARGET_EMAIL
     )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-    const mailtoUrl = `mailto:${TARGET_EMAIL}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
-
-    return { subject, body, gmailUrl, mailtoUrl };
+    return { subject, body, gmailUrl };
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.name.trim() || !formData.phone.trim()) {
+      setFormError("Please enter your Name and Phone number to continue.");
+      return;
+    }
+    setFormError(null);
+
     setIsSubmitting(true);
 
-    const { gmailUrl, mailtoUrl } = buildEmailUrls();
+    const { gmailUrl } = buildEmailUrls();
 
-    try {
-      await fetch("/api/quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-    } catch {
-      // Background logging fallback
-    } finally {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      // Open Gmail directly
-      const opened = window.open(gmailUrl, "_blank");
-      if (!opened) {
-        // Fallback if popup blocked
-        window.location.href = mailtoUrl;
-      }
+    // Open Google Gmail directly in a new tab immediately within user gesture
+    const opened = window.open(gmailUrl, "_blank");
+
+    // Asynchronously log the quote request to backend
+    fetch("/api/quote", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    }).catch(() => {
+      // background fallback
+    });
+
+    setIsSubmitting(false);
+    setSubmitted(true);
+
+    // If popup blocker intercepted the new tab, redirect directly to Google Gmail
+    if (!opened || opened.closed || typeof opened.closed === "undefined") {
+      window.location.href = gmailUrl;
     }
   };
 
-  const { gmailUrl, mailtoUrl } = buildEmailUrls();
+  const { gmailUrl } = buildEmailUrls();
+  const whatsappUrl = `https://wa.me/919605932907?text=${encodeURIComponent(
+    `Hi IDEAL IT, I am ${formData.name}. I would like to get a quote for ${formData.service}. Phone: ${formData.phone}`
+  )}`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
@@ -104,13 +111,13 @@ ${formData.name}`;
             </div>
             <h3 className="text-2xl font-light text-slate-900 mb-2">Quote Request Prepared!</h3>
             <p className="text-sm text-slate-600 mb-2">
-              Thank you, <strong className="text-slate-800">{formData.name}</strong>. We have opened Gmail addressed to:
+              Thank you, <strong className="text-slate-800">{formData.name}</strong>. Google Gmail has been opened with your quote details addressed to:
             </p>
             <div className="inline-block px-3.5 py-1.5 rounded-xl bg-blue-50 text-[#0066FF] font-medium text-xs mb-4 border border-blue-100">
               {TARGET_EMAIL}
             </div>
             <p className="text-xs text-slate-500 mb-6 max-w-sm mx-auto">
-              Please click <strong>Send</strong> in your Gmail window to deliver your quote request to our team.
+              Please click <strong>Send</strong> in your Google Gmail window to deliver your quote request.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -118,15 +125,20 @@ ${formData.name}`;
                 href={gmailUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"
               >
-                Open Gmail Compose
+                <span>Open Google Gmail</span>
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
               </a>
               <a
-                href={mailtoUrl}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-slate-100 text-slate-700 text-xs font-medium hover:bg-slate-200 transition"
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#25D366] text-white text-xs font-medium hover:bg-[#20ba59] transition shadow-sm flex items-center justify-center gap-2"
               >
-                Default Mail App
+                <span>Chat on WhatsApp</span>
               </a>
               <button
                 onClick={() => {
@@ -215,6 +227,16 @@ ${formData.name}`;
                   className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:bg-white focus:outline-none focus:border-[#0066FF] resize-none"
                 />
               </div>
+
+              {/* Error Message */}
+              {formError && (
+                <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2 animate-in fade-in">
+                  <svg className="w-4 h-4 flex-shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <span>{formError}</span>
+                </div>
+              )}
 
               <div className="pt-2">
                 <button

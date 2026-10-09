@@ -63,7 +63,7 @@ export default function AboutPage() {
 
               {/* Subheading */}
               <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
-                For over 15 years, IDEAL COMPUTERS &amp; IT SOLUTIONS has provided comprehensive technology sales, precision hardware maintenance, enterprise CCTV security, and networking across Kerala and India.
+                For over 15 years, IDEAL IT &amp; IT SOLUTIONS has provided comprehensive technology sales, precision hardware maintenance, enterprise CCTV security, and networking across Kerala and India.
               </p>
             </div>
           </div>
@@ -111,7 +111,7 @@ export default function AboutPage() {
                 </div>
 
                 <h2 className="text-3xl sm:text-4xl font-normal text-[#1E293B] leading-[1.2] tracking-[-0.025em]">
-                  A Name Built on Quality Work, <br />
+                  <span className="font-medium text-slate-900">IDEAL IT</span> — Built on Quality Work, <br />
                   <span className="text-[#0066FF]">Delivered on Right Time and in the Right Manner.</span>
                 </h2>
 
@@ -123,7 +123,7 @@ export default function AboutPage() {
                 {/* Body Paragraphs */}
                 <div className="space-y-4 text-[14.5px] sm:text-[15.5px] leading-relaxed text-slate-600 font-normal">
                   <p>
-                    <strong className="text-slate-900 font-medium">IDEAL COMPUTERS</strong> is a leading solution provider for IT-based applications, computing hardware, and critical infrastructure services for over a decade. We have assembled a dedicated team of highly experienced professionals committed to delivering <strong className="text-slate-900 font-medium">total IT solutions under one single roof</strong>.
+                    <strong className="text-slate-900 font-medium">IDEAL IT SOLUTIONS</strong> is a leading solution provider for IT-based applications, computing hardware, and critical infrastructure services for over a decade. We have assembled a dedicated team of highly experienced professionals committed to delivering <strong className="text-slate-900 font-medium">total IT solutions under one single roof</strong>.
                   </p>
                   <p>
                     Our operations are powered not only by the latest technology gadgets and diagnostic equipment, but also by seasoned hands capable of offering user-friendly, customized solutions tailored to specific commercial or residential requirements.
@@ -132,7 +132,7 @@ export default function AboutPage() {
                     With an established, extensive network across India, we deliver end-to-end IT solutions and hardware provisions to numerous private sector companies and growing enterprises.
                   </p>
                   <p className="text-slate-800 font-medium pt-1">
-                    We have made a recognized name in a relatively short span of time solely through our steadfast commitment to ensuring customer needs are met by rewarding them with <span className="text-[#0066FF]">quality work on the right time and in the right manner</span>.
+                    <strong className="text-slate-900">IDEAL IT SOLUTIONS</strong> has established a recognized and trusted reputation across Wayanad through our steadfast commitment to ensuring customer needs are met by rewarding them with <span className="text-[#0066FF]">quality work on the right time and in the right manner</span>.
                   </p>
                 </div>
 

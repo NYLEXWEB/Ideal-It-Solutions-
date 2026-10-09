@@ -13,14 +13,15 @@ export default function WarrantySection() {
     issueDescription: "",
   });
 
-  const [fileName, setFileName] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const TARGET_EMAIL = "idealcomputersmntdy@gmail.com";
 
   const buildWarrantyEmailUrls = () => {
     const subject = `Warranty Claim: ${formData.productBrand || "Hardware"} ${formData.productModel || ""} - ${formData.fullName}`;
+
     const body = `Hello IDEAL IT Team,
 
 I would like to submit an official warranty claim with the following details:
@@ -38,10 +39,6 @@ PRODUCT INFORMATION:
 ISSUE / DEFECT DETAILS:
 ${formData.issueDescription}
 
-ATTACHED INVOICE / PHOTO:
-- Selected File: ${fileName ? fileName : "No file selected"}
-${fileName ? `(Note: Please attach the file "${fileName}" to this email before sending.)` : ""}
-
 Thank you,
 ${formData.fullName}`;
 
@@ -49,39 +46,57 @@ ${formData.fullName}`;
       TARGET_EMAIL
     )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-    const mailtoUrl = `mailto:${TARGET_EMAIL}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+    const whatsappMessage = `*WARRANTY CLAIM - IDEAL IT SOLUTIONS*
+━━━━━━━━━━━━━━━━━━━━
+👤 *Customer:* ${formData.fullName}
+📱 *Phone:* ${formData.phoneNumber}
+✉️ *Email:* ${formData.emailAddress || "N/A"}
+🏷️ *Brand & Model:* ${formData.productBrand} ${formData.productModel || ""}
+📅 *Purchase Date:* ${formData.purchaseDate || "N/A"}
+⚠️ *Issue:* ${formData.issueDescription}
 
-    return { subject, body, gmailUrl, mailtoUrl };
+_Please verify and generate the RMA warranty service ticket._`;
+
+    const whatsappUrl = `https://wa.me/919605932907?text=${encodeURIComponent(
+      whatsappMessage
+    )}`;
+
+    return { subject, body, gmailUrl, whatsappUrl };
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.fullName.trim() || !formData.phoneNumber.trim()) {
+      setFormError("Please enter your name and phone number to continue.");
+      return;
+    }
+    setFormError(null);
     setIsSubmitting(true);
 
-    const { gmailUrl, mailtoUrl } = buildWarrantyEmailUrls();
+    const { gmailUrl } = buildWarrantyEmailUrls();
 
+    // 1. Send warranty claim details to backend
     try {
-      // Send to internal API endpoint
-      await fetch("/api/warranty", {
+      fetch("/api/warranty", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, invoiceFile: fileName }),
-      });
-    } catch {
-      // Fallback
-    } finally {
-      setIsSubmitting(false);
-      setSubmittedSuccess(true);
-      const opened = window.open(gmailUrl, "_blank");
-      if (!opened) {
-        window.location.href = mailtoUrl;
-      }
+        body: JSON.stringify(formData),
+      }).catch((err) => console.error("Warranty submission error:", err));
+    } catch (err) {
+      console.error("Warranty submission error:", err);
     }
+
+    // 2. Directly redirect / open Google Gmail web compose
+    const opened = window.open(gmailUrl, "_blank");
+    if (!opened || opened.closed || typeof opened.closed === "undefined") {
+      window.location.href = gmailUrl;
+    }
+
+    setIsSubmitting(false);
+    setSubmittedSuccess(true);
   };
 
-  const { gmailUrl, mailtoUrl } = buildWarrantyEmailUrls();
+  const { gmailUrl, whatsappUrl } = buildWarrantyEmailUrls();
 
   return (
     <section id="warranty" className="py-16 md:py-24 bg-white">
@@ -105,38 +120,50 @@ ${formData.fullName}`;
                   >
                     <path
                       d="M50 8L18 22V48C18 70 32 88 50 94C68 88 82 70 82 48V22L50 8Z"
-                      fill="url(#shield-grad)"
+                      fill="url(#shield-grad-1)"
                       stroke="#ffffff"
-                      strokeWidth="3.5"
+                      strokeWidth="2.5"
                     />
                     <path
-                      d="M38 48L46 56L64 36"
+                      d="M50 14L24 26V48C24 66 35 81 50 87C65 81 76 66 76 48V26L50 14Z"
+                      fill="url(#shield-grad-2)"
+                      opacity="0.8"
+                    />
+                    <path
+                      d="M38 48L46 56L64 38"
                       stroke="#ffffff"
                       strokeWidth="6"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
                     <defs>
-                      <linearGradient id="shield-grad" x1="18" y1="8" x2="82" y2="94" gradientUnits="userSpaceOnUse">
-                        <stop stopColor="#60A5FA" stopOpacity="0.85" />
-                        <stop offset="0.5" stopColor="#3B82F6" stopOpacity="0.9" />
-                        <stop offset="1" stopColor="#1D4ED8" stopOpacity="0.95" />
+                      <linearGradient id="shield-grad-1" x1="18" y1="8" x2="82" y2="94" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#38BDF8" />
+                        <stop offset="1" stopColor="#0066FF" />
+                      </linearGradient>
+                      <linearGradient id="shield-grad-2" x1="50" y1="14" x2="50" y2="87" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#ffffff" stopOpacity="0.4" />
+                        <stop offset="1" stopColor="#0052cc" stopOpacity="0.8" />
                       </linearGradient>
                     </defs>
                   </svg>
                 </div>
               </div>
 
-              {/* Text Information */}
-              <span className="text-[11px] font-medium tracking-[0.2em] text-[#0066FF] uppercase mb-2">
-                WARRANTY SUPPORT
+              {/* Eyebrow Pill */}
+              <span className="text-[11.5px] font-semibold tracking-[0.2em] text-[#0066FF] uppercase bg-blue-100/70 px-3.5 py-1.5 rounded-full mb-3 border border-blue-200">
+                100% OFFICIAL RMA SUPPORT
               </span>
-              <h2 className="text-3xl sm:text-4xl font-normal text-[#1E293B] tracking-[-0.025em] mb-4">
-                Claim Your Warranty
+
+              {/* Heading */}
+              <h2 className="text-2xl sm:text-3xl font-light text-[#1E293B] leading-tight tracking-[-0.02em] mb-4">
+                Fast &amp; Hassle-Free <br />
+                <span className="font-normal text-[#0066FF]">Warranty Support</span>
               </h2>
+
+              {/* Description */}
               <p className="text-[14px] font-normal text-[#64748B] leading-relaxed max-w-sm">
-                Facing an issue with a product? Fill out the form and we&apos;ll get
-                back to you quickly.
+                Facing an issue with a product? Fill out the form and we&apos;ll get back to you quickly.
               </p>
             </div>
 
@@ -151,23 +178,14 @@ ${formData.fullName}`;
                   </div>
                   <h3 className="text-xl font-medium text-slate-800">Warranty Claim Prepared!</h3>
                   <p className="text-sm text-slate-600 max-w-md mx-auto">
-                    Thank you, <strong className="text-slate-800">{formData.fullName || "valued customer"}</strong>. We have opened Gmail addressed to:
+                    Thank you, <strong className="text-slate-800">{formData.fullName || "valued customer"}</strong>. Google Gmail has been opened with your claim ticket addressed to:
                   </p>
                   <div className="inline-block px-3.5 py-1.5 rounded-xl bg-blue-50 text-[#0066FF] font-medium text-xs border border-blue-100">
                     {TARGET_EMAIL}
                   </div>
 
-                  {fileName && (
-                    <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 max-w-md mx-auto text-left">
-                      📎 <strong>Selected Attachment:</strong> {fileName}
-                      <p className="text-[11px] text-amber-700 mt-1">
-                        Please remember to attach your photo or bill in the opened Gmail draft before hitting Send!
-                      </p>
-                    </div>
-                  )}
-
                   <p className="text-xs text-slate-500 max-w-md mx-auto">
-                    Please click <strong>Send</strong> in Gmail so our service desk receives your claim ticket.
+                    Please click <strong>Send</strong> in Google Gmail so our service desk receives your claim ticket.
                   </p>
 
                   <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
@@ -175,15 +193,20 @@ ${formData.fullName}`;
                       href={gmailUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm"
+                      className="px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"
                     >
-                      Open Gmail Compose
+                      <span>Open Google Gmail</span>
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
                     </a>
                     <a
-                      href={mailtoUrl}
-                      className="px-5 py-2.5 rounded-full bg-slate-100 text-slate-700 text-xs font-medium hover:bg-slate-200 transition"
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-5 py-2.5 rounded-full bg-[#25D366] text-white text-xs font-medium hover:bg-[#20ba59] transition shadow-sm flex items-center justify-center gap-2"
                     >
-                      Default Mail App
+                      <span>Chat on WhatsApp</span>
                     </a>
                     <button
                       onClick={() => {
@@ -197,7 +220,6 @@ ${formData.fullName}`;
                           purchaseDate: "",
                           issueDescription: "",
                         });
-                        setFileName(null);
                       }}
                       className="px-5 py-2.5 rounded-full border border-slate-200 text-slate-600 text-xs font-medium hover:bg-slate-50 transition"
                     >
@@ -273,7 +295,7 @@ ${formData.fullName}`;
                     <div>
                       <input
                         type="text"
-                        placeholder="Product Model"
+                        placeholder="Product Model / Serial No"
                         value={formData.productModel}
                         onChange={(e) => setFormData({ ...formData, productModel: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl bg-white text-slate-800 text-sm border border-slate-200/80 focus:outline-none focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/10 placeholder-slate-400 transition"
@@ -303,50 +325,28 @@ ${formData.fullName}`;
                     />
                   </div>
 
-                  {/* Row 4: File Upload & Submit Button */}
-                  <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5 items-center">
-                    {/* Upload Field */}
-                    <div className="sm:col-span-8">
-                      <label className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/80 hover:bg-white border border-dashed border-blue-200 cursor-pointer transition">
-                        <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#0066FF] flex items-center justify-center flex-shrink-0">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                          </svg>
-                        </div>
-                        <div className="text-left overflow-hidden">
-                          <span className="text-xs font-medium text-slate-700 block truncate">
-                            {fileName ? fileName : "Upload Invoice / Photo (Optional)"}
-                          </span>
-                          <span className="text-[11px] text-slate-400 block">
-                            Click to upload or drag and drop
-                          </span>
-                        </div>
-                        <input
-                          type="file"
-                          accept="image/*,.pdf"
-                          className="hidden"
-                          onChange={(e) => {
-                            if (e.target.files?.[0]) {
-                              setFileName(e.target.files[0].name);
-                            }
-                          }}
-                        />
-                      </label>
+                  {/* Inline Error Message */}
+                  {formError && (
+                    <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2.5 animate-in fade-in">
+                      <svg className="w-4 h-4 flex-shrink-0 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                      <span>{formError}</span>
                     </div>
+                  )}
 
-                    {/* Submit CTA Button */}
-                    <div className="sm:col-span-4">
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full py-3.5 px-6 rounded-full bg-[#0066FF] hover:bg-[#0052cc] text-white text-sm font-medium shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.98] disabled:opacity-70"
-                      >
-                        <span>{isSubmitting ? "Submitting..." : "Submit Request"}</span>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                      </button>
-                    </div>
+                  {/* Submit CTA Button */}
+                  <div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 px-6 rounded-2xl bg-[#0066FF] hover:bg-[#0052cc] text-white text-sm font-medium shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.98] disabled:opacity-70 cursor-pointer"
+                    >
+                      <span>{isSubmitting ? "Submitting..." : "Submit Warranty Claim"}</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </button>
                   </div>
                 </form>
               )}

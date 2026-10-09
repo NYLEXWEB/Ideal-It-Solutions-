@@ -39,7 +39,7 @@ export default function AboutSection() {
 
             {/* Description Text */}
             <p className="text-[15px] sm:text-[16px] font-normal text-[#64748B] leading-relaxed mb-4">
-              We are proud to introduce ourselves as pioneers in sales and maintenance of computers and IT products since 2010. Built on professional, honest, and punctual service, IDEAL COMPUTERS has risen to become a leading total IT solution provider under one roof.
+              We are proud to introduce ourselves as pioneers in sales and maintenance of computers and IT products since 2010. Built on professional, honest, and punctual service, IDEAL IT has risen to become a leading total IT solution provider under one roof.
             </p>
 
             <p className="text-[14.5px] sm:text-[15.5px] font-normal text-[#64748B] leading-relaxed mb-8">
