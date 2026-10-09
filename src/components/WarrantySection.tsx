@@ -60,7 +60,7 @@ _Please verify and generate the RMA warranty service ticket._`;
   };
 
   const { subject, body, whatsappUrl } = buildDetails();
-  const { webGmailUrl, mailtoUrl } = buildGmailUrls({ subject, body });
+  const { webGmailUrl, mailtoUrl, smartUrl } = buildGmailUrls({ subject, body });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -181,7 +181,7 @@ _Please verify and generate the RMA warranty service ticket._`;
 
                   <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                     <a
-                      href={webGmailUrl}
+                      href={smartUrl || mailtoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"
@@ -301,11 +301,15 @@ _Please verify and generate the RMA warranty service ticket._`;
 
                     <div className="relative">
                       <input
-                        type="date"
-                        placeholder="Purchase Date"
+                        type={formData.purchaseDate ? "date" : "text"}
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => {
+                          if (!e.target.value) e.target.type = "text";
+                        }}
+                        placeholder="Approx. Purchase Date"
                         value={formData.purchaseDate}
                         onChange={(e) => setFormData({ ...formData, purchaseDate: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl bg-white text-slate-800 text-sm border border-slate-200/80 focus:outline-none focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/10 transition"
+                        className="w-full px-4 py-3 rounded-xl bg-white text-slate-800 text-sm border border-slate-200/80 focus:outline-none focus:border-[#0066FF] focus:ring-2 focus:ring-[#0066FF]/10 placeholder-slate-400 transition"
                       />
                     </div>
                   </div>

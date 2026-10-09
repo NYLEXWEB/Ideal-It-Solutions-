@@ -76,7 +76,7 @@ _I look forward to hearing from you._`;
   };
 
   const { subject, body, whatsappUrl, role } = buildDetails();
-  const { webGmailUrl, mailtoUrl } = buildGmailUrls({ subject, body });
+  const { webGmailUrl, mailtoUrl, smartUrl } = buildGmailUrls({ subject, body });
 
   const handleFormSubmit = async (channel: "gmail" | "whatsapp", e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -173,7 +173,7 @@ _I look forward to hearing from you._`;
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3">
                   <a
-                    href={webGmailUrl}
+                    href={smartUrl || mailtoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full sm:w-auto px-6 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"
@@ -381,9 +381,7 @@ _I look forward to hearing from you._`;
             </a>
             <span className="mx-2">&bull;</span>
             <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=idealcomputersmntdy@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:idealcomputersmntdy@gmail.com"
               className="text-[#0066FF] font-medium hover:underline"
             >
               idealcomputersmntdy@gmail.com

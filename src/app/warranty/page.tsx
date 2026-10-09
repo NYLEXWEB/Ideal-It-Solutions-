@@ -67,7 +67,7 @@ _Please verify and generate the RMA warranty service ticket._`;
   };
 
   const { subject, body, whatsappUrl } = buildDetails();
-  const { webGmailUrl, mailtoUrl } = buildGmailUrls({ subject, body });
+  const { webGmailUrl, mailtoUrl, smartUrl } = buildGmailUrls({ subject, body });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -174,7 +174,7 @@ _Please verify and generate the RMA warranty service ticket._`;
 
                     <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                       <a
-                        href={webGmailUrl}
+                        href={smartUrl || mailtoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"
@@ -429,9 +429,7 @@ _Please verify and generate the RMA warranty service ticket._`;
                       <span>Call: 96059 32907</span>
                     </a>
                     <a
-                      href="https://mail.google.com/mail/?view=cm&fs=1&to=idealcomputersmntdy@gmail.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="mailto:idealcomputersmntdy@gmail.com"
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:bg-slate-100"
                     >
                       <span>idealcomputersmntdy@gmail.com</span>

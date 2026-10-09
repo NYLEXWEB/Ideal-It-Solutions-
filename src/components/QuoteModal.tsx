@@ -48,7 +48,7 @@ ${formData.name}`;
   };
 
   const { subject, body } = buildDetails();
-  const { webGmailUrl, mailtoUrl } = buildGmailUrls({ subject, body });
+  const { webGmailUrl, mailtoUrl, smartUrl } = buildGmailUrls({ subject, body });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,7 +111,7 @@ ${formData.name}`;
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
-                href={webGmailUrl}
+                href={smartUrl || mailtoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"

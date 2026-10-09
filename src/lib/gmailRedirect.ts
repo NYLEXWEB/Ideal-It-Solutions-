@@ -12,9 +12,19 @@ export interface EmailOptions {
 
 export interface EmailUrls {
   webGmailUrl: string;
+  smartUrl: string;
+  mailtoUrl: string;
   androidIntentUrl: string;
   iosGmailUrl: string;
-  mailtoUrl: string;
+}
+
+export function isMobileDevice(): boolean {
+  if (typeof window === "undefined") return false;
+  const ua = navigator.userAgent || navigator.vendor || (window as unknown as { opera?: string }).opera || "";
+  return (
+    /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  );
 }
 
 /**
@@ -29,32 +39,34 @@ export function buildGmailUrls({
   const encodedSubject = encodeURIComponent(subject);
   const encodedBody = encodeURIComponent(body);
 
-  // 1. Desktop / Laptop Web Gmail compose URL
+  // Standard mailto URL (opens native Gmail / Mail app with To, Subject, Body pre-filled)
+  const mailtoUrl = `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`;
+
+  // Desktop Web Gmail compose URL
   const webGmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${encodedSubject}&body=${encodedBody}`;
 
-  // 2. Android Intent targeting Gmail app with fallback to Gmail Web
-  const androidIntentUrl = `intent:mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}#Intent;action=android.intent.action.SENDTO;package=com.google.android.gm;S.browser_fallback_url=${encodeURIComponent(
-    webGmailUrl
-  )};end`;
+  // Android Intent targeting Gmail app directly with mailto fallback
+  const androidIntentUrl = `intent:mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}#Intent;action=android.intent.action.SENDTO;package=com.google.android.gm;end`;
 
-  // 3. iOS Gmail App URL Scheme
+  // iOS Gmail App URL Scheme
   const iosGmailUrl = `googlegmail:///co?to=${recipient}&subject=${encodedSubject}&body=${encodedBody}`;
 
-  // 4. Universal mailto URL (fallback for all devices / custom email clients)
-  const mailtoUrl = `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`;
+  // Smart URL based on client device: On mobile, use mailto to avoid Google's mobile web redirect; on desktop use Gmail Web compose
+  const smartUrl = isMobileDevice() ? mailtoUrl : webGmailUrl;
 
   return {
     webGmailUrl,
+    smartUrl,
+    mailtoUrl,
     androidIntentUrl,
     iosGmailUrl,
-    mailtoUrl,
   };
 }
 
 /**
  * Triggers direct redirection to Gmail:
- * - Mobile: Opens Gmail App directly (Android intent / iOS URL scheme) with fallback
- * - Desktop / Laptop: Opens Gmail Web directly in a new tab (or current window if popup blocked)
+ * - Mobile: Launches Gmail app / native mail composer directly with pre-filled fields (prevents Google mobile web inbox redirect)
+ * - Desktop / Laptop: Opens Gmail Web compose directly in a new tab
  */
 export function openGmailCompose({
   to = COMPANY_EMAIL,
@@ -63,7 +75,7 @@ export function openGmailCompose({
 }: EmailOptions): void {
   if (typeof window === "undefined") return;
 
-  const { webGmailUrl, androidIntentUrl, iosGmailUrl } = buildGmailUrls({
+  const { webGmailUrl, mailtoUrl, androidIntentUrl, iosGmailUrl } = buildGmailUrls({
     to,
     subject,
     body,
@@ -72,36 +84,49 @@ export function openGmailCompose({
   const ua = navigator.userAgent || "";
   const isAndroid = /Android/i.test(ua);
   const isIOS =
-    /iPhone|iPad|iPod/i.test(ua) ||
+    /iPhone|iPad|iPod/.test(ua) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const isMobile = isAndroid || isIOS || /Mobile|Mobi/i.test(ua);
 
-  if (isAndroid) {
-    try {
-      window.location.href = androidIntentUrl;
-    } catch {
-      window.location.href = webGmailUrl;
-    }
-    return;
-  }
-
-  if (isIOS) {
-    const startTime = Date.now();
-    try {
-      window.location.href = iosGmailUrl;
-    } catch {
-      window.location.href = webGmailUrl;
-    }
-
-    // Fallback if Gmail App is not installed on iOS device
-    setTimeout(() => {
-      if (!document.hidden && Date.now() - startTime < 2500) {
-        window.location.href = webGmailUrl;
+  if (isMobile) {
+    if (isAndroid) {
+      // 1. Try launching Android Gmail App directly
+      try {
+        window.location.href = androidIntentUrl;
+        setTimeout(() => {
+          if (!document.hidden) {
+            window.location.href = mailtoUrl;
+          }
+        }, 600);
+      } catch {
+        window.location.href = mailtoUrl;
       }
-    }, 1200);
+      return;
+    }
+
+    if (isIOS) {
+      // 2. Try launching iOS Gmail App directly, fallback to standard mailto
+      const startTime = Date.now();
+      try {
+        window.location.href = iosGmailUrl;
+      } catch {
+        window.location.href = mailtoUrl;
+      }
+
+      setTimeout(() => {
+        if (!document.hidden && Date.now() - startTime < 2000) {
+          window.location.href = mailtoUrl;
+        }
+      }, 800);
+      return;
+    }
+
+    // Generic Mobile fallback
+    window.location.href = mailtoUrl;
     return;
   }
 
-  // Laptop / Desktop: Open Gmail Web directly in a new tab
+  // Desktop / Laptop: Open Gmail Web compose directly in a new tab
   try {
     const opened = window.open(webGmailUrl, "_blank", "noopener,noreferrer");
     if (!opened || opened.closed || typeof opened.closed === "undefined") {

@@ -303,9 +303,7 @@ export default function Footer({
               <div className="flex items-center gap-1.5 pt-0.5">
                 <span className="text-xs text-slate-400">Email:</span>
                 <a
-                  href="https://mail.google.com/mail/?view=cm&fs=1&to=idealcomputersmntdy@gmail.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="mailto:idealcomputersmntdy@gmail.com"
                   className="text-[#0066FF] font-medium text-xs hover:underline truncate"
                 >
                   idealcomputersmntdy@gmail.com

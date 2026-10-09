@@ -47,7 +47,7 @@ ${formData.name}`;
   };
 
   const { subject, body } = buildDetails();
-  const { webGmailUrl, mailtoUrl } = buildGmailUrls({ subject, body });
+  const { webGmailUrl, mailtoUrl, smartUrl } = buildGmailUrls({ subject, body });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -160,7 +160,7 @@ ${formData.name}`;
                     </p>
                     <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                       <a
-                        href={webGmailUrl}
+                        href={smartUrl || mailtoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"
@@ -341,7 +341,7 @@ ${formData.name}`;
                       Need Further Clarifications?
                     </h4>
                     <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed mt-0.5">
-                      Please feel free to call us at <strong className="text-slate-800">96059 32907</strong>, email us at <a href="https://mail.google.com/mail/?view=cm&fs=1&to=idealcomputersmntdy@gmail.com" target="_blank" rel="noopener noreferrer" className="text-[#0066FF] font-medium hover:underline">idealcomputersmntdy@gmail.com</a>, or request an on-site engineer visit to your home or office anywhere in Wayanad.
+                      Please feel free to call us at <strong className="text-slate-800">96059 32907</strong>, email us at <a href="mailto:idealcomputersmntdy@gmail.com" className="text-[#0066FF] font-medium hover:underline">idealcomputersmntdy@gmail.com</a>, or request an on-site engineer visit to your home or office anywhere in Wayanad.
                     </p>
                   </div>
                 </div>
