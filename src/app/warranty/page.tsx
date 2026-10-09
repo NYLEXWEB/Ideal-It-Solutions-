@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloating from "@/components/WhatsAppFloating";
 import QuoteModal from "@/components/QuoteModal";
+import { buildGmailUrls, openGmailCompose, COMPANY_EMAIL } from "@/lib/gmailRedirect";
 
 export default function WarrantyPage() {
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
@@ -24,9 +25,7 @@ export default function WarrantyPage() {
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const TARGET_EMAIL = "idealcomputersmntdy@gmail.com";
-
-  const buildWarrantyEmailUrls = () => {
+  const buildDetails = () => {
     const subject = `Warranty Claim: ${formData.productBrand || "Hardware"} ${formData.productModel || ""} - ${formData.fullName}`;
 
     const body = `Hello IDEAL IT Team,
@@ -40,7 +39,7 @@ CUSTOMER INFORMATION:
 
 PRODUCT DETAILS:
 - Product Brand: ${formData.productBrand}
-- Model / Serial Number: ${formData.productModel || "N/A"}
+- Model / Serial Number: ${formData.productModel || "N/A"}${formData.serialNumber ? ` (Serial: ${formData.serialNumber})` : ""}
 - Approx. Purchase Date: ${formData.purchaseDate || "N/A"}
 
 ISSUE / DEFECT DESCRIPTION:
@@ -48,10 +47,6 @@ ${formData.issueDescription}
 
 Thank you,
 ${formData.fullName}`;
-
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
-      TARGET_EMAIL
-    )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
     const whatsappMessage = `*WARRANTY CLAIM - IDEAL IT SOLUTIONS*
 ━━━━━━━━━━━━━━━━━━━━
@@ -68,8 +63,11 @@ _Please verify and generate the RMA warranty service ticket._`;
       whatsappMessage
     )}`;
 
-    return { subject, body, gmailUrl, whatsappUrl };
+    return { subject, body, whatsappUrl };
   };
+
+  const { subject, body, whatsappUrl } = buildDetails();
+  const { webGmailUrl, mailtoUrl } = buildGmailUrls({ subject, body });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,9 +78,10 @@ _Please verify and generate the RMA warranty service ticket._`;
     setFormError(null);
     setIsSubmitting(true);
 
-    const { gmailUrl } = buildWarrantyEmailUrls();
+    // 1. Immediately trigger Gmail redirection (app on mobile, web compose on desktop)
+    openGmailCompose({ subject, body });
 
-    // 1. Send warranty claim details to backend
+    // 2. Send warranty claim details to backend
     try {
       fetch("/api/warranty", {
         method: "POST",
@@ -93,17 +92,9 @@ _Please verify and generate the RMA warranty service ticket._`;
       console.error("Warranty submission error:", err);
     }
 
-    // 2. Directly redirect / open Google Gmail web compose
-    const opened = window.open(gmailUrl, "_blank");
-    if (!opened || opened.closed || typeof opened.closed === "undefined") {
-      window.location.href = gmailUrl;
-    }
-
     setIsSubmitting(false);
     setSubmittedSuccess(true);
   };
-
-  const { gmailUrl, whatsappUrl } = buildWarrantyEmailUrls();
 
   return (
     <div className="min-h-screen flex flex-col bg-white selection:bg-[#0066FF] selection:text-white font-sans antialiased text-[#1E293B]">
@@ -171,27 +162,33 @@ _Please verify and generate the RMA warranty service ticket._`;
                       Warranty Ticket Prepared!
                     </h3>
                     <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto">
-                      Thank you, <strong className="text-slate-800">{formData.fullName}</strong>. Google Gmail has been opened addressed to:
+                      Thank you, <strong className="text-slate-800">{formData.fullName}</strong>. Gmail has been opened addressed to:
                     </p>
                     <div className="inline-block px-3.5 py-1.5 rounded-xl bg-blue-50 text-[#0066FF] font-medium text-xs border border-blue-100">
-                      {TARGET_EMAIL}
+                      {COMPANY_EMAIL}
                     </div>
 
                     <p className="text-xs text-slate-500 max-w-md mx-auto">
-                      Please click <strong>Send</strong> in Google Gmail so our technical desk can process your warranty verification.
+                      Please click <strong>Send</strong> in Gmail so our technical desk can process your warranty verification.
                     </p>
 
                     <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                       <a
-                        href={gmailUrl}
+                        href={webGmailUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"
                       >
-                        <span>Open Google Gmail</span>
+                        <span>Open Gmail</span>
                         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
+                      </a>
+                      <a
+                        href={mailtoUrl}
+                        className="px-5 py-2.5 rounded-full border border-blue-200 text-[#0066FF] text-xs font-medium hover:bg-blue-50 transition shadow-sm flex items-center justify-center gap-2"
+                      >
+                        <span>Default Mail App</span>
                       </a>
                       <a
                         href={whatsappUrl}

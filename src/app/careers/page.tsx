@@ -6,8 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppFloating from "@/components/WhatsAppFloating";
 import QuoteModal from "@/components/QuoteModal";
+import { buildGmailUrls, openGmailCompose, COMPANY_EMAIL } from "@/lib/gmailRedirect";
 
-const TARGET_EMAIL = "idealcomputersmntdy@gmail.com";
 const TARGET_PHONE_WHATSAPP = "919605932907";
 
 export default function CareersPage() {
@@ -34,7 +34,7 @@ export default function CareersPage() {
     return formData.category;
   };
 
-  const buildCleanUrls = () => {
+  const buildDetails = () => {
     const role = getEffectiveRole();
     const subject = `Job Application: ${role} - ${formData.fullName}`;
 
@@ -56,10 +56,6 @@ Thank you,
 ${formData.fullName}
 Phone: ${formData.phoneNumber}`;
 
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
-      TARGET_EMAIL
-    )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
     const whatsappMessage = `*JOB APPLICATION - IDEAL IT SOLUTIONS*
 ━━━━━━━━━━━━━━━━━━━━
 👤 *Name:* ${formData.fullName}
@@ -76,11 +72,14 @@ _I look forward to hearing from you._`;
       whatsappMessage
     )}`;
 
-    return { subject, body, gmailUrl, whatsappUrl, role };
+    return { subject, body, whatsappUrl, role };
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const { subject, body, whatsappUrl, role } = buildDetails();
+  const { webGmailUrl, mailtoUrl } = buildGmailUrls({ subject, body });
+
+  const handleFormSubmit = async (channel: "gmail" | "whatsapp", e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!formData.fullName.trim() || !formData.phoneNumber.trim()) {
       setFormError("Please fill in your Full Name and Phone Number.");
       return;
@@ -88,10 +87,20 @@ _I look forward to hearing from you._`;
     setFormError(null);
     setIsSubmitting(true);
 
-    const role = getEffectiveRole();
-    const { gmailUrl } = buildCleanUrls();
+    const currentRole = getEffectiveRole();
+    const { subject, body, whatsappUrl } = buildDetails();
 
-    // 1. Send application details directly to backend
+    // 1. Immediately trigger redirection according to chosen channel
+    if (channel === "gmail") {
+      openGmailCompose({ subject, body });
+    } else {
+      const opened = window.open(whatsappUrl, "_blank");
+      if (!opened || opened.closed || typeof opened.closed === "undefined") {
+        window.location.href = whatsappUrl;
+      }
+    }
+
+    // 2. Send application details directly to backend
     try {
       fetch("/api/careers", {
         method: "POST",
@@ -100,7 +109,7 @@ _I look forward to hearing from you._`;
           fullName: formData.fullName,
           phoneNumber: formData.phoneNumber,
           emailAddress: formData.emailAddress,
-          position: role,
+          position: currentRole,
           location: formData.location,
           message: formData.message,
         }),
@@ -109,17 +118,9 @@ _I look forward to hearing from you._`;
       console.error("Submission error:", err);
     }
 
-    // 2. Directly redirect / open Google Gmail web compose
-    const opened = window.open(gmailUrl, "_blank");
-    if (!opened || opened.closed || typeof opened.closed === "undefined") {
-      window.location.href = gmailUrl;
-    }
-
     setIsSubmitting(false);
     setIsSubmitted(true);
   };
-
-  const { gmailUrl, whatsappUrl, role } = buildCleanUrls();
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f8fbfe] selection:bg-[#0066FF] selection:text-white font-sans antialiased text-[#1E293B]">
@@ -167,10 +168,27 @@ _I look forward to hearing from you._`;
                 </p>
 
                 <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                  You can also connect with us on WhatsApp or Google Gmail for quick status updates:
+                  Gmail has been opened addressed to <strong>{COMPANY_EMAIL}</strong>. You can also connect with us via the options below:
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3">
+                  <a
+                    href={webGmailUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto px-6 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"
+                  >
+                    <span>Open Gmail</span>
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                  <a
+                    href={mailtoUrl}
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-full border border-blue-200 text-[#0066FF] text-xs font-medium hover:bg-blue-50 transition shadow-sm flex items-center justify-center gap-2"
+                  >
+                    <span>Default Mail App</span>
+                  </a>
                   <a
                     href={whatsappUrl}
                     target="_blank"
@@ -181,14 +199,6 @@ _I look forward to hearing from you._`;
                       <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
                     </svg>
                     <span>Chat on WhatsApp</span>
-                  </a>
-                  <a
-                    href={gmailUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-6 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"
-                  >
-                    <span>Open in Google Gmail</span>
                   </a>
                   <button
                     onClick={() => {
@@ -210,7 +220,7 @@ _I look forward to hearing from you._`;
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={(e) => handleFormSubmit("gmail", e)} className="space-y-4">
                 {/* 1. Name & Phone */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -331,18 +341,33 @@ _I look forward to hearing from you._`;
                   </div>
                 )}
 
-                {/* 5. Submit Button */}
+                {/* 5. Dual Submit Buttons */}
                 <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full py-3.5 rounded-2xl bg-[#0066FF] hover:bg-[#0052cc] text-white text-sm font-medium transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-70"
-                  >
-                    <span>{isSubmitting ? "Submitting Application..." : "Submit Application"}</span>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </button>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      disabled={isSubmitting}
+                      onClick={(e) => handleFormSubmit("gmail", e)}
+                      className="w-full py-3.5 px-4 rounded-2xl bg-[#0066FF] hover:bg-[#0052cc] text-white text-sm font-medium transition shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 cursor-pointer active:scale-98 disabled:opacity-70"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      <span>Submit via Gmail</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      disabled={isSubmitting}
+                      onClick={(e) => handleFormSubmit("whatsapp", e)}
+                      className="w-full py-3.5 px-4 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] text-white text-sm font-medium transition shadow-md hover:shadow-lg flex items-center justify-center gap-2.5 cursor-pointer active:scale-98 disabled:opacity-70"
+                    >
+                      <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                      </svg>
+                      <span>Submit via WhatsApp</span>
+                    </button>
+                  </div>
                 </div>
               </form>
             )}

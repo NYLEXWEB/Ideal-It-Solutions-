@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { buildGmailUrls, openGmailCompose, COMPANY_EMAIL } from "@/lib/gmailRedirect";
 
 interface QuoteModalProps {
   isOpen: boolean;
@@ -23,9 +24,7 @@ export default function QuoteModal({ isOpen, onClose, preselectedService }: Quot
 
   if (!isOpen) return null;
 
-  const TARGET_EMAIL = "idealcomputersmntdy@gmail.com";
-
-  const buildEmailUrls = () => {
+  const buildDetails = () => {
     const subject = `Quote Request: ${formData.service} - ${formData.name}`;
     const body = `Hello IDEAL IT Team,
 
@@ -45,12 +44,11 @@ ${formData.requirements || "None specified"}
 Thank you,
 ${formData.name}`;
 
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
-      TARGET_EMAIL
-    )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-    return { subject, body, gmailUrl };
+    return { subject, body };
   };
+
+  const { subject, body } = buildDetails();
+  const { webGmailUrl, mailtoUrl } = buildGmailUrls({ subject, body });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,15 +57,12 @@ ${formData.name}`;
       return;
     }
     setFormError(null);
-
     setIsSubmitting(true);
 
-    const { gmailUrl } = buildEmailUrls();
+    // 1. Immediately trigger Gmail redirection (app on mobile, web compose on desktop)
+    openGmailCompose({ subject, body });
 
-    // Open Google Gmail directly in a new tab immediately within user gesture
-    const opened = window.open(gmailUrl, "_blank");
-
-    // Asynchronously log the quote request to backend
+    // 2. Asynchronously log quote to backend
     fetch("/api/quote", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -78,14 +73,8 @@ ${formData.name}`;
 
     setIsSubmitting(false);
     setSubmitted(true);
-
-    // If popup blocker intercepted the new tab, redirect directly to Google Gmail
-    if (!opened || opened.closed || typeof opened.closed === "undefined") {
-      window.location.href = gmailUrl;
-    }
   };
 
-  const { gmailUrl } = buildEmailUrls();
   const whatsappUrl = `https://wa.me/919605932907?text=${encodeURIComponent(
     `Hi IDEAL IT, I am ${formData.name}. I would like to get a quote for ${formData.service}. Phone: ${formData.phone}`
   )}`;
@@ -111,26 +100,32 @@ ${formData.name}`;
             </div>
             <h3 className="text-2xl font-light text-slate-900 mb-2">Quote Request Prepared!</h3>
             <p className="text-sm text-slate-600 mb-2">
-              Thank you, <strong className="text-slate-800">{formData.name}</strong>. Google Gmail has been opened with your quote details addressed to:
+              Thank you, <strong className="text-slate-800">{formData.name}</strong>. Gmail has been opened with your quote details addressed to:
             </p>
             <div className="inline-block px-3.5 py-1.5 rounded-xl bg-blue-50 text-[#0066FF] font-medium text-xs mb-4 border border-blue-100">
-              {TARGET_EMAIL}
+              {COMPANY_EMAIL}
             </div>
             <p className="text-xs text-slate-500 mb-6 max-w-sm mx-auto">
-              Please click <strong>Send</strong> in your Google Gmail window to deliver your quote request.
+              Please click <strong>Send</strong> in Gmail to deliver your quote request.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
-                href={gmailUrl}
+                href={webGmailUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#0066FF] text-white text-xs font-medium hover:bg-[#0052cc] transition shadow-sm flex items-center justify-center gap-2"
               >
-                <span>Open Google Gmail</span>
+                <span>Open Gmail</span>
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
+              </a>
+              <a
+                href={mailtoUrl}
+                className="w-full sm:w-auto px-5 py-2.5 rounded-full border border-blue-200 text-[#0066FF] text-xs font-medium hover:bg-blue-50 transition shadow-sm flex items-center justify-center gap-2"
+              >
+                <span>Default Mail App</span>
               </a>
               <a
                 href={whatsappUrl}
