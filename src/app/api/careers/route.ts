@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { sendEmailWithAttachment } from "@/lib/mailer";
+import { writeFile, mkdir } from "fs/promises";
+import path from "path";
 
 export async function POST(req: Request) {
   try {
@@ -10,6 +12,7 @@ export async function POST(req: Request) {
     let location = "";
     let message = "";
     let resumeFile: File | null = null;
+    let savedFileUrl = "";
 
     const contentType = req.headers.get("content-type") || "";
 
@@ -22,6 +25,7 @@ export async function POST(req: Request) {
       location = (formData.get("location") as string) || "Wayanad, Kerala";
       message = (formData.get("message") as string) || "";
       resumeFile = formData.get("resume") as File | null;
+      savedFileUrl = (formData.get("resumeUrl") as string) || "";
     } else {
       const data = await req.json();
       fullName = data.fullName || "";
@@ -30,6 +34,7 @@ export async function POST(req: Request) {
       position = data.position || "General IT Role";
       location = data.location || "Wayanad, Kerala";
       message = data.message || "";
+      savedFileUrl = data.resumeUrl || "";
     }
 
     if (!fullName || !phoneNumber) {
@@ -44,6 +49,20 @@ export async function POST(req: Request) {
     if (resumeFile && typeof resumeFile.arrayBuffer === "function") {
       const bytes = await resumeFile.arrayBuffer();
       const buffer = Buffer.from(bytes);
+
+      // Save locally in public/uploads folder
+      try {
+        const cleanName = resumeFile.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const uniqueFileName = `${Date.now()}_${cleanName}`;
+        const uploadsDir = path.join(process.cwd(), "public", "uploads");
+        await mkdir(uploadsDir, { recursive: true });
+        const filePath = path.join(uploadsDir, uniqueFileName);
+        await writeFile(filePath, buffer);
+        savedFileUrl = `/uploads/${uniqueFileName}`;
+      } catch (saveErr) {
+        console.error("Local file save error:", saveErr);
+      }
+
       attachments.push({
         filename: resumeFile.name || "Candidate_Resume.pdf",
         content: buffer,
@@ -112,6 +131,7 @@ ${message || "Interested in joining the IDEAL IT team."}`;
       success: true,
       message: "Application delivered successfully.",
       applicationId: `IDL-CAR-${Date.now().toString().slice(-6)}`,
+      fileUrl: savedFileUrl,
     });
   } catch (error) {
     console.error("Career application error:", error);

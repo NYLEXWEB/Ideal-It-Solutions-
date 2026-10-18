@@ -7,6 +7,9 @@ export default function BrandLogos() {
     { name: "HP", src: "/images/partners/hp.png", className: "h-9 w-9" },
     { name: "Dell", src: "/images/partners/dell.png", className: "h-9 w-9" },
     { name: "Acer", src: "/images/partners/acer.png", className: "h-6 w-24" },
+    { name: "Zebronics", src: "/images/partners/zebronics.png", className: "h-7 w-28" },
+    { name: "Fingers", src: "/images/partners/fingers.png", className: "h-7 w-24" },
+    { name: "Artis", src: "/images/partners/artis.png", className: "h-6 w-20" },
     { name: "Honeywell", src: "/images/partners/honeywell.png", className: "h-6 w-28" },
     { name: "Dahua Technology", src: "/images/partners/dahua.png", className: "h-7 w-28" },
     { name: "Hikvision", src: "/images/partners/hikvision.png", className: "h-6 w-28" },
@@ -39,7 +42,7 @@ export default function BrandLogos() {
                 src={partner.src}
                 alt={`${partner.name} Authorized Partner`}
                 fill
-                className="object-contain"
+                className="object-contain mix-blend-multiply"
                 sizes="150px"
               />
             </div>
@@ -55,7 +58,7 @@ export default function BrandLogos() {
                 src={partner.src}
                 alt={`${partner.name} Authorized Partner`}
                 fill
-                className="object-contain"
+                className="object-contain mix-blend-multiply"
                 sizes="150px"
               />
             </div>

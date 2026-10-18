@@ -52,7 +52,7 @@ ${formData.fullName}`;
 
 _Please verify and generate the RMA warranty service ticket._`;
 
-    const whatsappUrl = `https://wa.me/919605932907?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/918129059275?text=${encodeURIComponent(
       whatsappMessage
     )}`;
 

@@ -59,7 +59,7 @@ ${formData.fullName}`;
 
 _Please verify and generate the RMA warranty service ticket._`;
 
-    const whatsappUrl = `https://wa.me/919605932907?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/918129059275?text=${encodeURIComponent(
       whatsappMessage
     )}`;
 
@@ -436,12 +436,12 @@ _Please verify and generate the RMA warranty service ticket._`;
                       <span>idealcomputersmntdy@gmail.com</span>
                     </a>
                     <a
-                      href="https://wa.me/919605932907?text=Hi%20IDEAL%20IT%2C%20I%20want%20to%20check%20my%20warranty%20claim%20status."
+                      href="https://wa.me/918129059275?text=Hi%20Ideal%20Solutions%20Kannur%2C%20I%20want%20to%20check%20my%20warranty%20claim%20status."
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-medium hover:bg-slate-100"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366] text-white text-xs font-medium hover:bg-[#20ba59] shadow-sm transition"
                     >
-                      <span>WhatsApp Desk</span>
+                      <span>WhatsApp Warranty Desk</span>
                     </a>
                   </div>
                 </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -23,6 +23,12 @@ export default function CareersPage() {
     message: "",
   });
 
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const [cvFileUrl, setCvFileUrl] = useState<string>("");
+  const [isUploadingCv, setIsUploadingCv] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -34,9 +40,70 @@ export default function CareersPage() {
     return formData.category;
   };
 
+  const handleFileSelect = async (file: File) => {
+    // Validate file size (10MB max)
+    if (file.size > 10 * 1024 * 1024) {
+      setFormError("The selected file exceeds 10MB. Please choose a smaller PDF or image.");
+      return;
+    }
+
+    setFormError(null);
+    setCvFile(file);
+    setIsUploadingCv(true);
+
+    try {
+      const uploadData = new FormData();
+      uploadData.append("file", file);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: uploadData,
+      });
+
+      if (res.ok) {
+        const json = await res.json();
+        if (json.fileUrl) {
+          setCvFileUrl(json.fileUrl);
+        }
+      }
+    } catch (err) {
+      console.error("Local CV upload error:", err);
+    } finally {
+      setIsUploadingCv(false);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleFileSelect(file);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      handleFileSelect(file);
+    }
+  };
+
+  const handleRemoveCv = () => {
+    setCvFile(null);
+    setCvFileUrl("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const buildDetails = () => {
     const role = getEffectiveRole();
     const subject = `Job Application: ${role} - ${formData.fullName}`;
+
+    // Get origin URL for public download link if hosted
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const resumeDownloadLink = cvFileUrl ? `${origin}${cvFileUrl}` : "";
 
     const body = `Hello IDEAL IT Solutions Team,
 
@@ -48,6 +115,8 @@ CANDIDATE DETAILS:
 - Phone (WhatsApp): ${formData.phoneNumber}
 - Email: ${formData.emailAddress || "Not provided"}
 - Location: ${formData.location || "Wayanad / Kerala"}
+${cvFile ? `- CV / Resume: ${cvFile.name} (Uploaded)` : "- CV: None attached"}
+${resumeDownloadLink ? `- Direct Resume Link: ${resumeDownloadLink}` : ""}
 
 NOTE / MESSAGE:
 ${formData.message || "I am interested in working with the IDEAL IT Solutions team."}
@@ -63,6 +132,8 @@ Phone: ${formData.phoneNumber}`;
 ✉️ *Email:* ${formData.emailAddress || "N/A"}
 💼 *Role / Category:* ${role}
 📍 *Location:* ${formData.location || "Wayanad"}
+${cvFile ? `📄 *CV / Resume Attached:* ${cvFile.name}` : ""}
+${resumeDownloadLink ? `🔗 *Download CV:* ${resumeDownloadLink}` : ""}
 📝 *Message:*
 ${formData.message || "Interested in joining the IDEAL IT team."}
 
@@ -72,11 +143,8 @@ _I look forward to hearing from you._`;
       whatsappMessage
     )}`;
 
-    return { subject, body, whatsappUrl, role };
+    return { subject, body, whatsappUrl, role, whatsappMessage };
   };
-
-  const { subject, body, whatsappUrl, role } = buildDetails();
-  const { webGmailUrl, mailtoUrl, smartUrl } = buildGmailUrls({ subject, body });
 
   const handleFormSubmit = async (channel: "gmail" | "whatsapp", e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -88,32 +156,65 @@ _I look forward to hearing from you._`;
     setIsSubmitting(true);
 
     const currentRole = getEffectiveRole();
-    const { subject, body, whatsappUrl } = buildDetails();
+    const { subject, body, whatsappUrl, whatsappMessage } = buildDetails();
 
     // 1. Immediately trigger redirection according to chosen channel
     if (channel === "gmail") {
       openGmailCompose({ subject, body });
     } else {
-      const opened = window.open(whatsappUrl, "_blank");
-      if (!opened || opened.closed || typeof opened.closed === "undefined") {
-        window.location.href = whatsappUrl;
+      // 1. If mobile device supports Web Share API with files, share the actual file!
+      let sharedDirectly = false;
+      if (
+        cvFile &&
+        typeof navigator !== "undefined" &&
+        navigator.canShare &&
+        navigator.canShare({ files: [cvFile] })
+      ) {
+        try {
+          await navigator.share({
+            title: `Job Application: ${currentRole} - ${formData.fullName}`,
+            text: whatsappMessage,
+            files: [cvFile],
+          });
+          sharedDirectly = true;
+        } catch (shareErr: any) {
+          if (shareErr.name === "AbortError") {
+            // User cancelled share
+            setIsSubmitting(false);
+            return;
+          }
+        }
+      }
+
+      // If Web Share wasn't completed, open direct WhatsApp chat with details & link
+      if (!sharedDirectly) {
+        const opened = window.open(whatsappUrl, "_blank");
+        if (!opened || opened.closed || typeof opened.closed === "undefined") {
+          window.location.href = whatsappUrl;
+        }
       }
     }
 
-    // 2. Send application details directly to backend
+    // 2. Send application details + actual file directly to backend
     try {
-      fetch("/api/careers", {
+      const careerData = new FormData();
+      careerData.append("fullName", formData.fullName);
+      careerData.append("phoneNumber", formData.phoneNumber);
+      careerData.append("emailAddress", formData.emailAddress);
+      careerData.append("position", currentRole);
+      careerData.append("location", formData.location);
+      careerData.append("message", formData.message);
+      if (cvFile) {
+        careerData.append("resume", cvFile);
+      }
+      if (cvFileUrl) {
+        careerData.append("resumeUrl", cvFileUrl);
+      }
+
+      await fetch("/api/careers", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fullName: formData.fullName,
-          phoneNumber: formData.phoneNumber,
-          emailAddress: formData.emailAddress,
-          position: currentRole,
-          location: formData.location,
-          message: formData.message,
-        }),
-      }).catch((err) => console.error("Careers submission error:", err));
+        body: careerData,
+      });
     } catch (err) {
       console.error("Submission error:", err);
     }
@@ -164,7 +265,7 @@ _I look forward to hearing from you._`;
                   Successfully Submitted!
                 </h2>
                 <p className="text-sm text-slate-600 max-w-md mx-auto">
-                  Thank you, <strong className="text-slate-800">{formData.fullName}</strong>. Your application for <strong className="text-slate-800">{role}</strong> has been dispatched. Our hiring desk will review and contact you shortly.
+                  Thank you, <strong className="text-slate-800">{formData.fullName}</strong>. Your application for <strong className="text-slate-800">{getEffectiveRole()}</strong> has been dispatched. Our hiring desk will review and contact you shortly.
                 </p>
 
                 <div className="pt-2">
@@ -285,7 +386,126 @@ _I look forward to hearing from you._`;
                   </div>
                 )}
 
-                {/* 4. Short Message */}
+                {/* 4. CV / Resume Upload (PDF / Image) */}
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-medium text-slate-700">
+                      Upload CV / Resume (PDF, DOCX or Image)
+                    </label>
+                    <span className="text-[11px] text-slate-400">PDF, JPG, PNG up to 10MB</span>
+                  </div>
+
+                  {/* Hidden native file input */}
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"
+                    className="hidden"
+                  />
+
+                  {!cvFile ? (
+                    /* Dropzone when no file selected */
+                    <div
+                      onClick={() => fileInputRef.current?.click()}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        setIsDragging(true);
+                      }}
+                      onDragLeave={() => setIsDragging(false)}
+                      onDrop={handleDrop}
+                      className={`w-full p-5 sm:p-6 rounded-2xl border-2 border-dashed transition-all cursor-pointer flex flex-col items-center justify-center text-center ${
+                        isDragging
+                          ? "border-[#0066FF] bg-blue-50/60 scale-[1.01]"
+                          : "border-slate-200 bg-slate-50/70 hover:bg-slate-50 hover:border-[#0066FF]/50"
+                      }`}
+                    >
+                      <div className="w-12 h-12 rounded-2xl bg-white text-[#0066FF] shadow-xs border border-slate-200/60 flex items-center justify-center mb-2.5">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.8}
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                          />
+                        </svg>
+                      </div>
+                      <p className="text-xs sm:text-sm font-medium text-slate-800">
+                        <span className="text-[#0066FF] underline">Click to choose CV</span> or drag &amp; drop file here
+                      </p>
+                      <p className="text-[11px] text-slate-400 mt-1">
+                        Supports PDF documents, Word files, or photo/scans
+                      </p>
+                    </div>
+                  ) : (
+                    /* Selected file card */
+                    <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center justify-between gap-3 animate-in fade-in">
+                      <div className="flex items-center gap-3 min-w-0">
+                        {/* File Type Badge Icon */}
+                        <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0066FF] flex items-center justify-center flex-shrink-0 border border-blue-100">
+                          {cvFile.type.includes("pdf") ? (
+                            <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9.5 8.5h-2v3H6v-7h3.5c1.1 0 2 .9 2 2s-.9 2-2 2zm8.5 3h-1.5v-1.5H18v-1.5h-1.5V11H18V9.5h-3v7H18V14.5zm-5-1.5h-1.5v-4H13c1.1 0 2 .9 2 2v2c0 1.1-.9 2-2 2z" />
+                            </svg>
+                          ) : cvFile.type.includes("image") ? (
+                            <svg className="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          ) : (
+                            <svg className="w-5 h-5 text-[#0066FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                          )}
+                        </div>
+
+                        {/* File Details */}
+                        <div className="min-w-0">
+                          <p className="text-xs sm:text-sm font-semibold text-slate-900 truncate">
+                            {cvFile.name}
+                          </p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="text-[11px] text-slate-500">
+                              {(cvFile.size / 1024).toFixed(0)} KB
+                            </span>
+                            <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                              {isUploadingCv ? "Saving..." : "Ready to attach"}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Action buttons */}
+                      <div className="flex items-center gap-1.5 flex-shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                          className="px-2.5 py-1.5 rounded-lg text-[11px] font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition"
+                        >
+                          Change
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleRemoveCv}
+                          className="w-7 h-7 rounded-lg text-red-500 hover:bg-red-50 flex items-center justify-center transition"
+                          title="Remove file"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  <p className="text-[11px] text-slate-400 mt-1.5 flex items-center gap-1.5">
+                    <svg className="w-3.5 h-3.5 text-[#0066FF] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>On mobile phones, WhatsApp will open with this file attached. In email, this file is sent directly as an attachment.</span>
+                  </p>
+                </div>
+
+                {/* 5. Short Message */}
                 <div>
                   <label className="block text-xs font-medium text-slate-700 mb-1.5">
                     Short Message / Note (Optional)
