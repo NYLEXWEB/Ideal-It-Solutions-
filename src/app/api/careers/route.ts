@@ -1,73 +1,22 @@
 import { NextResponse } from "next/server";
 import { sendEmailWithAttachment } from "@/lib/mailer";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
 
 export async function POST(req: Request) {
   try {
-    let fullName = "";
-    let phoneNumber = "";
-    let emailAddress = "";
-    let position = "";
-    let location = "";
-    let message = "";
-    let resumeFile: File | null = null;
-    let savedFileUrl = "";
+    const data = await req.json();
 
-    const contentType = req.headers.get("content-type") || "";
-
-    if (contentType.includes("multipart/form-data")) {
-      const formData = await req.formData();
-      fullName = (formData.get("fullName") as string) || "";
-      phoneNumber = (formData.get("phoneNumber") as string) || "";
-      emailAddress = (formData.get("emailAddress") as string) || "";
-      position = (formData.get("position") as string) || "General IT Role";
-      location = (formData.get("location") as string) || "Wayanad, Kerala";
-      message = (formData.get("message") as string) || "";
-      resumeFile = formData.get("resume") as File | null;
-      savedFileUrl = (formData.get("resumeUrl") as string) || "";
-    } else {
-      const data = await req.json();
-      fullName = data.fullName || "";
-      phoneNumber = data.phoneNumber || "";
-      emailAddress = data.emailAddress || "";
-      position = data.position || "General IT Role";
-      location = data.location || "Wayanad, Kerala";
-      message = data.message || "";
-      savedFileUrl = data.resumeUrl || "";
-    }
+    const fullName = data.fullName?.trim() || "";
+    const phoneNumber = data.phoneNumber?.trim() || "";
+    const emailAddress = data.emailAddress?.trim() || "";
+    const position = data.position?.trim() || "General IT Role";
+    const location = data.location?.trim() || "Wayanad, Kerala";
+    const message = data.message?.trim() || "";
 
     if (!fullName || !phoneNumber) {
       return NextResponse.json(
         { success: false, message: "Name and Phone number are required." },
         { status: 400 }
       );
-    }
-
-    const attachments: Array<{ filename: string; content: Buffer; contentType?: string }> = [];
-
-    if (resumeFile && typeof resumeFile.arrayBuffer === "function") {
-      const bytes = await resumeFile.arrayBuffer();
-      const buffer = Buffer.from(bytes);
-
-      // Save locally in public/uploads folder
-      try {
-        const cleanName = resumeFile.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-        const uniqueFileName = `${Date.now()}_${cleanName}`;
-        const uploadsDir = path.join(process.cwd(), "public", "uploads");
-        await mkdir(uploadsDir, { recursive: true });
-        const filePath = path.join(uploadsDir, uniqueFileName);
-        await writeFile(filePath, buffer);
-        savedFileUrl = `/uploads/${uniqueFileName}`;
-      } catch (saveErr) {
-        console.error("Local file save error:", saveErr);
-      }
-
-      attachments.push({
-        filename: resumeFile.name || "Candidate_Resume.pdf",
-        content: buffer,
-        contentType: resumeFile.type || "application/pdf",
-      });
     }
 
     const subject = `Job Application: ${position} - ${fullName}`;
@@ -78,7 +27,6 @@ Phone (WhatsApp): ${phoneNumber}
 Email: ${emailAddress || "Not provided"}
 Role / Position: ${position}
 Location: ${location || "Wayanad, Kerala"}
-Attached Resume: ${resumeFile ? resumeFile.name : "None (Resume was optional)"}
 
 Candidate Message / Skills:
 ${message || "Interested in joining the IDEAL IT team."}`;
@@ -100,22 +48,18 @@ ${message || "Interested in joining the IDEAL IT team."}`;
             <td style="padding: 8px 0;">${emailAddress || "Not provided"}</td>
           </tr>
           <tr>
-            <td style="padding: 8px 0; font-weight: bold;">Position:</td>
+            <td style="padding: 8px 0; font-weight: bold;">Position / Domain:</td>
             <td style="padding: 8px 0; color: #0066FF; font-weight: bold;">${position}</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; font-weight: bold;">Location:</td>
             <td style="padding: 8px 0;">${location || "Wayanad, Kerala"}</td>
           </tr>
-          <tr>
-            <td style="padding: 8px 0; font-weight: bold;">Resume File:</td>
-            <td style="padding: 8px 0;">${resumeFile ? `📎 ${resumeFile.name} (Attached)` : "None (Optional)"}</td>
-          </tr>
         </table>
         
         <div style="background-color: #f8fafc; border-left: 4px solid #0066FF; padding: 12px; margin-top: 16px; border-radius: 4px;">
           <strong>Candidate Note / Skills:</strong>
-          <p style="margin: 8px 0 0 0; color: #475569;">${message || "Interested in joining IDEAL IT."}</p>
+          <p style="margin: 8px 0 0 0; color: #475569;">${message || "Interested in joining IDEAL IT team."}</p>
         </div>
       </div>
     `;
@@ -124,14 +68,13 @@ ${message || "Interested in joining the IDEAL IT team."}`;
       subject,
       text,
       html,
-      attachments,
+      attachments: [],
     });
 
     return NextResponse.json({
       success: true,
       message: "Application delivered successfully.",
       applicationId: `IDL-CAR-${Date.now().toString().slice(-6)}`,
-      fileUrl: savedFileUrl,
     });
   } catch (error) {
     console.error("Career application error:", error);

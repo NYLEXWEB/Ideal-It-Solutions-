@@ -257,83 +257,130 @@ export default function Footer({
             
             <div className="space-y-3.5 text-[13px] text-slate-600">
               {/* Branch 1: Mananthavady */}
-              <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+              <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-semibold text-[#0066FF] uppercase tracking-wider">
                     Mananthavady Main Branch
                   </span>
-                  <a href="tel:04935294907" className="text-xs font-semibold text-slate-800 hover:text-[#0066FF] transition">
+                  <a href="tel:04935294907" className="text-xs font-semibold text-slate-800 hover:text-[#0066FF] transition whitespace-nowrap">
                     📞 04935 294907
                   </a>
                 </div>
                 <p className="text-xs text-slate-600 leading-snug">
                   Suseelam Building, Mysore Road, Mananthavady, Wayanad – 670645
                 </p>
+                <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 pt-1 border-t border-slate-200/60 text-[11px]">
+                  <a href="tel:9605932907" className="text-slate-700 hover:text-[#0066FF] font-medium transition flex items-center gap-1">
+                    <span className="text-slate-400">Mob:</span> 96059 32907
+                  </a>
+                  <a
+                    href="mailto:idealcomputersmntdy@gmail.com"
+                    className="text-slate-600 hover:text-[#0066FF] transition truncate max-w-[210px]"
+                    title="Mananthavady Branch Email"
+                  >
+                    ✉️ idealcomputersmntdy@gmail.com
+                  </a>
+                </div>
               </div>
 
               {/* Branch 2: Padinjarathara */}
-              <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+              <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-semibold text-[#0066FF] uppercase tracking-wider">
                     Padinjarathara Branch
                   </span>
-                  <a href="tel:04936202907" className="text-xs font-semibold text-slate-800 hover:text-[#0066FF] transition">
+                  <a href="tel:04936202907" className="text-xs font-semibold text-slate-800 hover:text-[#0066FF] transition whitespace-nowrap">
                     📞 04936 202907
                   </a>
                 </div>
                 <p className="text-xs text-slate-600 leading-snug">
                   Mundunadakkal Building, Opp. Panchayath Office, Padinjarathara – 673575
                 </p>
-                <div className="pt-0.5 text-[11px]">
-                  <a href="tel:9995585195" className="text-slate-600 hover:text-[#0066FF] font-medium transition">
-                    Mob: 99955 85195
+                <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 pt-1 border-t border-slate-200/60 text-[11px]">
+                  <a href="tel:9995585195" className="text-slate-700 hover:text-[#0066FF] font-medium transition flex items-center gap-1">
+                    <span className="text-slate-400">Mob:</span> 99955 85195
+                  </a>
+                  <a
+                    href="mailto:idealcomputerspdtra@gmail.com"
+                    className="text-slate-600 hover:text-[#0066FF] transition truncate max-w-[210px]"
+                    title="Padinjarathara Branch Email"
+                  >
+                    ✉️ idealcomputerspdtra@gmail.com
                   </a>
                 </div>
               </div>
 
               {/* Branch 3: Kannur */}
-              <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+              <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-semibold text-[#0066FF] uppercase tracking-wider">
                     Ideal Solutions &bull; Kannur
                   </span>
-                  <a href="tel:04972705223" className="text-xs font-semibold text-slate-800 hover:text-[#0066FF] transition">
+                  <a href="tel:04972705223" className="text-xs font-semibold text-slate-800 hover:text-[#0066FF] transition whitespace-nowrap">
                     📞 0497 2705223
                   </a>
                 </div>
                 <p className="text-xs text-slate-600 leading-snug">
                   3rd Floor, Topland Grand Bazar Complex, Bellard Road, Kannur – 670001
                 </p>
-                <div className="flex items-center justify-between pt-0.5 text-[11px]">
-                  <span className="text-slate-600 font-medium">Mob: 81290 59275</span>
+                <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-200/60 text-[11px]">
+                  <a href="tel:8129059275" className="text-slate-700 hover:text-[#0066FF] font-medium transition flex items-center gap-1">
+                    <span className="text-slate-400">Mob:</span> 81290 59275
+                  </a>
                   <span className="text-[#0066FF] font-semibold bg-blue-50 px-2 py-0.5 rounded border border-blue-100 text-[10px]">
                     Warranty: Zebronics &bull; Fingers &bull; Artis
                   </span>
                 </div>
               </div>
 
-              {/* Mobile Helpline & Working Hours */}
-              <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs text-slate-400">Mobile:</span>
-                  <a href="tel:9605932907" className="text-slate-900 font-semibold text-xs hover:text-[#0066FF] transition">
-                    96059 32907
+              {/* Working Hours & Quick Helplines */}
+              <div className="pt-2 border-t border-slate-200/80 space-y-2">
+                <div className="flex items-center justify-between text-xs text-slate-500">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                    <span>Working Hours: <strong className="text-slate-700 font-medium">Mon–Sat: 9AM–7:30PM</strong></span>
+                  </div>
+                </div>
+
+                {/* Direct Mobile Helplines by Branch */}
+                <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs">
+                  <span className="text-slate-400 font-medium">Mobiles:</span>
+                  <a href="tel:9605932907" className="text-slate-800 hover:text-[#0066FF] font-semibold transition" title="Mananthavady Main Branch">
+                    <span className="font-normal text-slate-400 text-[10.5px]">Mtdy:</span> 96059 32907
+                  </a>
+                  <span className="text-slate-300">•</span>
+                  <a href="tel:9995585195" className="text-slate-800 hover:text-[#0066FF] font-semibold transition" title="Padinjarathara Branch">
+                    <span className="font-normal text-slate-400 text-[10.5px]">Pdtra:</span> 99955 85195
+                  </a>
+                  <span className="text-slate-300">•</span>
+                  <a href="tel:8129059275" className="text-slate-800 hover:text-[#0066FF] font-semibold transition" title="Kannur Service Center">
+                    <span className="font-normal text-slate-400 text-[10.5px]">Knr:</span> 81290 59275
                   </a>
                 </div>
-                <span className="text-[11.5px] text-slate-500">
-                  Mon–Sat: 9AM–7:30PM
-                </span>
-              </div>
 
-              {/* Official Email */}
-              <div className="flex items-center gap-1.5 pt-0.5">
-                <span className="text-xs text-slate-400">Email:</span>
-                <a
-                  href="mailto:idealcomputersmntdy@gmail.com"
-                  className="text-[#0066FF] font-medium text-xs hover:underline truncate"
-                >
-                  idealcomputersmntdy@gmail.com
-                </a>
+                {/* Branch Emails */}
+                <div className="space-y-1 text-[11.5px]">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-slate-400 text-[10.5px] min-w-[75px]">Main Email:</span>
+                    <a
+                      href="mailto:idealcomputersmntdy@gmail.com"
+                      className="text-[#0066FF] font-medium hover:underline truncate"
+                      title="Mananthavady Main Branch"
+                    >
+                      idealcomputersmntdy@gmail.com
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-slate-400 text-[10.5px] min-w-[75px]">Pdtra Branch:</span>
+                    <a
+                      href="mailto:idealcomputerspdtra@gmail.com"
+                      className="text-[#0066FF] font-medium hover:underline truncate"
+                      title="Padinjarathara Branch 2"
+                    >
+                      idealcomputerspdtra@gmail.com
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
