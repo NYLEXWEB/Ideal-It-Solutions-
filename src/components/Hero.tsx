@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 interface GlanceService {
@@ -8,8 +9,9 @@ interface GlanceService {
   href: string;
   title: string;
   badge: string;
+  subtitle: string;
+  image: string;
   isInitialActive?: boolean;
-  icon: (className?: string) => React.ReactNode;
 }
 
 const glanceServices: GlanceService[] = [
@@ -18,91 +20,49 @@ const glanceServices: GlanceService[] = [
     href: "/services#computer-sales-service",
     title: "Computer Sales & Repair",
     badge: "CHIP-LEVEL TECHS",
+    subtitle: "Laptops, Rigs & Motherboards",
+    image: "/services/computer_sales.png",
     isInitialActive: true,
-    icon: (cls = "w-4 h-4") => (
-      <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <rect x="2" y="3" width="20" height="14" rx="2" strokeWidth={2} />
-        <line x1="8" y1="21" x2="16" y2="21" strokeWidth={2} strokeLinecap="round" />
-        <line x1="12" y1="17" x2="12" y2="21" strokeWidth={2} strokeLinecap="round" />
-      </svg>
-    ),
   },
   {
     id: "cctv-security-systems",
     href: "/services#cctv-security-systems",
     title: "CCTV & Security Systems",
     badge: "24/7 COLOR NIGHT",
-    icon: (cls = "w-4 h-4") => (
-      <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-        />
-      </svg>
-    ),
+    subtitle: "AI Cameras & Live Monitoring",
+    image: "/services/cctv_security.png",
   },
   {
     id: "networking-solutions",
     href: "/services#networking-solutions",
     title: "Networking & Optical Fiber",
     badge: "GIGABIT SPEED",
-    icon: (cls = "w-4 h-4") => (
-      <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.393 9.393c5.857-5.857 15.355-5.857 21.213 0"
-        />
-      </svg>
-    ),
+    subtitle: "Server Racks & Mesh Wi-Fi",
+    image: "/services/networking.png",
   },
   {
     id: "ups-inverter-power",
     href: "/services#ups-inverter-power",
     title: "UPS & Inverter Power Backup",
     badge: "PURE SINE WAVE",
-    icon: (cls = "w-4 h-4") => (
-      <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M13 10V3L4 14h7v7l9-11h-7z"
-        />
-      </svg>
-    ),
+    subtitle: "Zero-Cut Power & Batteries",
+    image: "/services/ups_inverter.png",
   },
   {
     id: "smart-home-automation",
     href: "/services#smart-home-automation",
     title: "Smart Home Automation",
     badge: "APP & VOICE",
-    icon: (cls = "w-4 h-4") => (
-      <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-        />
-      </svg>
-    ),
+    subtitle: "Touch Panels & Smart Gates",
+    image: "/services/home_automation.png",
   },
   {
     id: "video-door-phones",
     href: "/services#video-door-phones",
     title: "Video Door Phones",
     badge: "2-WAY HD TALK",
-    icon: (cls = "w-4 h-4") => (
-      <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <rect x="3" y="2" width="18" height="20" rx="3" strokeWidth={2} />
-        <circle cx="12" cy="7" r="2.5" strokeWidth={2} />
-        <circle cx="12" cy="15" r="1.5" strokeWidth={2} />
-      </svg>
-    ),
+    subtitle: "HD Intercom & Remote Unlock",
+    image: "/services/video_door_phone.png",
   },
 ];
 
@@ -227,11 +187,10 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
               href="https://wa.me/919605932907?text=Hi%20IDEAL%20IT,%20I%20would%20like%20to%20know%20more%20about%20your%20services."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-white/95 hover:bg-white text-[#1E293B] text-[14px] sm:text-[14.5px] font-medium border border-slate-200/90 shadow-sm hover:shadow transition-all duration-200 active:scale-[0.98] backdrop-blur-sm"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white text-[14px] sm:text-[14.5px] font-medium shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98]"
             >
               <svg
-                className="w-4 h-4 text-[#25D366]"
-                fill="currentColor"
+                className="w-4 h-4 fill-white"
                 viewBox="0 0 24 24"
               >
                 <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
@@ -242,26 +201,22 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
         </div>
       </div>
 
-      {/* 3. Bottom Services at a Glance Section with Continuous Horizontal Loop */}
-      <div className="relative z-20 w-full mt-auto pt-6 pb-2 sm:pb-3">
+      {/* 3. Bottom Services at a Glance Section - Hero Main Attraction Showcase */}
+      <div className="relative z-20 w-full mt-auto pt-5 pb-3 sm:pb-5 ">
         {/* Header Bar */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#0066FF] animate-pulse flex-shrink-0" />
-            <span className="text-[11px] sm:text-[12px] font-bold text-slate-800 tracking-[0.14em] uppercase">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-3.5 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2.5">
+
+            <span className="text-[11.5px] sm:text-[12.5px] font-bold text-slate-900 tracking-[0.16em] uppercase">
               SERVICES AT A GLANCE
             </span>
-            <span className="text-[11px] sm:text-[12px] text-slate-500 font-normal">
-              (6 Core Services)
-            </span>
+
           </div>
 
-          <div className="text-[11px] sm:text-[12px] text-slate-500 font-normal hidden sm:flex items-center gap-1.5">
-            <span>Tap any service to jump directly to details &amp; pricing</span>
-          </div>
+
         </div>
 
-        {/* Self-contained CSS Animation for 100% guaranteed infinite looping across all browsers and caching states */}
+        {/* Self-contained CSS Animation for guaranteed infinite looping across all browsers */}
         <style
           dangerouslySetInnerHTML={{
             __html: `
@@ -276,7 +231,7 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
               .animate-services-auto-loop {
                 display: flex !important;
                 width: max-content !important;
-                animation: serviceMarqueeLoop 26s linear infinite !important;
+                animation: serviceMarqueeLoop 30s linear infinite !important;
                 will-change: transform;
               }
               .animate-services-auto-loop:hover {
@@ -289,124 +244,143 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
         {/* Infinite Horizontal Looping Marquee */}
         <div className="relative w-full overflow-hidden py-1">
           {/* Side soft fade gradients for seamless visual edge blend */}
-          <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 md:w-24 bg-gradient-to-r from-[#f4f8fd] via-[#f4f8fd]/80 to-transparent pointer-events-none z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 md:w-24 bg-gradient-to-l from-[#f4f8fd] via-[#f4f8fd]/80 to-transparent pointer-events-none z-10" />
 
           {/* Marquee Track - Guaranteed continuous auto-scroll */}
           <div
-            className="animate-services-auto-loop animate-marquee-services flex items-center gap-3 sm:gap-3.5 py-1.5 px-4 cursor-pointer"
+            className="animate-services-auto-loop flex items-center gap-3.5 sm:gap-4 py-2 px-4 cursor-pointer"
             style={{
-              animation: "serviceMarqueeLoop 26s linear infinite",
+              animation: "serviceMarqueeLoop 30s linear infinite",
               willChange: "transform",
             }}
           >
             {/* Set 1 */}
-            {glanceServices.map((service, idx) => (
+            {glanceServices.map((service) => (
               <Link
                 key={`s1-${service.id}`}
                 href={service.href}
-                className={`group flex-shrink-0 flex items-center gap-2.5 sm:gap-3 px-3.5 py-2 sm:px-4.5 sm:py-2.5 rounded-full bg-white/95 hover:bg-white border transition-all duration-200 active:scale-[0.98] ${
-                  service.isInitialActive
-                    ? "border-[#0066FF]/50 shadow-[0_2px_12px_rgba(0,102,255,0.12)]"
-                    : "border-slate-200/90 hover:border-[#0066FF]/50 shadow-sm hover:shadow-[0_4px_16px_rgba(0,102,255,0.12)]"
-                }`}
-              >
-                {/* Round Icon Container */}
-                <div
-                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-200 ${
-                    service.isInitialActive
-                      ? "bg-[#0066FF] text-white"
-                      : "bg-[#f1f5f9] text-slate-600 group-hover:bg-[#0066FF] group-hover:text-white"
+                className={`group relative flex-shrink-0 w-[290px] sm:w-[330px] md:w-[350px] h-[112px] sm:h-[120px] rounded-2xl bg-white/95 hover:bg-white border transition-all duration-300 active:scale-[0.98] overflow-hidden flex items-center shadow-[0_4px_20px_rgba(15,23,42,0.06)] hover:shadow-[0_16px_36px_rgba(0,102,255,0.18)] hover:-translate-y-1 ${service.isInitialActive
+                    ? "border-[#0066FF]/50 ring-1 ring-[#0066FF]/30"
+                    : "border-slate-200/90 hover:border-[#0066FF]/60"
                   }`}
-                >
-                  {service.icon("w-3.5 h-3.5 sm:w-4 sm:h-4")}
+              >
+                {/* Right Side Product Graphic Render from public/services */}
+                <div className="absolute right-0 top-0 bottom-0 w-[52%] sm:w-[50%] pointer-events-none select-none overflow-hidden rounded-r-2xl">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    sizes="(max-width: 768px) 180px, 200px"
+                    className="object-cover object-right group-hover:scale-110 group-hover:translate-x-0.5 transition-transform duration-500 ease-out"
+                  />
+
                 </div>
 
-                {/* Service Title */}
-                <span
-                  className={`text-[12.5px] sm:text-[13.5px] font-medium whitespace-nowrap transition-colors duration-200 ${
-                    service.isInitialActive
-                      ? "text-[#0066FF]"
-                      : "text-[#1E293B] group-hover:text-[#0066FF]"
-                  }`}
-                >
-                  {service.title}
-                </span>
+                {/* Left Side Content */}
+                <div className="relative z-10 w-[62%] sm:w-[60%] h-full p-3 sm:p-3.5 flex flex-col justify-between text-left">
+                  <div>
+                    {/* Badge Pill */}
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50/90 border border-blue-200/60 text-[#0066FF] text-[9.5px] sm:text-[10px] font-bold tracking-wider uppercase mb-1.5 shadow-2xs group-hover:bg-[#0066FF] group-hover:text-white group-hover:border-[#0066FF] transition-colors duration-200">
 
-                {/* Pill Feature Badge */}
-                <span className="text-[10px] sm:text-[10.5px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 group-hover:bg-blue-50 group-hover:text-[#0066FF] border border-slate-200/70 group-hover:border-blue-200/60 whitespace-nowrap transition-colors duration-200">
-                  {service.badge}
-                </span>
+                      <span className="truncate">{service.badge}</span>
+                    </div>
 
-                {/* Chevron Arrow */}
-                <svg
-                  className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066FF] transition-all duration-200 group-hover:translate-x-0.5 flex-shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                    {/* Service Title */}
+                    <h3 className="text-[13px] sm:text-[14px] font-semibold text-slate-800 group-hover:text-[#0066FF] transition-colors duration-200 leading-tight line-clamp-1">
+                      {service.title}
+                    </h3>
+
+                    {/* Subtitle / Key Spec */}
+                    <p className="text-[10.5px] sm:text-[11px] text-slate-500 font-normal mt-0.5 line-clamp-1">
+                      {service.subtitle}
+                    </p>
+                  </div>
+
+                  {/* Bottom Action Prompt */}
+                  <div className="flex items-center gap-1.5 text-[11px] sm:text-[11.5px] font-medium text-slate-400 group-hover:text-[#0066FF] transition-all duration-200">
+                    <span>Explore specs</span>
+                    <svg
+                      className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform duration-200 text-[#0066FF]"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Top Shimmer Line on Hover */}
+                <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#0066FF]/0 to-transparent group-hover:via-[#0066FF]/70 transition-all duration-300" />
               </Link>
             ))}
 
             {/* Set 2 (Identical duplicate for seamless zero-gap infinite marquee) */}
-            {glanceServices.map((service, idx) => (
+            {glanceServices.map((service) => (
               <Link
                 key={`s2-${service.id}`}
                 href={service.href}
-                className={`group flex-shrink-0 flex items-center gap-2.5 sm:gap-3 px-3.5 py-2 sm:px-4.5 sm:py-2.5 rounded-full bg-white/95 hover:bg-white border transition-all duration-200 active:scale-[0.98] ${
-                  service.isInitialActive
-                    ? "border-[#0066FF]/50 shadow-[0_2px_12px_rgba(0,102,255,0.12)]"
-                    : "border-slate-200/90 hover:border-[#0066FF]/50 shadow-sm hover:shadow-[0_4px_16px_rgba(0,102,255,0.12)]"
-                }`}
-              >
-                {/* Round Icon Container */}
-                <div
-                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-200 ${
-                    service.isInitialActive
-                      ? "bg-[#0066FF] text-white"
-                      : "bg-[#f1f5f9] text-slate-600 group-hover:bg-[#0066FF] group-hover:text-white"
+                className={`group relative flex-shrink-0 w-[290px] sm:w-[330px] md:w-[350px] h-[112px] sm:h-[120px] rounded-2xl bg-white/95 hover:bg-white border transition-all duration-300 active:scale-[0.98] overflow-hidden flex items-center shadow-[0_4px_20px_rgba(15,23,42,0.06)] hover:shadow-[0_16px_36px_rgba(0,102,255,0.18)] hover:-translate-y-1 ${service.isInitialActive
+                    ? "border-[#0066FF]/50 ring-1 ring-[#0066FF]/30"
+                    : "border-slate-200/90 hover:border-[#0066FF]/60"
                   }`}
-                >
-                  {service.icon("w-3.5 h-3.5 sm:w-4 sm:h-4")}
+              >
+                {/* Right Side Product Graphic Render from public/services */}
+                <div className="absolute right-0 top-0 bottom-0 w-[52%] sm:w-[50%] pointer-events-none select-none overflow-hidden rounded-r-2xl">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    sizes="(max-width: 768px) 180px, 200px"
+                    className="object-cover object-right group-hover:scale-110 group-hover:translate-x-0.5 transition-transform duration-500 ease-out"
+                  />
                 </div>
 
-                {/* Service Title */}
-                <span
-                  className={`text-[12.5px] sm:text-[13.5px] font-medium whitespace-nowrap transition-colors duration-200 ${
-                    service.isInitialActive
-                      ? "text-[#0066FF]"
-                      : "text-[#1E293B] group-hover:text-[#0066FF]"
-                  }`}
-                >
-                  {service.title}
-                </span>
+                {/* Left Side Content */}
+                <div className="relative z-10 w-[62%] sm:w-[60%] h-full p-3 sm:p-3.5 flex flex-col justify-between text-left">
+                  <div>
+                    {/* Badge Pill */}
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50/90 border border-blue-200/60 text-[#0066FF] text-[9.5px] sm:text-[10px] font-bold tracking-wider uppercase mb-1.5 shadow-2xs group-hover:bg-[#0066FF] group-hover:text-white group-hover:border-[#0066FF] transition-colors duration-200">
 
-                {/* Pill Feature Badge */}
-                <span className="text-[10px] sm:text-[10.5px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 group-hover:bg-blue-50 group-hover:text-[#0066FF] border border-slate-200/70 group-hover:border-blue-200/60 whitespace-nowrap transition-colors duration-200">
-                  {service.badge}
-                </span>
+                      <span className="truncate">{service.badge}</span>
+                    </div>
 
-                {/* Chevron Arrow */}
-                <svg
-                  className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066FF] transition-all duration-200 group-hover:translate-x-0.5 flex-shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                    {/* Service Title */}
+                    <h3 className="text-[13px] sm:text-[14px] font-semibold text-slate-800 group-hover:text-[#0066FF] transition-colors duration-200 leading-tight line-clamp-1">
+                      {service.title}
+                    </h3>
+
+                    {/* Subtitle / Key Spec */}
+                    <p className="text-[10.5px] sm:text-[11px] text-slate-500 font-normal mt-0.5 line-clamp-1">
+                      {service.subtitle}
+                    </p>
+                  </div>
+
+                  {/* Bottom Action Prompt */}
+                  <div className="flex items-center gap-1.5 text-[11px] sm:text-[11.5px] font-medium text-slate-400 group-hover:text-[#0066FF] transition-all duration-200">
+                    <span>Explore specs</span>
+                    <svg
+                      className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform duration-200 text-[#0066FF]"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Top Shimmer Line on Hover */}
+                <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#0066FF]/0 to-transparent group-hover:via-[#0066FF]/70 transition-all duration-300" />
               </Link>
             ))}
           </div>

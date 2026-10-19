@@ -134,9 +134,9 @@ const branches: BranchInfo[] = [
 
 export default function BranchesSection() {
   return (
-    <section id="branches" className="py-16 sm:py-24 bg-[#f8fbfe] border-t border-slate-100 relative overflow-hidden">
+    <section id="branches" className="py-16 sm:py-24 bg-[#f8fbfe] border-t border-slate-100 relative">
       {/* Subtle ambient lighting */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-100/40 rounded-full blur-[120px] pointer-events-none -z-0" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-100/40 rounded-full blur-[120px] pointer-events-none -z-0 max-w-full" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
@@ -156,113 +156,138 @@ export default function BranchesSection() {
           </p>
         </div>
 
-        {/* 3 Cohesive Visual Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 lg:gap-8 max-w-7xl mx-auto items-stretch">
-          {branches.map((branch) => {
-            const isServiceCenter = branch.id === "kannur";
+        {/* 3 Sticky Stacking Cards Container */}
+        <div className="max-w-5xl mx-auto space-y-16 sm:space-y-28 pb-16 sm:pb-28">
+          {branches.map((branch, idx) => {
+            const isKannur = branch.id === "kannur";
+            const isImageRight = idx === 1; // Card 1: Left, Card 2: Right, Card 3: Left
 
             return (
               <div
                 key={branch.id}
-                className="bg-white rounded-3xl overflow-hidden border border-slate-200/90 shadow-[0_6px_25px_-6px_rgba(0,0,0,0.06)] hover:shadow-2xl hover:border-slate-300 transition-all duration-300 flex flex-col justify-between group"
+                className={`relative bg-white rounded-3xl overflow-hidden flex flex-col ${
+                  isImageRight ? "md:flex-row-reverse" : "md:flex-row"
+                } transition-all duration-300 group ${
+                  idx === 0
+                    ? "sticky top-20 sm:top-24 md:top-28 z-10 border-2 border-[#0066FF]/60 shadow-[0_12px_40px_rgba(0,102,255,0.12)] ring-1 ring-[#0066FF]/25"
+                    : idx === 1
+                    ? "sticky top-24 sm:top-28 md:top-32 z-20 border border-slate-200/90 shadow-[0_-8px_30px_-5px_rgba(0,0,0,0.08),0_12px_32px_rgba(0,0,0,0.05)]"
+                    : "sticky top-28 sm:top-32 md:top-36 z-30 border border-slate-200/90 shadow-[0_-8px_30px_-5px_rgba(0,0,0,0.08),0_12px_32px_rgba(0,0,0,0.05)]"
+                }`}
               >
-                <div>
-                  {/* Top Branch Visual Showcase */}
-                  <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-100">
-                    <Image
-                      src={branch.image}
-                      alt={branch.imageAlt}
-                      fill
-                      className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    {/* Dark gradient for text & badge contrast */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent" />
+                {/* Subtle Top Accent Highlight for Kannur (First Card) */}
+                {isKannur && (
+                  <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 via-[#0066FF] to-blue-600 z-30" />
+                )}
 
-                    {/* Floating Top Badge */}
-                    <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between">
-                      <span
-                        className={`px-3 py-1 rounded-full text-[10.5px] sm:text-[11px] font-semibold tracking-wider uppercase backdrop-blur-md shadow-sm ${
-                          isServiceCenter
-                            ? "bg-[#0066FF] text-white"
-                            : "bg-white/95 text-slate-800"
-                        }`}
-                      >
-                        {branch.badge}
-                      </span>
+                {/* Branch Visual Showcase (Image Side) */}
+                <div className="relative w-full md:w-[44%] lg:w-[42%] min-h-[220px] sm:min-h-[260px] md:min-h-[460px] overflow-hidden bg-slate-100 flex-shrink-0">
+                  <Image
+                    src={branch.image}
+                    alt={branch.imageAlt}
+                    fill
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                    sizes="(max-width: 768px) 100vw, 45vw"
+                  />
+                  {/* Dark gradient for text & badge contrast */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent" />
 
-                      <span className="text-[11.5px] font-medium text-white/90 bg-black/40 backdrop-blur-md px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                        <svg className="w-3 h-3 text-emerald-400" fill="currentColor" viewBox="0 0 8 8">
-                          <circle cx="4" cy="4" r="3" />
-                        </svg>
-                        <span>Open Daily</span>
-                      </span>
-                    </div>
+                  {/* Floating Top Badge */}
+                  <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between">
+                    <span
+                      className={`px-3 py-1 rounded-full text-[10.5px] sm:text-[11px] font-semibold tracking-wider uppercase backdrop-blur-md shadow-sm ${
+                        isKannur
+                          ? "bg-[#0066FF] text-white"
+                          : "bg-white/95 text-slate-800"
+                      }`}
+                    >
+                      {branch.badge}
+                    </span>
 
-                    {/* Bottom Location Label over image */}
-                    <div className="absolute bottom-3 left-3.5 right-3.5 flex items-center gap-1.5 text-white/95 text-xs font-medium drop-shadow-sm">
-                      <svg className="w-3.5 h-3.5 text-blue-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <span className="text-[11.5px] font-medium text-white/90 bg-black/40 backdrop-blur-md px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                      <svg className="w-3 h-3 text-emerald-400" fill="currentColor" viewBox="0 0 8 8">
+                        <circle cx="4" cy="4" r="3" />
                       </svg>
-                      <span className="truncate">{branch.area}</span>
-                    </div>
+                      <span>Open Daily</span>
+                    </span>
                   </div>
 
-                  {/* Card Content Area */}
-                  <div className="p-6 sm:p-7">
-                    {/* Branch Name */}
-                    <h3 className="text-[20px] font-semibold text-slate-900 mb-2 group-hover:text-[#0066FF] transition-colors">
-                      {branch.name}
-                    </h3>
+                  {/* Bottom Location Label over image */}
+                  <div className="absolute bottom-3 left-3.5 right-3.5 flex items-center gap-1.5 text-white/95 text-xs font-medium drop-shadow-sm">
+                    <svg className="w-3.5 h-3.5 text-blue-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span className="truncate">{branch.area}</span>
+                  </div>
+                </div>
 
-                    {/* Address Information */}
-                    <div className="space-y-0.5 text-[13px] text-slate-600 font-normal leading-relaxed pb-4 border-b border-slate-100">
-                      <p className="text-slate-900 font-medium">{branch.building}</p>
-                      <p>{branch.landmark}</p>
-                      <p>
-                        {branch.area} -{" "}
-                        <span className="font-semibold text-slate-800">{branch.pincode}</span>
-                      </p>
+                {/* Card Content Area (Text & Details Side) */}
+                <div className="w-full md:w-[56%] lg:w-[58%] p-6 sm:p-7 md:p-8 flex flex-col justify-between">
+                  <div>
+                    {/* Branch Title & Highlight Pill */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                      <h3 className="text-xl sm:text-2xl font-bold text-slate-900 group-hover:text-[#0066FF] transition-colors">
+                        {branch.name}
+                      </h3>
+                      {isKannur && (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase bg-blue-50 text-[#0066FF] border border-blue-200/70">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
+                          Featured Hub
+                        </span>
+                      )}
                     </div>
 
-                    {/* Contact Phone Numbers */}
-                    <div className="pt-3.5 space-y-2 pb-4 border-b border-slate-100">
-                      {/* Office Landline */}
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="font-medium text-slate-400 uppercase tracking-wider">
-                          Landline
-                        </span>
-                        <a
-                          href={`tel:${branch.landline}`}
-                          className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-slate-900 hover:text-[#0066FF] transition-colors"
-                        >
-                          <svg className="w-3.5 h-3.5 text-[#0066FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                            />
-                          </svg>
-                          <span>{branch.landlineFormatted}</span>
-                        </a>
+                    {/* 2-Column Info Row: Address & Contact Phone Numbers */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-slate-100">
+                      {/* Address Information */}
+                      <div className="space-y-0.5 text-[13px] text-slate-600 font-normal leading-relaxed">
+                        <p className="text-slate-900 font-medium">{branch.building}</p>
+                        <p>{branch.landmark}</p>
+                        <p>
+                          {branch.area} -{" "}
+                          <span className="font-semibold text-slate-800">{branch.pincode}</span>
+                        </p>
                       </div>
 
-                      {/* Mobile / Helpline */}
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="font-medium text-slate-400 uppercase tracking-wider">
-                          Mobile &amp; Support
-                        </span>
-                        <a
-                          href={`tel:${branch.mobile}`}
-                          className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-slate-900 hover:text-[#0066FF] transition-colors"
-                        >
-                          <svg className="w-3.5 h-3.5 text-[#0066FF]" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.41 11.41 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.41 11.41 0 00.57 3.58 1 1 0 01-.24 1.02l-2.21 2.19z" />
-                          </svg>
-                          <span>{branch.mobileFormatted}</span>
-                        </a>
+                      {/* Contact Phone Numbers */}
+                      <div className="space-y-2">
+                        {/* Office Landline */}
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="font-medium text-slate-400 uppercase tracking-wider">
+                            Landline
+                          </span>
+                          <a
+                            href={`tel:${branch.landline}`}
+                            className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-slate-900 hover:text-[#0066FF] transition-colors"
+                          >
+                            <svg className="w-3.5 h-3.5 text-[#0066FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                              />
+                            </svg>
+                            <span>{branch.landlineFormatted}</span>
+                          </a>
+                        </div>
+
+                        {/* Mobile / Helpline */}
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="font-medium text-slate-400 uppercase tracking-wider">
+                            Mobile &amp; Support
+                          </span>
+                          <a
+                            href={`tel:${branch.mobile}`}
+                            className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-slate-900 hover:text-[#0066FF] transition-colors"
+                          >
+                            <svg className="w-3.5 h-3.5 text-[#0066FF]" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.41 11.41 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.41 11.41 0 00.57 3.58 1 1 0 01-.24 1.02l-2.21 2.19z" />
+                            </svg>
+                            <span>{branch.mobileFormatted}</span>
+                          </a>
+                        </div>
                       </div>
                     </div>
 
@@ -316,7 +341,7 @@ export default function BranchesSection() {
                                 {branch.outOfWarranty.title}
                               </span>
                             </div>
-                            <div className="space-y-1.5">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                               {branch.outOfWarranty.services.map((svc, i) => (
                                 <div
                                   key={i}
@@ -346,11 +371,11 @@ export default function BranchesSection() {
                             Key Solutions &amp; Services
                           </span>
                         </div>
-                        <div className="space-y-2">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           {branch.coreServices?.map((service, idx) => (
                             <div
                               key={idx}
-                              className="flex items-start gap-2 text-[12px] text-slate-600 font-normal leading-snug"
+                              className="flex items-start gap-2 text-[12px] text-slate-600 font-normal leading-snug bg-slate-50/70 p-2.5 rounded-xl border border-slate-100"
                             >
                               <svg
                                 className="w-3.5 h-3.5 text-[#0066FF] flex-shrink-0 mt-0.5"
@@ -367,38 +392,38 @@ export default function BranchesSection() {
                       </div>
                     )}
                   </div>
-                </div>
 
-                {/* Action Buttons */}
-                <div className="p-6 sm:p-7 pt-0 border-t border-slate-100 grid grid-cols-2 gap-2.5 mt-2">
-                  <a
-                    href={`tel:${branch.landline}`}
-                    className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 text-xs font-medium border border-slate-200/80 transition-all active:scale-98"
-                  >
-                    <svg className="w-3.5 h-3.5 text-[#0066FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                      />
-                    </svg>
-                    <span>Landline</span>
-                  </a>
+                  {/* Action Buttons */}
+                  <div className="pt-5 border-t border-slate-100 grid grid-cols-2 gap-3 mt-5">
+                    <a
+                      href={`tel:${branch.landline}`}
+                      className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-800 text-xs font-semibold border border-slate-200/80 transition-all active:scale-98 shadow-2xs"
+                    >
+                      <svg className="w-3.5 h-3.5 text-[#0066FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        />
+                      </svg>
+                      <span>Landline</span>
+                    </a>
 
-                  <a
-                    href={`https://wa.me/${branch.whatsappNumber}?text=${encodeURIComponent(
-                      branch.whatsappMessage
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-medium transition-all shadow-sm hover:shadow active:scale-98"
-                  >
-                    <svg className="w-3.5 h-3.5 fill-white" viewBox="0 0 24 24">
-                      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.54 1.769.878 2.796.879 3.182 0 5.768-2.587 5.768-5.766.001-3.181-2.584-5.766-5.768-5.766zm9.965 5.765c0 5.503-4.475 9.979-9.965 9.979-1.748 0-3.388-.454-4.821-1.246l-5.21 1.365 1.391-5.074c-.887-1.488-1.396-3.23-1.396-5.024 0-5.504 4.476-9.979 9.966-9.979 5.504 0 9.98 4.475 9.98 9.979z" />
-                    </svg>
-                    <span>WhatsApp</span>
-                  </a>
+                    <a
+                      href={`https://wa.me/${branch.whatsappNumber}?text=${encodeURIComponent(
+                        branch.whatsappMessage
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-semibold transition-all shadow-sm hover:shadow active:scale-98"
+                    >
+                      <svg className="w-3.5 h-3.5 fill-white" viewBox="0 0 24 24">
+                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.54 1.769.878 2.796.879 3.182 0 5.768-2.587 5.768-5.766.001-3.181-2.584-5.766-5.768-5.766zm9.965 5.765c0 5.503-4.475 9.979-9.965 9.979-1.748 0-3.388-.454-4.821-1.246l-5.21 1.365 1.391-5.074c-.887-1.488-1.396-3.23-1.396-5.024 0-5.504 4.476-9.979 9.966-9.979 5.504 0 9.98 4.475 9.98 9.979z" />
+                      </svg>
+                      <span>WhatsApp</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             );
