@@ -143,21 +143,7 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
             a <span className="font-normal text-[#0066FF]">Safer Tomorrow.</span>
           </h1>
 
-          {/* Subtitle / Services List */}
-          <div className="text-[13px] sm:text-[14.5px] text-[#64748B] font-normal leading-relaxed mb-7 sm:mb-9 space-y-1">
-            <div>
-              Computer Solutions{" "}
-              <span className="text-[#CBD5E1] mx-1.5 font-normal">|</span> CCTV
-              Security{" "}
-              <span className="text-[#CBD5E1] mx-1.5 font-normal">|</span>{" "}
-              Networking
-            </div>
-            <div>
-              Power Solutions{" "}
-              <span className="text-[#CBD5E1] mx-1.5 font-normal">|</span>{" "}
-              Smart Home Automation
-            </div>
-          </div>
+
 
           {/* Action CTAs */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 max-w-sm sm:max-w-none">
