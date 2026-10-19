@@ -181,7 +181,8 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sf-text);
-  font-weight: 400; /* Body: SF Pro Text - Regular */
+  font-weight: 400;
+  /* Body: SF Pro Text - Regular */
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   overflow-x: hidden;
 }
@@ -195,43 +196,59 @@ body {
    - Buttons: SF Pro Text — Medium
    -------------------------------------------------------------------------- */
 
-h1, .font-h1 {
+h1,
+.font-h1 {
   font-family: var(--font-sf-display);
-  font-weight: 300; /* Light / Regular */
+  font-weight: 300;
+  /* Light / Regular */
   letter-spacing: -0.03em;
   line-height: 1.12;
 }
 
-h2, .font-h2 {
+h2,
+.font-h2 {
   font-family: var(--font-sf-display);
-  font-weight: 400; /* Regular */
+  font-weight: 400;
+  /* Regular */
   letter-spacing: -0.025em;
   line-height: 1.2;
 }
 
-h3, .font-h3 {
+h3,
+.font-h3 {
   font-family: var(--font-sf-display);
   font-weight: 500;
   letter-spacing: -0.018em;
   line-height: 1.25;
 }
 
-p, .font-body {
+p,
+.font-body {
   font-family: var(--font-sf-text);
-  font-weight: 400; /* Regular */
+  font-weight: 400;
+  /* Regular */
   letter-spacing: -0.01em;
   line-height: 1.6;
 }
 
-small, .font-small, .text-small {
+small,
+.font-small,
+.text-small {
   font-family: var(--font-sf-text);
-  font-weight: 400; /* Regular / Medium */
+  font-weight: 400;
+  /* Regular / Medium */
   letter-spacing: -0.005em;
 }
 
-button, input[type="submit"], input[type="button"], .btn, .font-button, [role="button"] {
+button,
+input[type="submit"],
+input[type="button"],
+.btn,
+.font-button,
+[role="button"] {
   font-family: var(--font-sf-text);
-  font-weight: 500; /* Medium */
+  font-weight: 500;
+  /* Medium */
   letter-spacing: -0.01em;
 }
 
@@ -257,6 +274,7 @@ button, input[type="submit"], input[type="button"], .btn, .font-button, [role="b
   0% {
     transform: translateX(0%);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -266,6 +284,7 @@ button, input[type="submit"], input[type="button"], .btn, .font-button, [role="b
   0% {
     transform: translateX(0%);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -275,6 +294,7 @@ button, input[type="submit"], input[type="button"], .btn, .font-button, [role="b
   0% {
     transform: translateX(-50%);
   }
+
   100% {
     transform: translateX(0%);
   }
@@ -306,6 +326,26 @@ button, input[type="submit"], input[type="button"], .btn, .font-button, [role="b
   animation-play-state: paused;
 }
 
+@keyframes marquee-services {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-services {
+  display: flex;
+  width: max-content;
+  animation: marquee-services 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-services:hover {
+  animation-play-state: paused;
+}
+
 /* Subtle Apple-style glow & shadows */
 .apple-shadow {
   box-shadow: 0 4px 20px -2px rgba(0, 50, 150, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
@@ -324,13 +364,16 @@ button, input[type="submit"], input[type="button"], .btn, .font-button, [role="b
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: #f8fafc;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/Header";
@@ -136,6 +136,33 @@ export default function ServicesPage() {
   const [selectedService, setSelectedService] = useState<string | undefined>(undefined);
   const [activeFilter, setActiveFilter] = useState<string>("ALL");
 
+  useEffect(() => {
+    const handleHashScroll = () => {
+      const hash = window.location.hash.replace("#", "");
+      if (!hash) return;
+
+      const target = detailedServices.find((s) => s.id === hash);
+      if (target) {
+        setActiveFilter("ALL");
+
+        setTimeout(() => {
+          const el = document.getElementById(hash);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+            el.classList.add("ring-2", "ring-[#0066FF]", "shadow-2xl", "bg-blue-50/30");
+            setTimeout(() => {
+              el.classList.remove("ring-2", "ring-[#0066FF]", "shadow-2xl", "bg-blue-50/30");
+            }, 3000);
+          }
+        }, 150);
+      }
+    };
+
+    handleHashScroll();
+    window.addEventListener("hashchange", handleHashScroll);
+    return () => window.removeEventListener("hashchange", handleHashScroll);
+  }, []);
+
   const handleOpenQuote = (service?: string) => {
     setSelectedService(service);
     setIsQuoteOpen(true);
@@ -224,7 +251,7 @@ export default function ServicesPage() {
                 <div
                   key={service.id}
                   id={service.id}
-                  className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center pt-8 border-t border-slate-100 first:border-t-0 first:pt-0"
+                  className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center pt-8 border-t border-slate-100 first:border-t-0 first:pt-0 scroll-mt-24 sm:scroll-mt-28 md:scroll-mt-32 transition-all duration-500 rounded-3xl p-3 sm:p-5"
                 >
                   {/* Service Visual Preview */}
                   <div className={`lg:col-span-6 ${isEven ? "lg:order-2" : "lg:order-1"}`}>

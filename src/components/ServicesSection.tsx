@@ -122,7 +122,8 @@ export default function ServicesSection({
           {serviceCards.map((service) => (
             <div
               key={service.id}
-              className="group relative rounded-[22px] sm:rounded-[24px] overflow-hidden min-h-[160px] sm:min-h-[235px] p-5 sm:p-7 md:p-8 bg-white border border-slate-100/90 shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+              id={service.id}
+              className="group relative rounded-[22px] sm:rounded-[24px] overflow-hidden min-h-[160px] sm:min-h-[235px] p-5 sm:p-7 md:p-8 bg-white border border-slate-100/90 shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-xl transition-all duration-300 flex flex-col justify-between scroll-mt-28"
             >
               {/* Product Background Image on the right */}
               <div className="absolute inset-0 z-0 pointer-events-none select-none">
