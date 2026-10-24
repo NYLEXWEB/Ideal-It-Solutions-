@@ -70,7 +70,7 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
   return (
     <section
       id="home"
-      className="relative min-h-[100dvh] md:min-h-[720px] lg:min-h-[760px] pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-6 overflow-hidden flex flex-col justify-between bg-[#f4f8fd]"
+      className="relative min-h-[900px] sm:min-h-[100dvh] md:min-h-[720px] lg:min-h-[760px] pt-20 sm:pt-28 md:pt-32 pb-4 sm:pb-6 overflow-hidden flex flex-col justify-between bg-[#f4f8fd]"
     >
       {/* 1. Full Dynamic Background Video System: Dedicated Mobile Portrait & Desktop Landscape */}
       <div className="absolute inset-0 z-0 select-none overflow-hidden bg-[#f4f8fd]">
@@ -117,7 +117,7 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
         <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 via-50% sm:from-white/95 sm:via-white/75 sm:via-55% lg:from-white/95 lg:via-white/70 lg:via-50% to-transparent pointer-events-none" />
 
         {/* Mobile vertical gradient for seamless text contrast and top/bottom blending */}
-        <div className="block md:hidden absolute inset-0 bg-gradient-to-b from-white/90 via-white/35 via-35% to-white/95 pointer-events-none" />
+        <div className="block md:hidden absolute inset-0 bg-gradient-to-b from-white/90 via-transparent via-35% to-white/95 pointer-events-none" />
 
         {/* Bottom subtle fade into the next section */}
         <div className="absolute bottom-0 left-0 right-0 h-24 md:h-32 bg-gradient-to-t from-white via-white/60 to-transparent pointer-events-none" />
@@ -127,7 +127,7 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
       </div>
 
       {/* Hero Foreground Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto py-6 sm:py-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-0 sm:my-auto py-2 sm:py-8">
         <div className="max-w-2xl lg:max-w-xl text-left">
           {/* Eyebrow / Tag */}
           <div className="flex items-center gap-2 mb-3 sm:mb-4">
@@ -137,7 +137,7 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
           </div>
 
           {/* Headline */}
-          <h1 className="text-[34px] xs:text-[38px] sm:text-5xl lg:text-[58px] font-light text-[#1E293B] leading-[1.12] tracking-[-0.03em] mb-4 sm:mb-6">
+          <h1 className="mt-[395px] sm:mt-0 text-[31px] xs:text-[35px] sm:text-5xl lg:text-[58px] font-light text-[#1E293B] leading-[1.12] tracking-[-0.03em] mb-3.5 sm:mb-6">
             Smarter <br />
             Solutions for <br />
             a <span className="font-normal text-[#0066FF]">Safer Tomorrow.</span>
@@ -146,11 +146,11 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
 
 
           {/* Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 max-w-sm sm:max-w-none">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4 max-w-sm sm:max-w-none">
             {/* Primary Services Button */}
             <Link
               href="/services"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#0066FF] hover:bg-[#0052cc] text-white text-[14px] sm:text-[14.5px] font-medium shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] group"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3 sm:py-3.5 rounded-full bg-[#0066FF] hover:bg-[#0052cc] text-white text-[14px] sm:text-[14.5px] font-medium shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] group"
             >
               <span>Our Services</span>
               <svg
@@ -173,7 +173,7 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
               href="https://wa.me/919605932907?text=Hi%20IDEAL%20IT,%20I%20would%20like%20to%20know%20more%20about%20your%20services."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white text-[14px] sm:text-[14.5px] font-medium shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98]"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3 sm:py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white text-[14px] sm:text-[14.5px] font-medium shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98]"
             >
               <svg
                 className="w-4 h-4 fill-white"
