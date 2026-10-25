@@ -140,7 +140,7 @@ export default function BranchesSection() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+        <div data-reveal="fade-up" className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
           <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#EBF3FF] border border-[#0066FF]/20 mb-3.5">
             <span className="text-[11px] sm:text-[11.5px] font-medium text-[#0066FF] tracking-[0.16em] uppercase">
               OUR BRANCHES &bull; WAYANAD &amp; KANNUR
@@ -156,8 +156,8 @@ export default function BranchesSection() {
           </p>
         </div>
 
-        {/* 3 Sticky Stacking Cards Container */}
-        <div className="max-w-5xl mx-auto space-y-16 sm:space-y-28 pb-16 sm:pb-28">
+        {/* Branches Cards Container - Sticky stacking only on mobile, clean standard flow on desktop */}
+        <div className="max-w-5xl mx-auto space-y-14 sm:space-y-20 md:space-y-8 pb-12 sm:pb-16 md:pb-6">
           {branches.map((branch, idx) => {
             const isKannur = branch.id === "kannur";
             const isImageRight = idx === 1; // Card 1: Left, Card 2: Right, Card 3: Left
@@ -165,20 +165,18 @@ export default function BranchesSection() {
             return (
               <div
                 key={branch.id}
+                data-reveal="fade-up"
+                data-delay={`${idx * 150}`}
                 className={`relative bg-white rounded-3xl overflow-hidden flex flex-col ${
                   isImageRight ? "md:flex-row-reverse" : "md:flex-row"
-                } transition-all duration-300 group ${
+                } transition-all duration-300 group md:static md:top-auto md:z-auto md:hover:-translate-y-1 md:hover:shadow-[0_16px_36px_rgba(0,102,255,0.10)] border border-slate-200/90 ${
                   idx === 0
-                    ? "sticky top-20 sm:top-24 md:top-28 z-10 border-2 border-[#0066FF]/60 shadow-[0_12px_40px_rgba(0,102,255,0.12)] ring-1 ring-[#0066FF]/25"
+                    ? "sticky top-20 sm:top-24 z-10 shadow-[0_4px_24px_rgba(15,23,42,0.05)]"
                     : idx === 1
-                    ? "sticky top-24 sm:top-28 md:top-32 z-20 border border-slate-200/90 shadow-[0_-8px_30px_-5px_rgba(0,0,0,0.08),0_12px_32px_rgba(0,0,0,0.05)]"
-                    : "sticky top-28 sm:top-32 md:top-36 z-30 border border-slate-200/90 shadow-[0_-8px_30px_-5px_rgba(0,0,0,0.08),0_12px_32px_rgba(0,0,0,0.05)]"
+                    ? "sticky top-24 sm:top-28 z-20 shadow-[0_-8px_30px_-5px_rgba(0,0,0,0.08),0_12px_32px_rgba(0,0,0,0.05)] md:shadow-[0_4px_24px_rgba(15,23,42,0.05)]"
+                    : "sticky top-28 sm:top-32 z-30 shadow-[0_-8px_30px_-5px_rgba(0,0,0,0.08),0_12px_32px_rgba(0,0,0,0.05)] md:shadow-[0_4px_24px_rgba(15,23,42,0.05)]"
                 }`}
               >
-                {/* Subtle Top Accent Highlight for Kannur (First Card) */}
-                {isKannur && (
-                  <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 via-[#0066FF] to-blue-600 z-30" />
-                )}
 
                 {/* Branch Visual Showcase (Image Side) */}
                 <div className="relative w-full md:w-[44%] lg:w-[42%] min-h-[220px] sm:min-h-[260px] md:min-h-[460px] overflow-hidden bg-slate-100 flex-shrink-0">

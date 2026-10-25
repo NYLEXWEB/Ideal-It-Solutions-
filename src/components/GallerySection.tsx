@@ -98,7 +98,7 @@ export default function GallerySection({ onOpenQuote }: { onOpenQuote?: () => vo
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-14 gap-6 text-left">
+        <div data-reveal="fade-up" className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-14 gap-6 text-left">
           <div>
             {/* Pill Capsule Badge */}
             <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#EBF3FF] border border-[#0066FF]/20 mb-3.5">

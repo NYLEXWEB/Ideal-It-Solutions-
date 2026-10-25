@@ -128,7 +128,7 @@ export default function ServicesSection({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16 text-left">
-          <div className="max-w-2xl">
+          <div data-reveal="fade-up" className="max-w-2xl">
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200/80 mb-3.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
@@ -152,33 +152,37 @@ export default function ServicesSection({
           </div>
 
           {/* View All Services Outline Button */}
-          <Link
-            href="/services"
-            className="self-start md:self-end inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-slate-200 hover:border-[#0066FF] bg-white hover:bg-[#0066FF]/5 text-slate-800 hover:text-[#0066FF] text-[13.5px] font-medium transition-all duration-200 shadow-2xs hover:shadow active:scale-98 group flex-shrink-0"
-          >
-            <span>Explore Full Specs &amp; Warranty</span>
-            <svg
-              className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066FF] transition-transform group-hover:translate-x-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          <div data-reveal="fade-left">
+            <Link
+              href="/services"
+              className="self-start md:self-end inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-slate-200 hover:border-[#0066FF] bg-white hover:bg-[#0066FF]/5 text-slate-800 hover:text-[#0066FF] text-[13.5px] font-medium transition-all duration-200 shadow-2xs hover:shadow active:scale-98 group flex-shrink-0"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M14 5l7 7m0 0l-7 7m7-7H3"
-              />
-            </svg>
-          </Link>
+              <span>Explore Full Specs &amp; Warranty</span>
+              <svg
+                className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0066FF] transition-transform group-hover:translate-x-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </Link>
+          </div>
         </div>
 
         {/* 6 Minimalist Product & Service Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-          {serviceCards.map((service) => (
+          {serviceCards.map((service, idx) => (
             <div
               key={service.id}
               id={service.id}
+              data-reveal="fade-up"
+              data-delay={`${(idx % 3) * 120}`}
               className="bg-white rounded-2xl border border-slate-200/90 hover:border-blue-400/60 shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(0,102,255,0.08)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden scroll-mt-28"
             >
               {/* Dedicated Product Image Stage */}

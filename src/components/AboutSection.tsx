@@ -10,7 +10,7 @@ export default function AboutSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Showroom Image */}
-          <div className="lg:col-span-6">
+          <div data-reveal="fade-right" className="lg:col-span-6">
             <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-100 group">
               <div className="relative aspect-[4/3] w-full">
                 <Image
@@ -25,7 +25,7 @@ export default function AboutSection() {
           </div>
 
           {/* Right Text Content */}
-          <div className="lg:col-span-6 flex flex-col justify-center">
+          <div data-reveal="fade-left" className="lg:col-span-6 flex flex-col justify-center">
             {/* Category Tag */}
             <span className="text-[11.5px] font-medium tracking-[0.2em] text-[#64748B] uppercase mb-3">
               ABOUT US &bull; SINCE 2010
@@ -49,7 +49,7 @@ export default function AboutSection() {
             {/* 3 Key Trust Badges - Horizontal Row on Mobile and Desktop */}
             <div className="grid grid-cols-3 gap-2 sm:gap-6 pt-2 mb-8">
               {/* Badge 1 */}
-              <div className="flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-2 sm:gap-3.5">
+              <div data-reveal="fade-up" data-delay="100" className="flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-2 sm:gap-3.5">
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0066FF]/10 flex items-center justify-center text-[#0066FF] flex-shrink-0">
                   <svg className="w-4.5 h-4.5 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -61,7 +61,7 @@ export default function AboutSection() {
               </div>
 
               {/* Badge 2 */}
-              <div className="flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-2 sm:gap-3.5">
+              <div data-reveal="fade-up" data-delay="200" className="flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-2 sm:gap-3.5">
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0066FF]/10 flex items-center justify-center text-[#0066FF] flex-shrink-0">
                   <svg className="w-4.5 h-4.5 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -74,7 +74,7 @@ export default function AboutSection() {
               </div>
 
               {/* Badge 3 */}
-              <div className="flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-2 sm:gap-3.5">
+              <div data-reveal="fade-up" data-delay="300" className="flex flex-col sm:flex-row items-center sm:items-center text-center sm:text-left gap-2 sm:gap-3.5">
                 <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0066FF]/10 flex items-center justify-center text-[#0066FF] flex-shrink-0">
                   <svg className="w-4.5 h-4.5 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z" />
@@ -87,7 +87,7 @@ export default function AboutSection() {
             </div>
 
             {/* See More Link Directly to /about */}
-            <div>
+            <div data-reveal="fade-up" data-delay="400">
               <Link
                 href="/about"
                 className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#0066FF] hover:bg-[#0052cc] text-white text-[13.5px] font-medium transition-all duration-200 shadow-sm hover:shadow active:scale-[0.98]"

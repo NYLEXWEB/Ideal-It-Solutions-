@@ -21,7 +21,7 @@ export default function Footer({
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Top CTA Banner */}
-        <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-blue-950 border border-slate-800/80 rounded-3xl p-6 sm:p-8 md:p-10 mb-14 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-6 text-white">
+        <div data-reveal="fade-up" className="bg-gradient-to-r from-slate-900 via-slate-800 to-blue-950 border border-slate-800/80 rounded-3xl p-6 sm:p-8 md:p-10 mb-14 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-6 text-white">
           <div className="text-center lg:text-left">
             <span className="text-[11.5px] font-medium text-[#38BDF8] tracking-widest uppercase mb-2 inline-block bg-blue-500/15 px-3.5 py-1 rounded-full border border-blue-400/20">
               FAST ON-SITE SUPPORT &amp; SALES

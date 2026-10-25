@@ -15,7 +15,7 @@ export default function BrandLogos() {
 
   return (
     <section className="py-9 md:py-12 bg-white border-b border-slate-100 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-6">
+      <div data-reveal="fade-up" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-6">
         {/* Section Heading */}
         <h2 className="text-[11.5px] font-medium text-[#8C9BAE] tracking-[0.2em] uppercase">
           AUTHORIZED DEALER &amp; SERVICE PARTNER

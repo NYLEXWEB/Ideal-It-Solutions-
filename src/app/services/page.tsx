@@ -349,6 +349,92 @@ export default function ServicesPage() {
           </div>
         </section>
 
+        {/* 2.5 Frequently Asked Questions (SEO & AI Optimization) */}
+        <section className="py-16 bg-white border-t border-slate-100">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-2xl mx-auto mb-12">
+              <span className="text-[11px] font-medium tracking-widest text-[#0066FF] uppercase bg-blue-50 px-3.5 py-1.5 rounded-full border border-blue-200/60 inline-block mb-3">
+                FREQUENTLY ASKED QUESTIONS
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-light text-[#0F172A] tracking-tight">
+                Common Questions About Our <span className="font-normal text-[#0066FF]">Services</span>
+              </h2>
+            </div>
+
+            <div className="space-y-4">
+              <details className="group border border-slate-200 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden bg-slate-50/50 hover:bg-slate-50 transition-colors">
+                <summary className="flex cursor-pointer items-center justify-between gap-1.5 text-slate-900 font-medium text-base sm:text-lg">
+                  <span>What locations do you cover for CCTV installation and IT service?</span>
+                  <span className="shrink-0 rounded-full bg-white p-1.5 text-slate-900 shadow-sm">
+                    <svg className="size-5 transition duration-300 group-open:-rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-4 leading-relaxed text-slate-600 text-sm sm:text-[15px]">
+                  We provide direct on-site CCTV camera installation, optical fiber networking, and computer servicing across Wayanad District (including Mananthavady, Padinjarathara, Kalpetta, Sulthan Bathery, Panamaram, Meenangadi, and Vythiri) as well as authorized brand warranty support in Kannur, Kerala.
+                </p>
+              </details>
+
+              <details className="group border border-slate-200 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden bg-slate-50/50 hover:bg-slate-50 transition-colors">
+                <summary className="flex cursor-pointer items-center justify-between gap-1.5 text-slate-900 font-medium text-base sm:text-lg">
+                  <span>Which CCTV camera brands does IDEAL IT supply and install?</span>
+                  <span className="shrink-0 rounded-full bg-white p-1.5 text-slate-900 shadow-sm">
+                    <svg className="size-5 transition duration-300 group-open:-rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-4 leading-relaxed text-slate-600 text-sm sm:text-[15px]">
+                  We install genuine surveillance hardware from top global brands including Hikvision, Dahua, CP Plus, Uniview, and Honeywell, providing 24/7 color night vision, AI motion detection, NVR storage, and mobile streaming.
+                </p>
+              </details>
+
+              <details className="group border border-slate-200 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden bg-slate-50/50 hover:bg-slate-50 transition-colors">
+                <summary className="flex cursor-pointer items-center justify-between gap-1.5 text-slate-900 font-medium text-base sm:text-lg">
+                  <span>Do you repair laptops and custom desktop computers?</span>
+                  <span className="shrink-0 rounded-full bg-white p-1.5 text-slate-900 shadow-sm">
+                    <svg className="size-5 transition duration-300 group-open:-rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-4 leading-relaxed text-slate-600 text-sm sm:text-[15px]">
+                  Yes, our certified hardware technicians offer precision BGA chip-level motherboard diagnostics, screen &amp; keyboard replacements, high-speed NVMe SSD/RAM upgrades, and data recovery for all leading brands including HP, Dell, Lenovo, Asus, and Acer.
+                </p>
+              </details>
+
+              <details className="group border border-slate-200 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden bg-slate-50/50 hover:bg-slate-50 transition-colors">
+                <summary className="flex cursor-pointer items-center justify-between gap-1.5 text-slate-900 font-medium text-base sm:text-lg">
+                  <span>Can I monitor my CCTV cameras on my mobile phone from anywhere?</span>
+                  <span className="shrink-0 rounded-full bg-white p-1.5 text-slate-900 shadow-sm">
+                    <svg className="size-5 transition duration-300 group-open:-rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-4 leading-relaxed text-slate-600 text-sm sm:text-[15px]">
+                  Yes. All our IP and HD CCTV setups include secure cloud/P2P mobile configuration, allowing live remote streaming and playback on iOS and Android smartphones from anywhere in the world.
+                </p>
+              </details>
+
+              <details className="group border border-slate-200 rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden bg-slate-50/50 hover:bg-slate-50 transition-colors">
+                <summary className="flex cursor-pointer items-center justify-between gap-1.5 text-slate-900 font-medium text-base sm:text-lg">
+                  <span>How can I book a free site survey for security or networking in Wayanad?</span>
+                  <span className="shrink-0 rounded-full bg-white p-1.5 text-slate-900 shadow-sm">
+                    <svg className="size-5 transition duration-300 group-open:-rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </span>
+                </summary>
+                <p className="mt-4 leading-relaxed text-slate-600 text-sm sm:text-[15px]">
+                  You can call us directly at 04935 294907 or message our team on WhatsApp at +91 96059 32907 to arrange an on-site property inspection and custom quotation.
+                </p>
+              </details>
+            </div>
+          </div>
+        </section>
+
         {/* 3. Bottom Consultation Banner */}
         <section className="py-16 bg-[#f8fbfe] border-t border-slate-100">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

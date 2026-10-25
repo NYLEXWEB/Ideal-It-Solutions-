@@ -70,7 +70,7 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
   return (
     <section
       id="home"
-      className="relative min-h-[900px] sm:min-h-[100dvh] md:min-h-[720px] lg:min-h-[760px] pt-20 sm:pt-28 md:pt-32 pb-4 sm:pb-6 overflow-hidden flex flex-col justify-between bg-[#f4f8fd]"
+      className="relative min-h-[850px] sm:min-h-[100dvh] md:min-h-[640px] lg:min-h-[660px] md:h-[100dvh] pt-16 sm:pt-20 md:pt-20 lg:pt-22 pb-2 sm:pb-3 overflow-hidden flex flex-col justify-between bg-[#f4f8fd]"
     >
       {/* 1. Full Dynamic Background Video System: Dedicated Mobile Portrait & Desktop Landscape */}
       <div className="absolute inset-0 z-0 select-none overflow-hidden bg-[#f4f8fd]">
@@ -127,30 +127,29 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
       </div>
 
       {/* Hero Foreground Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-0 sm:my-auto py-2 sm:py-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-0 sm:my-auto py-1 sm:py-2 md:py-3 -translate-y-16 sm:translate-y-0">
         <div className="max-w-2xl lg:max-w-xl text-left">
           {/* Eyebrow / Tag */}
-          <div className="flex items-center gap-2 mb-3 sm:mb-4">
-            <span className="text-[11px] sm:text-[12.5px] font-medium tracking-[0.2em] text-[#64748B] uppercase">
-              YOUR TRUSTED IT &amp; SECURITY PARTNER
-            </span>
-          </div>
+
 
           {/* Headline */}
-          <h1 className="mt-[395px] sm:mt-0 text-[31px] xs:text-[35px] sm:text-5xl lg:text-[58px] font-light text-[#1E293B] leading-[1.12] tracking-[-0.03em] mb-3.5 sm:mb-6">
+          <h1 className="mt-[395px] sm:mt-0 text-[31px] xs:text-[35px] sm:text-4xl md:text-[44px] lg:text-[52px] font-light text-[#1E293B] leading-[1.12] tracking-[-0.03em] mb-2.5 sm:mb-3">
             Smarter <br />
             Solutions for <br />
             a <span className="font-normal text-[#0066FF]">Safer Tomorrow.</span>
           </h1>
 
-
+          {/* Subheading / Primary Local Services */}
+          <p className="text-[13px] sm:text-[14.5px] lg:text-[15px] text-[#475569] font-normal leading-relaxed mb-4 sm:mb-5 max-w-lg">
+            Certified CCTV &amp; IP security camera installation, precision chip-level laptop repairs, optical fiber networking, and smart automation across Wayanad and Kannur.
+          </p>
 
           {/* Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4 max-w-sm sm:max-w-none">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3.5 max-w-sm sm:max-w-none">
             {/* Primary Services Button */}
             <Link
               href="/services"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3 sm:py-3.5 rounded-full bg-[#0066FF] hover:bg-[#0052cc] text-white text-[14px] sm:text-[14.5px] font-medium shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] group"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 sm:py-3 rounded-full bg-[#0066FF] hover:bg-[#0052cc] text-white text-[13.5px] sm:text-[14px] font-medium shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98] group"
             >
               <span>Our Services</span>
               <svg
@@ -173,7 +172,7 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
               href="https://wa.me/919605932907?text=Hi%20IDEAL%20IT,%20I%20would%20like%20to%20know%20more%20about%20your%20services."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-6 py-3 sm:py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white text-[14px] sm:text-[14.5px] font-medium shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98]"
+              className="inline-flex items-center justify-center gap-2.5 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white text-[13.5px] sm:text-[14px] font-medium shadow-md hover:shadow-lg transition-all duration-200 active:scale-[0.98]"
             >
               <svg
                 className="w-4 h-4 fill-white"
@@ -188,12 +187,12 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
       </div>
 
       {/* 3. Bottom Services at a Glance Section - Hero Main Attraction Showcase */}
-      <div className="relative z-20 w-full mt-auto pt-5 pb-3 sm:pb-5 ">
+      <div className="relative z-20 w-full mt-auto pt-2 sm:pt-3 pb-2 sm:pb-3 -translate-y-16 sm:translate-y-0">
         {/* Header Bar */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-3.5 flex flex-wrap items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-2 sm:mb-2.5 flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2.5">
 
-            <span className="text-[11.5px] sm:text-[12.5px] font-bold text-slate-900 tracking-[0.16em] uppercase">
+            <span className="text-[11px] sm:text-[12px] font-bold text-slate-900 tracking-[0.16em] uppercase">
               SERVICES AT A GLANCE
             </span>
 
@@ -233,7 +232,7 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
 
           {/* Marquee Track - Guaranteed continuous auto-scroll */}
           <div
-            className="animate-services-auto-loop flex items-center gap-3.5 sm:gap-4 py-2 px-4 cursor-pointer"
+            className="animate-services-auto-loop flex items-center gap-3 sm:gap-3.5 py-1.5 px-4 cursor-pointer"
             style={{
               animation: "serviceMarqueeLoop 30s linear infinite",
               willChange: "transform",
@@ -244,9 +243,9 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
               <Link
                 key={`s1-${service.id}`}
                 href={service.href}
-                className={`group relative flex-shrink-0 w-[290px] sm:w-[330px] md:w-[350px] h-[112px] sm:h-[120px] rounded-2xl bg-white/95 hover:bg-white border transition-all duration-300 active:scale-[0.98] overflow-hidden flex items-center shadow-[0_4px_20px_rgba(15,23,42,0.06)] hover:shadow-[0_16px_36px_rgba(0,102,255,0.18)] hover:-translate-y-1 ${service.isInitialActive
-                    ? "border-[#0066FF]/50 ring-1 ring-[#0066FF]/30"
-                    : "border-slate-200/90 hover:border-[#0066FF]/60"
+                className={`group relative flex-shrink-0 w-[280px] sm:w-[320px] md:w-[340px] h-[106px] sm:h-[114px] rounded-2xl bg-white/95 hover:bg-white border transition-all duration-300 active:scale-[0.98] overflow-hidden flex items-center shadow-[0_4px_20px_rgba(15,23,42,0.06)] hover:shadow-[0_16px_36px_rgba(0,102,255,0.18)] hover:-translate-y-1 ${service.isInitialActive
+                  ? "border-[#0066FF]/50 ring-1 ring-[#0066FF]/30"
+                  : "border-slate-200/90 hover:border-[#0066FF]/60"
                   }`}
               >
                 {/* Right Side Product Graphic Render from public/services */}
@@ -258,7 +257,6 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
                     sizes="(max-width: 768px) 180px, 200px"
                     className="object-cover object-right group-hover:scale-110 group-hover:translate-x-0.5 transition-transform duration-500 ease-out"
                   />
-
                 </div>
 
                 {/* Left Side Content */}
@@ -310,9 +308,9 @@ export default function Hero({ onOpenQuote }: { onOpenQuote?: () => void }) {
               <Link
                 key={`s2-${service.id}`}
                 href={service.href}
-                className={`group relative flex-shrink-0 w-[290px] sm:w-[330px] md:w-[350px] h-[112px] sm:h-[120px] rounded-2xl bg-white/95 hover:bg-white border transition-all duration-300 active:scale-[0.98] overflow-hidden flex items-center shadow-[0_4px_20px_rgba(15,23,42,0.06)] hover:shadow-[0_16px_36px_rgba(0,102,255,0.18)] hover:-translate-y-1 ${service.isInitialActive
-                    ? "border-[#0066FF]/50 ring-1 ring-[#0066FF]/30"
-                    : "border-slate-200/90 hover:border-[#0066FF]/60"
+                className={`group relative flex-shrink-0 w-[280px] sm:w-[320px] md:w-[340px] h-[106px] sm:h-[114px] rounded-2xl bg-white/95 hover:bg-white border transition-all duration-300 active:scale-[0.98] overflow-hidden flex items-center shadow-[0_4px_20px_rgba(15,23,42,0.06)] hover:shadow-[0_16px_36px_rgba(0,102,255,0.18)] hover:-translate-y-1 ${service.isInitialActive
+                  ? "border-[#0066FF]/50 ring-1 ring-[#0066FF]/30"
+                  : "border-slate-200/90 hover:border-[#0066FF]/60"
                   }`}
               >
                 {/* Right Side Product Graphic Render from public/services */}

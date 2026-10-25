@@ -107,7 +107,7 @@ _Please verify and generate the RMA warranty service ticket._`;
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left Column: 3D Shield & Info */}
-            <div className="lg:col-span-4 flex flex-col items-start">
+            <div data-reveal="fade-right" className="lg:col-span-4 flex flex-col items-start">
               {/* 3D Glass Shield Icon */}
               <div className="relative w-24 h-24 sm:w-28 sm:h-28 mb-6 flex-shrink-0">
                 <div className="w-full h-full rounded-3xl bg-gradient-to-br from-blue-400/20 to-blue-600/30 backdrop-blur-md p-3 flex items-center justify-center border border-white/60 shadow-lg">
@@ -167,7 +167,7 @@ _Please verify and generate the RMA warranty service ticket._`;
             </div>
 
             {/* Right Column: Warranty Claim Form */}
-            <div className="lg:col-span-8">
+            <div data-reveal="fade-left" className="lg:col-span-8">
               {submittedSuccess ? (
                 <div className="bg-white rounded-2xl p-6 sm:p-8 text-center shadow-sm border border-emerald-100 animate-in fade-in zoom-in-95 duration-300 space-y-4">
                   <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-sm">

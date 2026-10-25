@@ -57,7 +57,7 @@ export default function ReviewsSection() {
     <section id="reviews" className="py-20 md:py-24 bg-white border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Row with Google Branding and Direct Google Review Action */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div data-reveal="fade-up" className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-[11px] font-medium tracking-wider uppercase mb-3">
               <span className="text-amber-500">★ ★ ★ ★ ★</span>
@@ -117,9 +117,11 @@ export default function ReviewsSection() {
 
         {/* 4 Review Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {reviews.map((review) => (
+          {reviews.map((review, idx) => (
             <div
               key={review.id}
+              data-reveal="fade-up"
+              data-delay={`${idx * 100}`}
               className="bg-[#FAFCFF] p-6 rounded-2xl border border-slate-100/90 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[170px] group"
             >
               <div>
