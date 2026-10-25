@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import ScrollRevealObserver from "@/components/ScrollRevealObserver";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -235,8 +236,6 @@ const jsonLd = {
     }
   ]
 };
-
-import ScrollRevealObserver from "@/components/ScrollRevealObserver";
 
 export default function RootLayout({
   children,
