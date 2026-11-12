@@ -130,7 +130,7 @@ ${formData.message}`;
                 </span>
               </h1>
               <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed">
-                Whether you need a custom CCTV quote, computer hardware repair, optical networking setup, or authorized warranty support for Zebronics, Fingers &amp; Artis—feel free to contact our team across Wayanad and Kannur.
+                Whether you need a custom CCTV quote, computer hardware repair, optical networking setup, or authorized warranty support for Fingers &amp; Artis—feel free to contact our team across Wayanad and Kannur.
               </p>
             </div>
           </div>

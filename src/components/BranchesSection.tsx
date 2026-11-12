@@ -58,11 +58,6 @@ const branches: BranchInfo[] = [
       title: "Authorized Warranty Support",
       brands: [
         {
-          name: "Zebronics",
-          logo: "/images/partners/zebronics.png",
-          alt: "Zebronics Authorized Warranty Support",
-        },
-        {
           name: "Fingers",
           logo: "/images/partners/fingers.png",
           alt: "Fingers Authorized Warranty Support",
@@ -140,7 +135,7 @@ export default function BranchesSection() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div data-reveal="fade-up" className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
+        <div data-reveal="fade-up" suppressHydrationWarning className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
           <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#EBF3FF] border border-[#0066FF]/20 mb-3.5">
             <span className="text-[11px] sm:text-[11.5px] font-medium text-[#0066FF] tracking-[0.16em] uppercase">
               OUR BRANCHES &bull; WAYANAD &amp; KANNUR
@@ -166,16 +161,15 @@ export default function BranchesSection() {
               <div
                 key={branch.id}
                 data-reveal="fade-up"
+                suppressHydrationWarning
                 data-delay={`${idx * 150}`}
-                className={`relative bg-white rounded-3xl overflow-hidden flex flex-col ${
-                  isImageRight ? "md:flex-row-reverse" : "md:flex-row"
-                } transition-all duration-300 group md:static md:top-auto md:z-auto md:hover:-translate-y-1 md:hover:shadow-[0_16px_36px_rgba(0,102,255,0.10)] border border-slate-200/90 ${
-                  idx === 0
+                className={`relative bg-white rounded-3xl overflow-hidden flex flex-col ${isImageRight ? "md:flex-row-reverse" : "md:flex-row"
+                  } transition-all duration-300 group md:static md:top-auto md:z-auto md:hover:-translate-y-1 md:hover:shadow-[0_16px_36px_rgba(0,102,255,0.10)] border border-slate-200/90 ${idx === 0
                     ? "sticky top-20 sm:top-24 z-10 shadow-[0_4px_24px_rgba(15,23,42,0.05)]"
                     : idx === 1
-                    ? "sticky top-24 sm:top-28 z-20 shadow-[0_-8px_30px_-5px_rgba(0,0,0,0.08),0_12px_32px_rgba(0,0,0,0.05)] md:shadow-[0_4px_24px_rgba(15,23,42,0.05)]"
-                    : "sticky top-28 sm:top-32 z-30 shadow-[0_-8px_30px_-5px_rgba(0,0,0,0.08),0_12px_32px_rgba(0,0,0,0.05)] md:shadow-[0_4px_24px_rgba(15,23,42,0.05)]"
-                }`}
+                      ? "sticky top-24 sm:top-28 z-20 shadow-[0_-8px_30px_-5px_rgba(0,0,0,0.08),0_12px_32px_rgba(0,0,0,0.05)] md:shadow-[0_4px_24px_rgba(15,23,42,0.05)]"
+                      : "sticky top-28 sm:top-32 z-30 shadow-[0_-8px_30px_-5px_rgba(0,0,0,0.08),0_12px_32px_rgba(0,0,0,0.05)] md:shadow-[0_4px_24px_rgba(15,23,42,0.05)]"
+                  }`}
               >
 
                 {/* Branch Visual Showcase (Image Side) */}
@@ -193,11 +187,10 @@ export default function BranchesSection() {
                   {/* Floating Top Badge */}
                   <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between">
                     <span
-                      className={`px-3 py-1 rounded-full text-[10.5px] sm:text-[11px] font-semibold tracking-wider uppercase backdrop-blur-md shadow-sm ${
-                        isKannur
+                      className={`px-3 py-1 rounded-full text-[10.5px] sm:text-[11px] font-semibold tracking-wider uppercase backdrop-blur-md shadow-sm ${isKannur
                           ? "bg-[#0066FF] text-white"
                           : "bg-white/95 text-slate-800"
-                      }`}
+                        }`}
                     >
                       {branch.badge}
                     </span>
@@ -306,14 +299,14 @@ export default function BranchesSection() {
                             </span>
                           </div>
 
-                          {/* 3 Brand Logos Grid with Transparent Background */}
-                          <div className="grid grid-cols-3 gap-2">
+                          {/* Brand Logos Grid with Transparent Background */}
+                          <div className={`grid ${branch.warrantySupport.brands.length === 2 ? "grid-cols-2" : "grid-cols-3"} gap-2`}>
                             {branch.warrantySupport.brands.map((brand) => (
                               <div
                                 key={brand.name}
-                                className="bg-white rounded-xl p-2 border border-slate-200/80 shadow-2xs hover:shadow-sm hover:border-[#0066FF]/40 transition-all flex flex-col items-center justify-center text-center group/brand"
+                                className="bg-white rounded-xl p-2.5 border border-slate-200/80 shadow-2xs hover:shadow-sm hover:border-[#0066FF]/40 transition-all flex flex-col items-center justify-center text-center group/brand"
                               >
-                                <div className="relative w-full h-7 flex items-center justify-center overflow-hidden">
+                                <div className="relative w-full h-8 flex items-center justify-center overflow-hidden">
                                   <Image
                                     src={brand.logo}
                                     alt={brand.alt}
@@ -322,9 +315,6 @@ export default function BranchesSection() {
                                     sizes="100px"
                                   />
                                 </div>
-                                <span className="text-[10px] font-medium text-slate-600 mt-1 tracking-tight">
-                                  {brand.name}
-                                </span>
                               </div>
                             ))}
                           </div>

@@ -16,7 +16,7 @@ export default function WhatsAppFloating() {
           <span>Follow on Instagram</span>
         </div>
         <a
-          href="https://instagram.com"
+          href="https://www.instagram.com/ideal_it_mntdy?utm_source=qr&dlrf=bDlsYXBoandnOWt5"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Visit IDEAL IT on Instagram"
@@ -34,7 +34,7 @@ export default function WhatsAppFloating() {
           <span>Follow on Facebook</span>
         </div>
         <a
-          href="https://facebook.com"
+          href="https://www.facebook.com/share/1DLqXJdgy4"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Visit IDEAL IT on Facebook"

@@ -128,7 +128,7 @@ export default function ServicesSection({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 sm:mb-16 text-left">
-          <div data-reveal="fade-up" className="max-w-2xl">
+          <div data-reveal="fade-up" suppressHydrationWarning className="max-w-2xl">
             {/* Eyebrow */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200/80 mb-3.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />

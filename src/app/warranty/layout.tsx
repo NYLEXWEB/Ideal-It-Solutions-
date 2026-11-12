@@ -3,14 +3,14 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Authorized Brand Warranty Claims & Technical Support",
   description:
-    "Official authorized warranty service center for Zebronics, Fingers, and Artis in Kannur. Submit warranty service claims or out-of-warranty diagnostics for CCTV cameras, DVR/NVRs, and computer hardware.",
+    "Official authorized warranty service center for Fingers and Artis in Kannur. Submit warranty service claims or out-of-warranty diagnostics for CCTV cameras, DVR/NVRs, and computer hardware.",
   alternates: {
     canonical: "/warranty",
   },
   openGraph: {
     title: "Authorized Brand Warranty Claims & Technical Support",
     description:
-      "Submit warranty claims for Zebronics, Fingers, and Artis hardware. Fast turnaround and genuine manufacturer-certified repairs.",
+      "Submit warranty claims for Fingers and Artis hardware. Fast turnaround and genuine manufacturer-certified repairs.",
     url: "/warranty",
     images: [
       {

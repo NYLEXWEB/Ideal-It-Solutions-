@@ -11,16 +11,19 @@ export default function ScrollRevealObserver() {
 
     let observer: IntersectionObserver | null = null;
 
-    // Run strictly after React client hydration has completely settled
-    const timer = setTimeout(() => {
+    // Run only after the browser is completely idle & React hydration pass is 100% finished
+    const initObserver = () => {
       const elements = document.querySelectorAll<HTMLElement>(
-        '[data-reveal]:not([data-state="revealed"])'
+        '[data-reveal]:not(.revealed)'
       );
 
       if (elements.length === 0) return;
 
       if (!("IntersectionObserver" in window)) {
-        elements.forEach((el) => el.setAttribute("data-state", "revealed"));
+        elements.forEach((el) => {
+          el.classList.add("revealed");
+          el.setAttribute("data-state", "revealed");
+        });
         return;
       }
 
@@ -29,20 +32,23 @@ export default function ScrollRevealObserver() {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               const target = entry.target as HTMLElement;
-              // Mutate data-state attribute only (never mutate className or inline style)
+              target.classList.add("revealed");
               target.setAttribute("data-state", "revealed");
               observer?.unobserve(target);
             }
           });
         },
         {
-          threshold: 0.08,
-          rootMargin: "0px 0px -30px 0px",
+          threshold: 0.05,
+          rootMargin: "0px 0px -20px 0px",
         }
       );
 
       elements.forEach((el) => observer?.observe(el));
-    }, 120);
+    };
+
+    // Delay past hydration cycle to eliminate any hydration mismatches
+    const timer = setTimeout(initObserver, 300);
 
     return () => {
       clearTimeout(timer);

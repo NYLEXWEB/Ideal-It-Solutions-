@@ -60,7 +60,7 @@ export default function TrustSection({ onOpenQuote }: { onOpenQuote?: () => void
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           {/* Left Column: Eyebrow, Heading & CTA */}
-          <div data-reveal="fade-right" className="lg:col-span-5 flex flex-col justify-start text-left">
+          <div data-reveal="fade-right" suppressHydrationWarning className="lg:col-span-5 flex flex-col justify-start text-left">
             <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#EBF3FF] border border-[#0066FF]/20 mb-3.5 w-fit">
               <span className="text-[11px] sm:text-[11.5px] font-medium text-[#0066FF] tracking-[0.16em] uppercase">
                 WHY CHOOSE US &bull; FAQ
@@ -91,7 +91,7 @@ export default function TrustSection({ onOpenQuote }: { onOpenQuote?: () => void
           </div>
 
           {/* Right Column: Clean Borderless Minimalist FAQ List (No Card Boxes) */}
-          <div data-reveal="fade-left" className="lg:col-span-7 divide-y divide-slate-200/80 border-t border-b border-slate-200/80">
+          <div data-reveal="fade-left" suppressHydrationWarning className="lg:col-span-7 divide-y divide-slate-200/80 border-t border-b border-slate-200/80">
             {faqs.map((faq, index) => {
               const isOpen = openIndex === index;
               return (
@@ -104,16 +104,14 @@ export default function TrustSection({ onOpenQuote }: { onOpenQuote?: () => void
                     <div className="flex items-start sm:items-center gap-3.5 sm:gap-4">
                       {/* Number Indicator */}
                       <span
-                        className={`text-xs font-medium transition-colors flex-shrink-0 mt-0.5 sm:mt-0 ${
-                          isOpen ? "text-[#0066FF]" : "text-slate-400 group-hover:text-slate-600"
-                        }`}
+                        className={`text-xs font-medium transition-colors flex-shrink-0 mt-0.5 sm:mt-0 ${isOpen ? "text-[#0066FF]" : "text-slate-400 group-hover:text-slate-600"
+                          }`}
                       >
                         {faq.num}
                       </span>
                       <span
-                        className={`text-[15.5px] sm:text-[17px] font-medium leading-snug transition-colors ${
-                          isOpen ? "text-[#0066FF]" : "text-[#0F172A] group-hover:text-[#0066FF]"
-                        }`}
+                        className={`text-[15.5px] sm:text-[17px] font-medium leading-snug transition-colors ${isOpen ? "text-[#0066FF]" : "text-[#0F172A] group-hover:text-[#0066FF]"
+                          }`}
                       >
                         {faq.question}
                       </span>
@@ -121,11 +119,10 @@ export default function TrustSection({ onOpenQuote }: { onOpenQuote?: () => void
 
                     {/* Expand Arrow Icon */}
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-                        isOpen
-                          ? "bg-[#0066FF]/10 text-[#0066FF] rotate-180"
-                          : "text-slate-400 group-hover:text-slate-700 group-hover:bg-slate-100"
-                      }`}
+                      className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200 ${isOpen
+                        ? "bg-[#0066FF]/10 text-[#0066FF] rotate-180"
+                        : "text-slate-400 group-hover:text-slate-700 group-hover:bg-slate-100"
+                        }`}
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

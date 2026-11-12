@@ -18,7 +18,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://idealitwayanad.com"),
+  metadataBase: new URL("https://www.idealit.co.in"),
   title: {
     default: "Best CCTV Installation & Computer Services in Wayanad | IDEAL IT",
     template: "%s | IDEAL IT Wayanad",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     "Laptop Repair Mananthavady",
     "Optical Fiber Networking Wayanad",
     "Home Automation Wayanad",
-    "Zebronics Service Center Kannur",
+    "Fingers Artis Service Center Kannur",
     "UPS Inverter Power Backup Wayanad",
     "Hikvision CCTV Dealers Wayanad",
     "Dahua Security Camera Kerala",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     title: "Best CCTV Installation & Computer Services in Wayanad | IDEAL IT",
     description:
       "Wayanad's trusted partner for CCTV Security, Chip-Level Laptop Repair, Optical Fiber Networking, and Smart Home Automation.",
-    url: "https://idealitwayanad.com",
+    url: "https://www.idealit.co.in",
     siteName: "IDEAL IT Solutions",
     images: [
       {
@@ -89,6 +89,13 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? {
+      verification: {
+        google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+      },
+    }
+    : {}),
 };
 
 const jsonLd = {
@@ -96,18 +103,18 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://idealitwayanad.com/#website",
-      url: "https://idealitwayanad.com",
+      "@id": "https://www.idealit.co.in/#website",
+      url: "https://www.idealit.co.in",
       name: "IDEAL IT Solutions",
       description: "CCTV Installation, Security Systems & Computer Hardware Services in Wayanad & Kannur",
       inLanguage: "en-IN",
     },
     {
       "@type": ["LocalBusiness", "SecuritySystemSupplier", "ComputerStore"],
-      "@id": "https://idealitwayanad.com/#mananthavady",
+      "@id": "https://www.idealit.co.in/#mananthavady",
       name: "IDEAL IT - Mananthavady (Flagship Store)",
-      image: "https://idealitwayanad.com/images/branches/mananthavady_store.jpg",
-      url: "https://idealitwayanad.com",
+      image: "https://www.idealit.co.in/images/branches/mananthavady_store.jpg",
+      url: "https://www.idealit.co.in",
       telephone: "+919605932907",
       email: "idealcomputersmntdy@gmail.com",
       priceRange: "₹₹",
@@ -139,6 +146,13 @@ const jsonLd = {
         { "@type": "City", name: "Sulthan Bathery" },
         { "@type": "City", name: "Panamaram" }
       ],
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        reviewCount: "5",
+        bestRating: "5",
+        worstRating: "1",
+      },
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: "IT & Security Services",
@@ -179,16 +193,16 @@ const jsonLd = {
       },
       sameAs: [
         "https://maps.app.goo.gl/eKaYPgcWsdFsBaMs7?g_st=aw",
-        "https://instagram.com",
-        "https://facebook.com",
+        "https://www.instagram.com/ideal_it_mntdy",
+        "https://www.facebook.com/share/1DLqXJdgy4",
       ],
     },
     {
       "@type": ["LocalBusiness", "ComputerStore"],
-      "@id": "https://idealitwayanad.com/#padinjarathara",
+      "@id": "https://www.idealit.co.in/#padinjarathara",
       name: "IDEAL IT - Padinjarathara Branch",
-      image: "https://idealitwayanad.com/images/branches/padinjarathara_office.jpg",
-      url: "https://idealitwayanad.com/contact",
+      image: "https://www.idealit.co.in/images/branches/padinjarathara_office.jpg",
+      url: "https://www.idealit.co.in/contact",
       telephone: "+919995585195",
       address: {
         "@type": "PostalAddress",
@@ -210,10 +224,10 @@ const jsonLd = {
     },
     {
       "@type": ["LocalBusiness", "ComputerRepairService"],
-      "@id": "https://idealitwayanad.com/#kannur",
+      "@id": "https://www.idealit.co.in/#kannur",
       name: "IDEAL SOLUTIONS - Kannur (Authorized Service Center)",
-      image: "https://idealitwayanad.com/images/branches/kannur_service.jpg",
-      url: "https://idealitwayanad.com/warranty",
+      image: "https://www.idealit.co.in/images/branches/kannur_service.jpg",
+      url: "https://www.idealit.co.in/warranty",
       telephone: "+918129059275",
       address: {
         "@type": "PostalAddress",
@@ -232,7 +246,7 @@ const jsonLd = {
         { "@type": "City", name: "Kannur" },
         { "@type": "AdministrativeArea", name: "Kannur District" }
       ],
-      description: "Authorized warranty service center for Zebronics, Fingers, and Artis hardware; out-of-warranty CCTV and electronics diagnosis."
+      description: "Authorized warranty service center for Fingers and Artis hardware; out-of-warranty CCTV and electronics diagnosis."
     }
   ]
 };

@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://idealitwayanad.com";
+  const baseUrl = "https://www.idealit.co.in";
   const currentDate = new Date().toISOString();
 
   return [

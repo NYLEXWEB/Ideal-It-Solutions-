@@ -10,7 +10,7 @@ export default function AboutSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Showroom Image */}
-          <div data-reveal="fade-right" className="lg:col-span-6">
+          <div data-reveal="fade-right" suppressHydrationWarning className="lg:col-span-6">
             <div className="relative rounded-3xl overflow-hidden shadow-xl border border-slate-100 group">
               <div className="relative aspect-[4/3] w-full">
                 <Image
@@ -25,7 +25,7 @@ export default function AboutSection() {
           </div>
 
           {/* Right Text Content */}
-          <div data-reveal="fade-left" className="lg:col-span-6 flex flex-col justify-center">
+          <div data-reveal="fade-left" suppressHydrationWarning className="lg:col-span-6 flex flex-col justify-center">
             {/* Category Tag */}
             <span className="text-[11.5px] font-medium tracking-[0.2em] text-[#64748B] uppercase mb-3">
               ABOUT US &bull; SINCE 2010
